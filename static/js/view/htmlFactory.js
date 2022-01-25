@@ -26,19 +26,19 @@ function boardBuilder(board) {
                 <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
-                    <div class="board-column-content">
+                    <div class="board-column-content" data-status="1_${board.id}"></div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">In progress</div>
-                    <div class="board-column-content">
+                    <div class="board-column-content" data-status="2_${board.id}"></div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Testing</div>
-                    <div class="board-column-content">
+                    <div class="board-column-content" data-status="3_${board.id}"></div>
                 </div>
                 <div class="board-column">
                     <div class="board-column-title">Done</div>
-                    <div class="board-column-content">
+                    <div class="board-column-content" data-status="4_${board.id}"></div>
                 </div>
                 </div>
                 </section>
