@@ -21,8 +21,6 @@ export let boardsManager = {
     const button = buttonBuilder()
     domManager.addChild("#root", button);
     domManager.addEventListener(`.btn`,'click', addBoardTitle)
-    const newBoard = await dataHandler.createNewBoard();
-
   }
 };
 
@@ -30,7 +28,12 @@ function addBoardTitle() {
   const newBoardModalTitle = modalBuilder()
   domManager.addChild('#root', newBoardModalTitle);
   $('.modal').modal('toggle');
-  console.log(document.getElementById('model_text').value);
+  $('#create').click(async function () {
+    const boardTitle = $('#new-board-title').val()
+    console.log(boardTitle)
+    const newBoard = await dataHandler.createNewBoard(boardTitle);
+    console.log(newBoard)
+  })
 }
 
 function showHideButtonHandler(clickEvent) {
