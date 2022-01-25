@@ -30,6 +30,7 @@ function addBoardTitle() {
   const newBoardModalTitle = modalBuilder()
   domManager.addChild('#root', newBoardModalTitle);
   $('.modal').modal('toggle');
+  console.log(document.getElementById('model_text').value);
 }
 
 function showHideButtonHandler(clickEvent) {
