@@ -17,8 +17,8 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <section class="board" data-board-id=${board.id}>${board.title}</section>
-                <div class="board-header"><span class="board-title">Board 1</span>
+                <section class="board" data-board-id=${board.id}>${board.title}
+                <div class="board-header"><span class="board-title">Board ${board.id}</span>
                     <button class="board-add">Add Card</button>
                     <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
@@ -40,7 +40,8 @@ function boardBuilder(board) {
                     <div class="board-column-title">Done</div>
                     <div class="board-column-content">
                 </div>
-                
+                </div>
+                </section>
             </div>`;
 }
 
