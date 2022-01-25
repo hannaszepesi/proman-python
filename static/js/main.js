@@ -4,4 +4,8 @@ function init() {
   boardsManager.loadBoards();
 }
 
+function newBoard() {
+  boardsManager.newBoard();
+}
+newBoard()
 init();

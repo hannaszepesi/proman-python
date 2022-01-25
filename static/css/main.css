@@ -5,3 +5,7 @@
 .content {
     margin: 4%
 }
+
+.modal-backdrop {
+    opacity: 20%;
+}
