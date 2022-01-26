@@ -9,9 +9,9 @@ export let boardsManager = {
     const boards = await dataHandler.getBoards();
     for (let board of boards) {
       const boardBuilder = htmlFactory(htmlTemplates.board);
-      const content = boardBuilder(board);
-      // makeDroppable.droppableMain
-      domManager.addChild("#root", content);
+      const content = boardBuilder(board); //ezek a script-ek
+      domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
+      makeDroppable.droppableBoards();
       domManager.addEventListener(
         `.toggle-board-button[data-board-id="${board.id}"]`,
         "click",

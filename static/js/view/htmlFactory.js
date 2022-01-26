@@ -50,19 +50,31 @@ function boardBuilder(board) {
 function cardBuilder(card) {
     return `<div class="card" data-card-id="${card.id}" draggable="true">${card.title}</div>`;
 }
-
+let dragged;
 export const makeDroppable = {
-    droppableMain: function(){
-        // ide kell egy for, a board-okat egyesével kell nézni
-        domManager.addEventListener(board-column-content, 'dragstart', dragStart())
-    },
-    dragStart: function(){
+    droppableBoards: function(){
+        domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
+        domManager.addEventListenerToMore(".board-column-content", 'dragenter', makeDroppable.dragEnter)
+        domManager.addEventListenerToMore(".board-column-content", 'dragleave', makeDroppable.dragLeave)
+        domManager.addEventListenerToMore(".board-column-content", 'drop', makeDroppable.dragDrop)
 
+    },
+    draggableCard: function() {
+        let akarmi = document.getElementsByClassName("card");
+        console.log(akarmi)
+        domManager.addEventListener(".card", 'dragstart', makeDroppable.dragStart)
+        domManager.addEventListener(".card", 'dragend', makeDroppable.dragEnd)
+    },
+    dragStart: function(e){
+        dragged = e.target;
+        console.log(dragged)
     },
     dragEnd: function(){
 
     },
-    dragOver: function(){
+    dragOver: function(e){
+        e.preventDefault();
+        console.log("lksjdflj")
 
     },
     dragEnter: function(){
@@ -71,7 +83,12 @@ export const makeDroppable = {
     dragLeave: function(){
 
     },
-    dragDrop: function(){
-
+    dragDrop: function(e){
+        e.preventDefault();
+        console.log(e.currentTarget);
+        //e.currentTarget az, ahova visszük azt, amit megfogunk
+        //.board-column-content -hez kell a targetet hozzátennünk
+        // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
+        e.currentTarget.appendChild(dragged);
     }
 }
