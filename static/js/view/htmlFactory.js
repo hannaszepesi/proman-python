@@ -1,3 +1,5 @@
+import {domManager} from "./domManager.js";
+
 export const htmlTemplates = {
     board: 1,
     card: 2
