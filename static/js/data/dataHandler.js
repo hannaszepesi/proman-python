@@ -28,6 +28,14 @@ export let dataHandler = {
         return boardTitle
     },
 
+    renameBoard: function (boardTitle) {
+        postData('/api/new_board', {title: boardTitle})
+            .then(data => {
+                console.log(data); // JSON data parsed by `data.json()` call
+            });
+        return boardTitle
+    },
+
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
     },

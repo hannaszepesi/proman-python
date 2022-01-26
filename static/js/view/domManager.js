@@ -15,5 +15,17 @@ export let domManager = {
       console.error("could not find such html element: " + parentIdentifier);
     }
   },
+
+  addallEventListener(parentIdentifier, eventType, eventHandler) {
+    const parent = document.querySelectorAll(parentIdentifier);
+    if (parent) {
+      for (let i of parent) {
+        i.addEventListener(eventType, eventHandler);
+      }
+    } else {
+      console.error("could not find such html element: " + parentIdentifier);
+    }
+  },
+
 };
 
