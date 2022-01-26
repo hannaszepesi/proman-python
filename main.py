@@ -42,7 +42,7 @@ def add_new_board():
     if request.method == 'POST':
         print(request.get_json())
         data = queires.write_new_board(request.get_json()['title'])
-        print(data)
+        return request.get_json()
 
 def main():
     app.run(debug=True)

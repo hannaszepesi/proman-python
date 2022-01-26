@@ -25,7 +25,7 @@ export let boardsManager = {
   }
 };
 
-function addBoardTitle() {
+async function addBoardTitle() {
   const newBoardModalTitle = modalBuilder()
   domManager.addChild('#root', newBoardModalTitle);
   $('.modal').modal('toggle');
