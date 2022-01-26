@@ -38,14 +38,11 @@ function addBoardTitle() {
 
     await boardsManager.loadBoards()
   })
-  $('.close').click(()=>{
-    document.getElementById('newBoard').innerHTML  = '';
-    modalDel.classList.remove('back-drop')
-  })
-  $('.close').click(()=>{
-    document.getElementsByClassName('show').innerHTML  = ''
-  })
-
+  // $('.close').click(()=>{
+  //   let modal = document.getElementById('newBoard');
+  //   modal.remove();
+    // modal.classList.remove('back-drop');
+  // })
 }
 
 function showHideButtonHandler(clickEvent) {
