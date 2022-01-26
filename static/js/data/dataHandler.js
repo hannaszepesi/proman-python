@@ -1,44 +1,67 @@
 export let dataHandler = {
-  getBoards: async function () {
-    const response = await apiGet("/api/boards");
-    return response;
-  },
-  getBoard: async function (boardId) {
-    // the board is retrieved and then the callback function is called with the board
-  },
-  getStatuses: async function () {
-    // the statuses are retrieved and then the callback function is called with the statuses
-  },
-  getStatus: async function (statusId) {
-    // the status is retrieved and then the callback function is called with the status
-  },
-  getCardsByBoardId: async function (boardId) {
-    const response = await apiGet(`/api/boards/${boardId}/cards/`);
-    return response;
-  },
-  getCard: async function (cardId) {
-    // the card is retrieved and then the callback function is called with the card
-  },
-  createNewBoard: async function (boardTitle) {
-    // creates new board, saves it and calls the callback function with its data
-  },
-  createNewCard: async function (cardTitle, boardId, statusId) {
-    // creates new card, saves it and calls the callback function with its data
-  },
+    getBoards: async function () {
+        const response = await apiGet("/api/boards");
+        return response;
+    },
+    getBoard: async function (boardId) {
+        // the board is retrieved and then the callback function is called with the board
+    },
+    getStatuses: async function () {
+        // the statuses are retrieved and then the callback function is called with the statuses
+    },
+    getStatus: async function (statusId) {
+        // the status is retrieved and then the callback function is called with the status
+    },
+    getCardsByBoardId: async function (boardId) {
+        const response = await apiGet(`/api/boards/${boardId}/cards/`);
+        return response;
+    },
+    getCard: async function (cardId) {
+        // the card is retrieved and then the callback function is called with the card
+    },
+    createNewBoard: function (boardTitle) {
+        // creates new board, saves it and calls the callback function with its data
+        postData('/api/new_board', {title: boardTitle})
+            .then(data => {
+                console.log(data); // JSON data parsed by `data.json()` call
+            });
+        return boardTitle
+    },
+
+    createNewCard: async function (cardTitle, boardId, statusId) {
+        // creates new card, saves it and calls the callback function with its data
+    },
 };
 
+async function postData(url = '', data = {}) {
+            // Default options are marked with *
+            console.log(data)
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
+
+
 async function apiGet(url) {
-  let response = await fetch(url, {
-    method: "GET",
-  });
-  if (response.status === 200) {
-    let data = response.json();
-    return data;
-  }
+    let response = await fetch(url, {
+        method: "GET",
+    });
+    if (response.status === 200) {
+        let data = response.json();
+        return data;
+    }
 }
 
-async function apiPost(url, payload) {}
+async function apiPost(url, payload) {
+}
 
-async function apiDelete(url) {}
+async function apiDelete(url) {
+}
 
-async function apiPut(url) {}
+async function apiPut(url) {
+}

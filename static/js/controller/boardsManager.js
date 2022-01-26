@@ -5,6 +5,7 @@ import { cardsManager } from "./cardsManager.js";
 
 export let boardsManager = {
   loadBoards: async function () {
+    this.newBoard()
     const boards = await dataHandler.getBoards();
     for (let board of boards) {
       const boardBuilder = htmlFactory(htmlTemplates.board);
@@ -33,7 +34,18 @@ function addBoardTitle() {
     console.log(boardTitle)
     const newBoard = await dataHandler.createNewBoard(boardTitle);
     console.log(newBoard)
+    document.getElementById('root').innerHTML = ''
+
+    await boardsManager.loadBoards()
   })
+  $('.close').click(()=>{
+    document.getElementById('newBoard').innerHTML  = '';
+    modalDel.classList.remove('back-drop')
+  })
+  $('.close').click(()=>{
+    document.getElementsByClassName('show').innerHTML  = ''
+  })
+
 }
 
 function showHideButtonHandler(clickEvent) {

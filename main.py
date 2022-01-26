@@ -1,6 +1,6 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from dotenv import load_dotenv
-
+import json
 
 from util import json_response
 import mimetypes
@@ -36,6 +36,13 @@ def get_cards_for_board(board_id: int):
     """
     return queires.get_cards_for_board(board_id)
 
+
+@app.route("/api/new_board", methods=['POST'])
+def add_new_board():
+    if request.method == 'POST':
+        print(request.get_json())
+        data = queires.write_new_board(request.get_json()['title'])
+        print(data)
 
 def main():
     app.run(debug=True)
