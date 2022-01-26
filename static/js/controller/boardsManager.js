@@ -1,7 +1,8 @@
 import { dataHandler } from "../data/dataHandler.js";
-import { htmlFactory, htmlTemplates, buttonBuilder, modalBuilder } from "../view/htmlFactory.js";
+import { htmlFactory, htmlTemplates, buttonBuilder, modalBuilder, makeDroppable } from "../view/htmlFactory.js";
 import { domManager } from "../view/domManager.js";
 import { cardsManager } from "./cardsManager.js";
+
 
 export let boardsManager = {
   loadBoards: async function () {
@@ -9,8 +10,9 @@ export let boardsManager = {
     const boards = await dataHandler.getBoards();
     for (let board of boards) {
       const boardBuilder = htmlFactory(htmlTemplates.board);
-      const content = boardBuilder(board);
-      domManager.addChild("#root", content);
+      const content = boardBuilder(board); //ezek a script-ek
+      domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
+      makeDroppable.droppableBoards();
       domManager.addEventListener(
         `.toggle-board-button[data-board-id="${board.id}"]`,
         "click",
