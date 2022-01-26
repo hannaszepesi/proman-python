@@ -2,7 +2,6 @@ import { dataHandler } from "../data/dataHandler.js";
 import { htmlFactory, htmlTemplates, makeDroppable } from "../view/htmlFactory.js";
 import { domManager } from "../view/domManager.js";
 import { cardsManager } from "./cardsManager.js";
-import { htmlFactory, makeDroppable } from "../view/htmlFactory.js";
 
 
 export let boardsManager = {
@@ -11,7 +10,7 @@ export let boardsManager = {
     for (let board of boards) {
       const boardBuilder = htmlFactory(htmlTemplates.board);
       const content = boardBuilder(board);
-      makeDroppable.droppableMain
+      // makeDroppable.droppableMain
       domManager.addChild("#root", content);
       domManager.addEventListener(
         `.toggle-board-button[data-board-id="${board.id}"]`,

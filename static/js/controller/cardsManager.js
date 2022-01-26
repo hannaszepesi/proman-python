@@ -8,7 +8,7 @@ export let cardsManager = {
     for (let card of cards) {
       const cardBuilder = htmlFactory(htmlTemplates.card);
       const content = cardBuilder(card);
-      htmlFactory.makeDdroppable();
+      // htmlFactory.makeDdroppable();
       domManager.addChild(`.board-column-content[data-status="${card['status_id']}_${boardId}"]`, content);
       domManager.addEventListener(
         `.card[data-card-id="${card.id}"]`,
