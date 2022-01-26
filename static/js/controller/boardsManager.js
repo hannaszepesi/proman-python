@@ -16,6 +16,7 @@ export let boardsManager = {
         this.newBoard()
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
+            console.log(board)
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             // makeDroppable.droppableMain
@@ -56,25 +57,43 @@ function addBoardTitle() {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
+    // console.log(boardId);
     cardsManager.loadCards(boardId);
 }
 
-function renameBoardTitle(boards) {
+function renameBoardTitle(clickEvent) {
+    // kellene nekünk annak a boardnak az ID-ja, amelyik boardon lekattintjuk a show cards-ot, ezt a fenti functionból láttam el
+    const boardId = clickEvent.target.dataset.boardId;
+    // aztán kell nekünk a fenti ID alapján az a board title, aminek az az ID-ja
+    let actualBoard = document.querySelector('.board-title[]' )//nem tudom, hogyan...
+    // data-board-id?
+
+// de aztán pedig megkapnánk azt a táblát, amire kattintottunk, vegyük ki annak az eredeti szövegét:
+    let originalTitle = actualBoard.innerHTML
+    let title = actualBoard.innerHTML
+    // és ha title != originalTitle, akkor hívjuk meg rá a függvényt:
+    if (title != originalTitle) {
+        dataHandler.renameBoard(boardId, title)
+    }
+
+
+
+    // console.log(boardId)
     // const title = document.getElementsByClassName('rename-board');
-    console.log(document)
+    // console.log(document)
 
 
-    console.log(boards)
-    for (let board of boards) {
-        console.log(document.getElementsByClassName('board-header'))
-    domManager.addallEventListener('#title', 'click', async function () {
-
-            console.log(board)
-            await renameBoard(board).then(
-                result => domManager.addChild('.rename'))
-            let saveButton = document.getElementsByClassName('rename-board');
-            saveButton.addEventListener('click', () => domManager.addChild('.rename')
-
-    )}
-    )}
+    // console.log(boards)
+    // for (let board of boards) {
+    //     console.log(document.getElementsByClassName('board-header'))
+    // domManager.addallEventListener('#title', 'click', async function () {
+    //
+    //         console.log(board)
+    //         await renameBoard(board).then(
+    //             result => domManager.addChild('.rename'))
+    //         let saveButton = document.getElementsByClassName('rename-board');
+    //         saveButton.addEventListener('click', () => domManager.addChild('.rename')
+    //
+    // )}
+    // )}
 }

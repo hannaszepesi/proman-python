@@ -39,8 +39,9 @@ def get_cards_for_board(board_id: int):
 
 @app.route("/api/new_board", methods=['POST'])
 def add_new_board():
-    if request.method == 'POST':
+    # if request.method == 'POST': -> ez szerintem nem kell, mert itt csak postot fogadunk
         print(request.get_json())
+        # board_id = request.json['board_id']?
         data = queires.write_new_board(request.get_json()['title'])
         print(data)
 
