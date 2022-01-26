@@ -42,9 +42,6 @@ function addBoardTitle() {
     document.getElementById('newBoard').innerHTML  = '';
     modalDel.classList.remove('back-drop')
   })
-  $('.close').click(()=>{
-    document.getElementsByClassName('show').innerHTML  = ''
-  })
 
 }
 
