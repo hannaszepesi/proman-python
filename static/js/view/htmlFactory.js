@@ -1,3 +1,5 @@
+import {domManager} from "./domManager";
+
 export const htmlTemplates = {
     board: 1,
     card: 2
@@ -46,6 +48,30 @@ function boardBuilder(board) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}" draggable="true">${card.title}</div>`;
 }
 
+export const makeDroppable = {
+    droppableMain: function(){
+        // ide kell egy for, a board-okat egyesével kell nézni
+        domManager.addEventListener(board-column-content, 'dragstart', dragStart())
+    },
+    dragStart: function(){
+
+    },
+    dragEnd: function(){
+
+    },
+    dragOver: function(){
+
+    },
+    dragEnter: function(){
+
+    },
+    dragLeave: function(){
+
+    },
+    dragDrop: function(){
+
+    }
+}
