@@ -51,7 +51,6 @@ export function modalBuilder() {
                     </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="create" data-bs-dismiss="modal">Create</button>
                   </div>
                 </div>
