@@ -40,7 +40,7 @@ function boardBuilder(board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
-                    <button class="board-add">Add Card</button>
+                    <button class="add-card">Add Card</button>
                     <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                 </div>
@@ -121,12 +121,12 @@ export function buttonBuilder() {
             id="create_new_board" name="new_board">Create new board</button>`
 }
 
-export function modalBuilder() {
-    return `<div class="modal" id="newBoard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+export function modalBuilder(type) {
+    return `<div class="modal" id="${type}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">For create a new board choose a title </h5>
+                    <h5 class="modal-title" id="exampleModalLabel">For create a ${type} choose a name </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="float: right" aria-label="Close">X</button>-->
                       <span aria-hidden="true">&times;</span>
