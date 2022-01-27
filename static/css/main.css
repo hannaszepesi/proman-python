@@ -141,3 +141,12 @@ section.board{
 .card-title{
     padding-right: 16px;
 }
+
+
+.modal-backdrop {
+    opacity: 20%;
+}
+
+.hide {
+    visibility: hidden;
+}

@@ -39,11 +39,13 @@ export function inputBuilder(prevTitle){
 function boardBuilder(board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
+                <div class="board-header"><span class="board-title">Board ${board.id}</span>
                     <button class="add-card">Add Card</button>
-                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
+<!--                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>-->
                 </div>
+                
+            <div class="board-content" data-board-id="${board.id}">
                 <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
@@ -61,7 +63,9 @@ function boardBuilder(board) {
                     <div class="board-column-title">Done</div>
                     <div class="board-column-content" data-status="4_${board.id}"></div>
                 </div>
+                
                 </div>
+            </div>
                 </section>
             </div>`;
 }
