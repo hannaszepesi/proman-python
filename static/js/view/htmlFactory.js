@@ -39,7 +39,7 @@ export function inputBuilder(prevTitle){
 function boardBuilder(board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span class="board-title">Board ${board.id}</span>
+                <div class="board-header"><span class="board-title">${board.title}</span>
                     <button class="add-card">Add Card</button>
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>-->
@@ -139,8 +139,8 @@ export function modalBuilder(type) {
                   <div class="modal-body">
                     <form>
                       <div class="form-group">
-                        <label for="new-board-title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="new-board-title">
+                        <label for="new-element-title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="new-element-title">
                       </div>
                     </form>
                   </div>

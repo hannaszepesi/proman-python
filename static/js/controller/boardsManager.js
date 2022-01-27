@@ -36,13 +36,13 @@ export let boardsManager = {
                     '.add-card',
                     'click',
                     addNewCard);
-            }
-            domManager.addEventListener(
-                `.board-toggle[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
 
+                domManager.addEventListener(
+                    `.board-toggle[data-board-id="${board.id}"]`,
+                    "click",
+                    showHideButtonHandler
+                );
+            }
             for (let column of columns) {
                 column.style.visibility = "hidden";
             }
@@ -61,13 +61,16 @@ function addNewCard(clickEvent) {
     domManager.addChild('#root', newCardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
-        const cardTitle = $('#new-board-title').val()
+        const cardTitle = $('#new-element-title').val()
         console.log(cardTitle)
         console.log(1)
         const newBoard = await dataHandler.createNewCard(cardTitle, boardId, 1);
         console.log(2)
-        $("board-toggle").click() // akkor fog működni ha össze mergeltük a close branch eredményével
-        $("board-toggle").click()
+        document.getElementById('root').innerHTML = ''
+        console.log($('.show'))
+        await boardsManager.loadBoards()
+        $(`.board-toggle[data-board-id="${boardId}"]`).click() // akkor fog működni ha össze mergeltük a close branch eredményével
+        //$(`.board-toggle[data-board-id="${boardId}"]`).click()
         console.log(3)
     })
     domManager.addEventListener('.close', 'click', async function () {
@@ -104,7 +107,7 @@ function addBoardTitle() {
     domManager.addChild('#root', newBoardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
-        const boardTitle = $('#new-board-title').val()
+        const boardTitle = $('#new-element-title').val()
         console.log(boardTitle)
         const newBoard = await dataHandler.createNewBoard(boardTitle);
         console.log(newBoard)
@@ -121,11 +124,8 @@ function addBoardTitle() {
 async function showHideButtonHandler(clickEvent) {
     let columns = document.getElementsByClassName('board-content')
     let boardId = clickEvent.target.dataset.boardId
-    console.log(clickEvent.target)
-    console.log(clickEvent.target.dataset.show)
     if (clickEvent.target.dataset.show === "false") {
         const boardId = clickEvent.target.dataset.boardId;
-        console.log(clickEvent.target.dataset.show)
         await cardsManager.loadCards(boardId);
         clickEvent.target.dataset.show = "true";
         for (let column of columns) {
@@ -133,21 +133,17 @@ async function showHideButtonHandler(clickEvent) {
                 column.style.visibility = "visible";
             }
         }
-        console.log(clickEvent.target)
     } else {
         for (let column of columns) {
             if (boardId === column.dataset.boardId) {
 
                 let cards = document.getElementsByClassName('board-column-content')
-                console.log(cards)
+
                 for (let col of cards) {
                     col.innerHTML = ''
                 }
                 column.style.visibility = "hidden";
-                console.log(column.style.visibility)
-                console.log(column)
                 clickEvent.target.dataset.show = "false";
-                console.log(column.dataset.show)
             }
         }
 
