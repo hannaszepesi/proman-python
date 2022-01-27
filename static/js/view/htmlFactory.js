@@ -67,7 +67,7 @@ function boardBuilder(board) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" draggable="true">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}</div>`;
 }
 
 
@@ -107,27 +107,36 @@ export const makeDroppable = {
         //e.currentTarget az, ahova visszük azt, amit megfogunk
         //.board-column-content -hez kell a targetet hozzátennünk
         // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
-        e.currentTarget.appendChild(dragged);
         let newCardStatus = e.currentTarget.dataset.status[0] // ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
         let cardId = dragged.dataset.cardId
         cardsManager.changeCardStatus(cardId, newCardStatus)
-        console.log(dragged)
-        console.log(e.target)
-        console.log(cards)
-        if (e.target !== dragged) {
-            let currentpos = 0, droppedpos = 0;
-            for (let it = 0; it < cards.length; it++) {
-                if (dragged === cards[it]) {
-                    currentpos = it;
+        if (!e.target.draggable) {
+            e.currentTarget.appendChild(dragged);
+            //cardsManager.changeCardOrder(cardId, "1", newCardStatus)
+        }
+        else if (!e.target.nextSibling) {
+            e.currentTarget.appendChild(dragged);
+            cardsManager.changeCardOrder(cardId, "1", newCardStatus)
+        }
+        else {
+            if (e.target !== dragged) {
+                let currentpos = 0, droppedpos = 0;
+                for (let it = 0; it < cards.length; it++) {
+                    if (dragged === cards[it]) {
+                        currentpos = it;
+                    }
+                    if (e.target === cards[it]) {
+                        droppedpos = it;
+                    }
                 }
-                if (e.target === cards[it]) {
-                    droppedpos = it;
+                if (currentpos < droppedpos) {
+                    e.target.parentNode.insertBefore(dragged, e.target.nextSibling);
+                } else {
+                    e.target.parentNode.insertBefore(dragged, e.target);
                 }
-            }
-            if (currentpos < droppedpos) {
-                e.target.parentNode.insertBefore(dragged, e.target.nextSibling);
-            } else {
-                e.target.parentNode.insertBefore(dragged, e.target);
+                cardsManager.changeCardOrder(cardId, (droppedpos+1).toString(), newCardStatus)
+                //cardsManager.changeCardOrder(cardId, (droppedpos+1).toString())
+                //cardsManager.changeCardOrder(e.target.dataset.cardId, (droppedpos+2).toString())
             }
         }
     },

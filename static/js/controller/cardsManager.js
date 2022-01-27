@@ -22,6 +22,11 @@ export let cardsManager = {
     let dict = {'card_id': cardId, 'card_status': cardStatus}
       postData('/api/change_card_status', dict)
     },
+
+  changeCardOrder: function (cardId, cardOrder, cardStatus ) {
+    let data = {'card_id': cardId, 'order_status': cardOrder, 'card_status': cardStatus}
+      postData('/api/change_card_order', data)
+    },
 };
 
 function deleteButtonHandler(clickEvent) {}

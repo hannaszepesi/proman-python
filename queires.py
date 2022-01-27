@@ -79,3 +79,11 @@ def rename_board(data):
              id=sql.Literal(data['id'])
          ))
     return data
+
+
+def change_card_order(card_id, board_status, order_status):
+    data_manager.execute_update("""UPDATE cards
+                SET card_order = card_order + 1
+                WHERE  card_order >= %(order_status)s AND status_id = %(board_status)s
+                """
+                , {'order_status': order_status, 'card_id': card_id, 'board_status': board_status})
