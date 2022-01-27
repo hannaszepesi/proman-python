@@ -9,23 +9,25 @@ export let boardsManager = {
         this.newBoard()
         const boards = await dataHandler.getBoards();
         let columns = document.getElementsByClassName('board-content');
-        columns.style.visibility ="hidden";
         console.log(columns)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board); //ezek a script-ek
             domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
             makeDroppable.droppableBoards();
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
+            // domManager.addEventListener(
+            //     `.toggle-board-button[data-board-id="${board.id}"]`,
+            //     "click",
+            //     showHideButtonHandler
+            // );
             domManager.addEventListener(
                 `.board-toggle[data-board-id="${board.id}"]`,
                 "click",
                 showHideButtonHandler
             );
+        }
+        for (let column of columns){
+            column.style.visibility="hidden";
         }
     },
     newBoard: async function () {
