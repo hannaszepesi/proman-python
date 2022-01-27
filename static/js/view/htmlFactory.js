@@ -73,35 +73,36 @@ function cardBuilder(card) {
 
 let dragged;
 export const makeDroppable = {
-    droppableBoards: function(){
+    droppableBoards: function () {
         domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
         domManager.addEventListenerToMore(".board-column-content", 'dragenter', makeDroppable.dragEnter)
         domManager.addEventListenerToMore(".board-column-content", 'dragleave', makeDroppable.dragLeave)
         domManager.addEventListenerToMore(".board-column-content", 'drop', makeDroppable.dragDrop)
 
     },
-    draggableCard: function() {
+    draggableCard: function () {
         domManager.addEventListenerToMore(".card", 'dragstart', makeDroppable.dragStart)
         domManager.addEventListenerToMore(".card", 'dragend', makeDroppable.dragEnd)
     },
-    dragStart: function(e){
+    dragStart: function (e) {
         dragged = e.target; // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
 
     },
-    dragEnd: function(){
+    dragEnd: function () {
 
     },
-    dragOver: function(e){
+    dragOver: function (e) {
         e.preventDefault();
 
     },
-    dragEnter: function(){
+    dragEnter: function () {
 
     },
-    dragLeave: function(){
+    dragLeave: function () {
 
     },
-    dragDrop: function(e){
+    dragDrop: function (e) {
+        let cards = document.getElementsByClassName("card")
         e.preventDefault();
         //e.currentTarget az, ahova visszük azt, amit megfogunk
         //.board-column-content -hez kell a targetet hozzátennünk
@@ -110,16 +111,34 @@ export const makeDroppable = {
         let newCardStatus = e.currentTarget.dataset.status[0] // ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
         let cardId = dragged.dataset.cardId
         cardsManager.changeCardStatus(cardId, newCardStatus)
-
-
-    }
-}
+        console.log(dragged)
+        console.log(e.target)
+        console.log(cards)
+        if (e.target !== dragged) {
+            let currentpos = 0, droppedpos = 0;
+            for (let it = 0; it < cards.length; it++) {
+                if (dragged === cards[it]) {
+                    currentpos = it;
+                }
+                if (e.target === cards[it]) {
+                    droppedpos = it;
+                }
+            }
+            if (currentpos < droppedpos) {
+                e.target.parentNode.insertBefore(dragged, e.target.nextSibling);
+            } else {
+                e.target.parentNode.insertBefore(dragged, e.target);
+            }
+        }
+    },
+};
 
 
 export function buttonBuilder() {
     return `<button type="button" class='btn btn-outline-dark' data-toggle='modal' data-target='#newBoard'
             id="create_new_board" name="new_board">Create new board</button>`
 }
+
 
 export function modalBuilder() {
     return `<div class="modal" id="newBoard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
