@@ -26,6 +26,12 @@ export let boardsManager = {
         showHideButtonHandler
       );
     }
+    domManager.addallEventListener(
+            `.board-title`,
+            "dblclick",
+
+            renameBoardTitle
+        );
   },
   newBoard: async function () {
     const button = buttonBuilder()
@@ -34,7 +40,7 @@ export let boardsManager = {
   }
 };
 
-async function addBoardTitle() {
+function addBoardTitle() {
   const newBoardModalTitle = modalBuilder()
   domManager.addChild('#root', newBoardModalTitle);
   $('.modal').modal('toggle');
