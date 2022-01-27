@@ -64,3 +64,18 @@ def change_card_status(card_id, board_status):
                 WHERE  id = %(card_id)s
                 """
                 , {'board_status': board_status, 'card_id': card_id})
+
+
+def rename_board(data):
+    data_manager.execute_select(sql.SQL(
+        """UPDATE {table_name}
+        SET {updated_column} = {title_name}
+        WHERE {wheree} = {id}
+        returning boards"""
+    ).format(updated_column=sql.Identifier('title'),
+             table_name=sql.Identifier('boards'),
+             title_name=sql.Literal(data['title']),
+             wheree=sql.Identifier('id'),
+             id=sql.Literal(data['id'])
+         ))
+    return data

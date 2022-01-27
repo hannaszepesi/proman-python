@@ -6,6 +6,10 @@
     margin: 4%
 }
 
+.modal-backdrop {
+    opacity: 20%;
+}
+
 :root{
     --border-radius: 3px;
     --status-1: #590000;
@@ -136,9 +140,4 @@ section.board{
 
 .card-title{
     padding-right: 16px;
-}
-
-
-.modal-backdrop {
-    opacity: 20%;
 }
