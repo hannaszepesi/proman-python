@@ -142,3 +142,7 @@ section.board{
 .modal-backdrop {
     opacity: 20%;
 }
+
+.hide {
+    visibility: hidden;
+}
