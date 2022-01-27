@@ -82,14 +82,33 @@ def rename_board(data):
     return data
 
 def get_user_by_email(email_input):
-    data = data_manager.execute_select(sql.SQL(
-         """SELECT *
-         FROM {table_name}
-         WHERE {where} = {email_input}
-         """
-    ).format(table_name=sql.Identifier('users'),
-                    where=sql.Identifier('username'),
-                    email_input=sql.Literal('email_input')
-                    ))
+    # data = data_manager.execute_select(sql.SQL(
+    #      """SELECT *
+    #      FROM {table_name}
+    #      WHERE {where} = {email_input}
+    #      """
+    # ).format(table_name=sql.Identifier('users'),
+    #          where=sql.Identifier('username'),
+    #          email_input=sql.Literal('email_input')
+    #          ))
+    # return data
 
+    data = data_manager.execute_select(
+        """SELECT *
+        FROM users
+        WHERE username = %(username)s
+        """
+        , {'username':email_input}
+    )
     return data
+
+
+def add_new_user(user, password):
+    data_manager.execute_update(
+        """INSERT INTO users
+         (username, password) 
+         VALUES 
+         (%(user)s, %(password)s)"""
+        , {'user':user, 'password':password})
+
+

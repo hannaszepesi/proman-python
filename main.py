@@ -8,6 +8,7 @@ import mimetypes
 import queires
 from os import urandom
 from functools import wraps
+import password_util
 
 
 mimetypes.add_type('application/javascript', '.js')
@@ -86,6 +87,20 @@ def change_card_status():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        username = request.form.get('username')
+        known_username = queires.get_user_by_email(username)
+        if known_username:
+            flash("Username already exists, please choose another one!")
+            return redirect('/register')
+        else:
+            password = request.form.get('password')
+            hashed_password = password_util.hash_password(str(password))
+            queires.add_new_user(username, hashed_password)
+            flash("Successful registration. Log in to continue.")
+            return redirect(url_for('login'))
 
 
 
@@ -98,20 +113,19 @@ def login():
         email_input = request.form.get('email')
         password_input = request.form.get('password')
         user_details = queires.get_user_by_email(email_input)
-        print(user_details)
 
         if not user_details: #ha nincs ilyen user
             flash("No such username")
             return redirect(url_for('login'))
         else:
-            password_verified = password_util.verify_password(password_input, user_details['hashed_password'])
+            password_verified = password_util.verify_password(password_input, user_details[0]['password'])
             if not password_verified: #ha nem oké a jelszó
                 flash("Wrong username or password")
                 return redirect(url_for('login'))
             else:
-                session['id'] = user_details['user_id']
-                session['username'] = user_details['username']
-                session['password'] = user_details['hashed_password']
+                session['id'] = user_details[0]['id']
+                session['username'] = user_details[0]['username']
+                session['password'] = user_details[0]['password']
                 session['logged_in'] = True
                 return redirect(url_for('index'))
 
