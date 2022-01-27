@@ -34,7 +34,8 @@ export let dataHandler = {
     },
 };
 
-async function postData(url = '', data = {}) {
+
+export async function postData(url = '', data = {}) {
             // Default options are marked with *
             console.log(data)
             const response = await fetch(url, {

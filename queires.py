@@ -56,3 +56,11 @@ def write_new_board(title):
         """INSERT INTO boards (title) VALUES (%(title)s)
         returning boards"""
         , {'title': title}, fetchall=True)
+
+
+def change_card_status(card_id, board_status):
+    data_manager.execute_update("""UPDATE cards
+                SET status_id = %(board_status)s
+                WHERE  id = %(card_id)s
+                """
+                , {'board_status': board_status, 'card_id': card_id})

@@ -44,6 +44,14 @@ def add_new_board():
         data = queires.write_new_board(request.get_json()['title'])
         return request.get_json()
 
+
+@app.route("/api/change_card_status", methods=['POST'])
+def change_card_status():
+    queires.change_card_status(request.get_json()['card_id'], request.get_json()['card_status'])
+    print(request.get_json())
+    return request.get_json()
+
+
 def main():
     app.run(debug=True)
 
