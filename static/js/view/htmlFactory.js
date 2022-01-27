@@ -1,4 +1,6 @@
 import { domManager } from "../view/domManager.js";
+import {cardsManager} from "../controller/cardsManager.js";
+
 
 
 export const htmlTemplates = {
@@ -49,7 +51,7 @@ function boardBuilder(board) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" draggable="true">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}"  draggable="true">${card.title}</div>`;
 }
 
 
@@ -68,11 +70,11 @@ export const makeDroppable = {
     },
     dragStart: function(e){
         dragged = e.target;
-        console.log(e.target.dataset.cardId) // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
+        //console.log(e.target.dataset.cardId) // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
 
     },
     dragEnd: function(){
-        changeCardStatus(dragged.dataset.cardId)
+
     },
     dragOver: function(e){
         e.preventDefault();
@@ -90,6 +92,10 @@ export const makeDroppable = {
         //.board-column-content -hez kell a targetet hozzátennünk
         // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
         e.currentTarget.appendChild(dragged);
+        let newCardStatus = e.currentTarget.dataset.status[0] // ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
+        let cardId = dragged.dataset.cardId
+        cardsManager.changeCardStatus(cardId, newCardStatus)
+
 
     }
 }

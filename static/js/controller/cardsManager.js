@@ -17,6 +17,10 @@ export let cardsManager = {
       );
     }
   },
+  changeCardStatus: function (cardId, cardStatus) {
+    console.log(cardId)
+     console.log(cardStatus)
+  }
 };
 
 function deleteButtonHandler(clickEvent) {}
