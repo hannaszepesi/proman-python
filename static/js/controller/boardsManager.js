@@ -27,12 +27,15 @@ export let boardsManager = {
                 showHideButtonHandler
             );
 
-            domManager.addEventListener(
+        }
+        console.log(document.getElementsByClassName('board-title'))
+            domManager.addallEventListener(
                 `.board-title`,
                 "click",
+
                 renameBoardTitle
+
             );
-        }
     },
     newBoard: async function () {
         const button = buttonBuilder()
@@ -62,17 +65,18 @@ function addBoardTitle() {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    // console.log(boardId);
+    console.log(boardId);
+    console.log(clickEvent.target)
     cardsManager.loadCards(boardId);
 }
 
 function renameBoardTitle(clickEvent) {
     // kellene nekünk annak a boardnak az ID-ja, amelyik boardon lekattintjuk a show cards-ot, ezt a fenti functionból láttam el
-    const boardId = clickEvent.target.dataset.board-id;
+    console.log(clickEvent.target)
+    const boardId = clickEvent.target.dataset.boardId;
+    console.log(boardId)
     // aztán kell nekünk a fenti ID alapján az a board title, aminek az az ID-ja
-    let actualBoard = document.querySelector('[data-board-id]' )//nem tudom, hogyan...
-    actualBoard.addEventListener('click', ()=>  console.log(actualBoard))
-    console.log(actualBoard)
+    let actualBoard = clickEvent.target
     // data-board-id?
 
 // de aztán pedig megkapnánk azt a táblát, amire kattintottunk, vegyük ki annak az eredeti szövegét:
