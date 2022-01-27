@@ -79,11 +79,12 @@ function renameBoardTitle(clickEvent) {
     // aztán kell nekünk a fenti ID alapján az a board title, aminek az az ID-ja
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
-    const input = inputBuilder(actualBoard.textContent)
-    let parent = clickEvent.target.parentElement.classList[0]
+    const newTitle = inputBuilder(actualBoard.textContent)
+    let parent = clickEvent.target.parentElement
     console.log('megint', parent)
+    parent.insertBefore(newTitle[1], parent.childNodes[0])
+    parent.insertBefore(newTitle[0], parent.childNodes[0])
 
-    domManager.addfirstChild(parent, input)
     dataHandler.renameBoard()
     console.log(actualBoard)
     // data-board-id?
