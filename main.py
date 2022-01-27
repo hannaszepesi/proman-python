@@ -43,6 +43,12 @@ def add_new_board():
     return request.get_json()
 
 
+@app.route("/api/new_card", methods=['POST'])
+def add_new_card():
+    data = queires.write_new_card(request.get_json())
+    return request.get_json()
+
+
 @app.route("/api/rename_board", methods=['POST'])
 def rename_board():
     data = request.get_json()

@@ -39,6 +39,11 @@ export let dataHandler = {
 
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
+    return postData('/api/new_card', {title: cardTitle, board_id: boardId, status: statusId})
+            .then(data => {
+                console.log(data);
+                return data// JSON data parsed by `data.json()` call
+            });
     },
 };
 
