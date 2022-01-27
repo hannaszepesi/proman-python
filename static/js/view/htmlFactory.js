@@ -105,6 +105,7 @@ export const makeDroppable = {
 
     },
     dragDrop: function(e){
+        let cards = document.getElementsByClassName("card")
         e.preventDefault();
         //e.currentTarget az, ahova visszük azt, amit megfogunk
         //.board-column-content -hez kell a targetet hozzátennünk
@@ -152,9 +153,6 @@ export function buttonBuilder() {
 
 export function modalBuilder(type) {
     return `<div class="modal" id="${type}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-export function modalBuilder() {
-    return `<div class="modal" id="newBoard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
