@@ -84,9 +84,9 @@ def change_card_status():
     print(request.get_json())
     return request.get_json()
 
-@app.route("/api/register", methods=['POST'])
-def register_user():
-    pass
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+
 
 
 @app.route("/login", methods = ['GET', 'POST'])
