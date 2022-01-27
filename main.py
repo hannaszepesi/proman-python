@@ -7,10 +7,10 @@ import queires
 from os import urandom
 from functools import wraps
 
-app.secret_key = urandom(24)
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
+app.secret_key = urandom(24)
 load_dotenv()
 
 
@@ -86,9 +86,10 @@ def change_card_status():
 def register_user():
     pass
 
-@app.route("/api/login", methods=['POST'])
+@app.route("/api/login")
+@already_logged_in
 def login():
-    pass
+    return render_template('login.html')
 
 @app.route("/api/logout", methods=['POST'])
 def logout():
