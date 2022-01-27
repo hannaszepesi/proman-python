@@ -17,13 +17,10 @@ export function htmlFactory(template) {
     }
 }
 
-export function renameBoard(board){
-    return new Promise(function(resolve, reject) {
-        let scriptRename = `<div class="board-header"><span class="board-title">
-            <input class="rename" type="text" placeholder="${board.title}"</span>
-            <button class="rename-board" type="submit"> Save</button></div>`
-        console.log(document.getElementsByClassName('board-header'))
-    resolve(scriptRename)})
+export function inputBuilder(prevTitle){
+        return `
+            <input class="rename" type="text" placeholder="${prevTitle}"
+            <button class="rename-board" type="submit"> Save</button>`
 }
 
 

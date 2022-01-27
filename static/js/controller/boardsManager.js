@@ -4,7 +4,7 @@ import {
     htmlTemplates,
     buttonBuilder,
     modalBuilder,
-    renameBoard,
+    inputBuilder,
     makeDroppable,
 } from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
@@ -73,19 +73,28 @@ function showHideButtonHandler(clickEvent) {
 function renameBoardTitle(clickEvent) {
     // kellene nekünk annak a boardnak az ID-ja, amelyik boardon lekattintjuk a show cards-ot, ezt a fenti functionból láttam el
     console.log(clickEvent.target)
+    console.log('parent', clickEvent.target.parentElement)
     const boardId = clickEvent.target.dataset.boardId;
     console.log(boardId)
     // aztán kell nekünk a fenti ID alapján az a board title, aminek az az ID-ja
     let actualBoard = clickEvent.target
+    actualBoard.style.visibility = 'hidden'
+    const input = inputBuilder(actualBoard.textContent)
+    let parent = clickEvent.target.parentElement.classList[0]
+    console.log('megint', parent)
+
+    domManager.addfirstChild(parent, input)
+    dataHandler.renameBoard()
+    console.log(actualBoard)
     // data-board-id?
 
 // de aztán pedig megkapnánk azt a táblát, amire kattintottunk, vegyük ki annak az eredeti szövegét:
-    let originalTitle = actualBoard.innerHTML
-    let title = actualBoard.innerHTML
+   // let originalTitle = actualBoard.innerHTML
+   // let title = actualBoard.innerHTML
     // és ha title != originalTitle, akkor hívjuk meg rá a függvényt:
-    if (title != originalTitle) {
-        dataHandler.renameBoard(boardId, title)
-    }
+   // if (title != originalTitle) {
+   //     dataHandler.renameBoard(boardId, title)
+   // }
 
 
 
