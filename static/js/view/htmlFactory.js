@@ -68,10 +68,11 @@ export const makeDroppable = {
     },
     dragStart: function(e){
         dragged = e.target;
+        console.log(e.target.dataset.cardId) // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
 
     },
     dragEnd: function(){
-
+        changeCardStatus(dragged.dataset.cardId)
     },
     dragOver: function(e){
         e.preventDefault();
