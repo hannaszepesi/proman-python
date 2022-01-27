@@ -1,14 +1,39 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, flash, session
 from dotenv import load_dotenv
 import json
-
 from util import json_response
 import mimetypes
 import queires
+from os import urandom
+from functools import wraps
+
+app.secret_key = urandom(24)
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
+
+
+def login_required(function):
+    @wraps(function)
+    def wrap(*args, **kwargs):
+        if 'id' in session:
+            return function(*args, **kwargs)
+        else:
+            flash("You are not logged in")
+            return redirect(url_for('login'))
+    return wrap
+
+
+def already_logged_in(function):
+    @wraps(function)
+    def wrap(*args, **kwargs):
+        if 'id' not in session:
+            return function(*args, **kwargs)
+        else:
+            flash(f"You are already logged in, {session['username']}")
+            return redirect(url_for('login_page'))
+    return wrap
 
 @app.route("/")
 def index():
@@ -56,6 +81,18 @@ def change_card_status():
     queires.change_card_status(request.get_json()['card_id'], request.get_json()['card_status'])
     print(request.get_json())
     return request.get_json()
+
+@app.route("/api/register", methods=['POST'])
+def register_user():
+    pass
+
+@app.route("/api/login", methods=['POST'])
+def login():
+    pass
+
+@app.route("/api/logout", methods=['POST'])
+def logout():
+    pass
 
 
 def main():
