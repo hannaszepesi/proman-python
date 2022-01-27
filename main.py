@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request, flash, session, redirect
 from dotenv import load_dotenv
 import json
+
+import data_manager
 from util import json_response
 import mimetypes
 import queires
@@ -86,10 +88,33 @@ def change_card_status():
 def register_user():
     pass
 
-@app.route("/api/login")
+
+@app.route("/login", methods = ['GET', 'POST'])
 @already_logged_in
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        email_input = request.form.get('email')
+        password_input = request.form.get('password')
+        user_details = queires.get_user_by_email(email_input)
+        print(user_details)
+
+        if not user_details: #ha nincs ilyen user
+            flash("No such username")
+            return redirect(url_for('login'))
+        else:
+            password_verified = password_util.verify_password(password_input, user_details['hashed_password'])
+            if not password_verified: #ha nem oké a jelszó
+                flash("Wrong username or password")
+                return redirect(url_for('login'))
+            else:
+                session['id'] = user_details['user_id']
+                session['username'] = user_details['username']
+                session['password'] = user_details['hashed_password']
+                session['logged_in'] = True
+                return redirect(url_for('index'))
+
 
 @app.route("/api/logout", methods=['POST'])
 def logout():

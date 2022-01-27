@@ -80,3 +80,16 @@ def rename_board(data):
              id=sql.Literal(data['id'])
          ))
     return data
+
+def get_user_by_email(email_input):
+    data = data_manager.execute_select(sql.SQL(
+         """SELECT *
+         FROM {table_name}
+         WHERE {where} = {email_input}
+         """
+    ).format(table_name=sql.Identifier('users'),
+                    where=sql.Identifier('username'),
+                    email_input=sql.Literal('email_input')
+                    ))
+
+    return data
