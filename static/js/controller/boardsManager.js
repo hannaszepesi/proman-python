@@ -77,6 +77,8 @@ function addNewCard(clickEvent) {
 function renameBoardTitle(clickEvent) {
     console.log('parent', clickEvent.target.parentElement)
     const boardId = clickEvent.target.dataset.boardId;
+    console.log('boardid', boardId)
+    console.log(clickEvent.target)
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
     console.log(1, actualBoard.textContent)
@@ -103,9 +105,7 @@ function addBoardTitle() {
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const boardTitle = $('#new-element-title').val()
-        console.log(boardTitle)
         const newBoard = await dataHandler.createNewBoard(boardTitle);
-        console.log(newBoard)
         document.getElementById('root').innerHTML = ''
 
         await boardsManager.loadBoards()
