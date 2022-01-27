@@ -39,10 +39,24 @@ def get_cards_for_board(board_id: int):
 
 @app.route("/api/new_board", methods=['POST'])
 def add_new_board():
-    if request.method == 'POST':
-        print(request.get_json())
-        data = queires.write_new_board(request.get_json()['title'])
-        return request.get_json()
+    data = queires.write_new_board(request.get_json()['title'])
+    return request.get_json()
+
+
+@app.route("/api/rename_board", methods=['POST'])
+def rename_board():
+    data = request.get_json()
+    writed_data = queires.rename_board(data)
+    return writed_data
+
+
+
+@app.route("/api/change_card_status", methods=['POST'])
+def change_card_status():
+    queires.change_card_status(request.get_json()['card_id'], request.get_json()['card_status'])
+    print(request.get_json())
+    return request.get_json()
+
 
 def main():
     app.run(debug=True)

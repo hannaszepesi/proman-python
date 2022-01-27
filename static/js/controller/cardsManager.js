@@ -1,4 +1,5 @@
 import {dataHandler} from "../data/dataHandler.js";
+import {postData} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, makeDroppable} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 
@@ -16,9 +17,11 @@ export let cardsManager = {
                 deleteButtonHandler
             );
         }
+    },
 
-
-
+    changeCardStatus: function (cardId, cardStatus) {
+        let dict = {'card_id': cardId, 'card_status': cardStatus}
+        postData('/api/change_card_status', dict)
     },
 };
 

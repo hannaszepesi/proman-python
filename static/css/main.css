@@ -6,6 +6,10 @@
     margin: 4%
 }
 
+.modal-backdrop {
+    opacity: 20%;
+}
+
 :root{
     --border-radius: 3px;
     --status-1: #590000;
