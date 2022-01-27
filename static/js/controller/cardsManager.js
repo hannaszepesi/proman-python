@@ -16,12 +16,9 @@ export let cardsManager = {
                 deleteButtonHandler
             );
         }
-        let columns = document.getElementsByClassName('board-content');
-        for (let column of columns) {
-            if (boardId === column.parentElement.dataset.boardId) {
-                column.style.visibility = "visible";
-            }
-        }
+
+
+
     },
 };
 

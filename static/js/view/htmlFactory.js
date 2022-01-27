@@ -23,7 +23,7 @@ function boardBuilder(board) {
                 <section class="board" data-board-id=${board.id}>${board.title}
                 <div class="board-header"><span class="board-title">Board ${board.id}</span>
                     <button class="board-add">Add Card</button>
-                    <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down" data-board-id="${board.id}"></i></button>
+                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
                     <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                 </div>
                 

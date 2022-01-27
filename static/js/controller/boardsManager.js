@@ -26,8 +26,8 @@ export let boardsManager = {
                 showHideButtonHandler
             );
         }
-        for (let column of columns){
-            column.style.visibility="hidden";
+        for (let column of columns) {
+            column.style.visibility = "hidden";
         }
     },
     newBoard: async function () {
@@ -56,19 +56,39 @@ async function addBoardTitle() {
     })
 }
 
-function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
-}
+async function showHideButtonHandler(clickEvent) {
+    let columns = document.getElementsByClassName('board-content')
+    let boardId = clickEvent.target.dataset.boardId
+    console.log(clickEvent.target)
+    console.log(clickEvent.target.dataset.show)
+    if (clickEvent.target.dataset.show === "false") {
+        const boardId = clickEvent.target.dataset.boardId;
+        console.log(clickEvent.target.dataset.show)
+        await cardsManager.loadCards(boardId);
+        clickEvent.target.dataset.show = "true";
+        for (let column of columns) {
+            if (boardId === column.dataset.boardId) {
+                column.style.visibility = "visible";
+            }
+        }console.log(clickEvent.target)}
 
 
-// function toggleContent(boardId) {
-//     let button = document.getElementsByClassName('board-toggle')
-//     let boardContent = document.getElementsByClassName('board-content');
-//     console.log(button.boardId)
-//     if (button.dataset.boardId === boardId) {
-//         button.addEventListener('click', function () {
-//             boardContent.dataset.boardId.classList.add('hide');
-//         })
-//     }
-// }
+        else {
+                for (let column of columns) {
+                    if (boardId === column.dataset.boardId) {
+
+                        let cards = document.getElementsByClassName('board-column-content')
+                        console.log(cards)
+                        for (let col of cards){
+                        col.innerHTML = ''}
+                        column.style.visibility = "hidden";
+                        console.log(column.style.visibility)
+                        console.log(column)
+                        clickEvent.target.dataset.show = "false";
+                        console.log(column.dataset.show)
+                    }
+                }
+
+            }
+
+        }
