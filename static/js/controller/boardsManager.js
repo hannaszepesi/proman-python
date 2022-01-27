@@ -16,7 +16,6 @@ export let boardsManager = {
         this.newBoard()
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
-            console.log(board)
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             // makeDroppable.droppableMain
@@ -28,14 +27,12 @@ export let boardsManager = {
             );
 
         }
-        console.log(document.getElementsByClassName('board-title'))
-            domManager.addallEventListener(
-                `.board-title`,
-                "click",
+        domManager.addallEventListener(
+            `.board-title`,
+            "dblclick",
 
-                renameBoardTitle
-
-            );
+            renameBoardTitle
+        );
     },
     newBoard: async function () {
         const button = buttonBuilder()
@@ -71,50 +68,24 @@ function showHideButtonHandler(clickEvent) {
 }
 
 function renameBoardTitle(clickEvent) {
-    // kellene nekünk annak a boardnak az ID-ja, amelyik boardon lekattintjuk a show cards-ot, ezt a fenti functionból láttam el
-    console.log(clickEvent.target)
     console.log('parent', clickEvent.target.parentElement)
     const boardId = clickEvent.target.dataset.boardId;
-    console.log(boardId)
-    // aztán kell nekünk a fenti ID alapján az a board title, aminek az az ID-ja
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
-    const newTitle = inputBuilder(actualBoard.textContent)
+    console.log(1, actualBoard.textContent)
+    const inputbar = inputBuilder(actualBoard.textContent)
     let parent = clickEvent.target.parentElement
-    console.log('megint', parent)
-    parent.insertBefore(newTitle[1], parent.childNodes[0])
-    parent.insertBefore(newTitle[0], parent.childNodes[0])
-
-    dataHandler.renameBoard()
-    console.log(actualBoard)
-    // data-board-id?
-
-// de aztán pedig megkapnánk azt a táblát, amire kattintottunk, vegyük ki annak az eredeti szövegét:
-   // let originalTitle = actualBoard.innerHTML
-   // let title = actualBoard.innerHTML
-    // és ha title != originalTitle, akkor hívjuk meg rá a függvényt:
-   // if (title != originalTitle) {
-   //     dataHandler.renameBoard(boardId, title)
-   // }
+    parent.insertBefore(inputbar[1], parent.childNodes[0])
+    parent.insertBefore(inputbar[0], parent.childNodes[0])
 
 
-
-    // console.log(boardId)
-    // const title = document.getElementsByClassName('rename-board');
-    // console.log(document)
-
-
-    // console.log(boards)
-    // for (let board of boards) {
-    //     console.log(document.getElementsByClassName('board-header'))
-    // domManager.addallEventListener('#title', 'click', async function () {
-    //
-    //         console.log(board)
-    //         await renameBoard(board).then(
-    //             result => domManager.addChild('.rename'))
-    //         let saveButton = document.getElementsByClassName('rename-board');
-    //         saveButton.addEventListener('click', () => domManager.addChild('.rename')
-    //
-    // )}
-    // )}
+    domManager.addEventListener('.rename-board', 'click', async function () {
+            let newTitle = inputbar[0].value
+            const writedTitle = await dataHandler.renameBoard(boardId, newTitle)
+            inputbar[0].remove()
+            inputbar[1].remove()
+            actualBoard.style.visibility = 'visible'
+            actualBoard.textContent = newTitle
+        }
+    )
 }

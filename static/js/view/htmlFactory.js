@@ -20,7 +20,7 @@ export function htmlFactory(template) {
 export function inputBuilder(prevTitle){
         let inp = document.createElement("input")
         inp.setAttribute('class', 'rename')
-        inp.setAttribute('tyoe', 'text')
+        inp.setAttribute('type', 'text')
 
         let butt = document.createElement('button')
         butt.setAttribute('class', 'rename-board')
