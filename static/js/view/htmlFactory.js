@@ -1,3 +1,6 @@
+import { domManager } from "../view/domManager.js";
+
+
 export const htmlTemplates = {
     board: 1,
     card: 2
@@ -17,14 +20,79 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <div class="board" data-board-id=${board.id}>${board.title}</div>
-                <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                <section class="board" data-board-id=${board.id}>${board.title}
+                <div class="board-header"><span class="board-title">Board ${board.id}</span>
+                    <button class="board-add">Add Card</button>
+                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                </div>
+                <div class="board-columns">
+                <div class="board-column">
+                    <div class="board-column-title">New</div>
+                    <div class="board-column-content" data-status="1_${board.id}"></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">In progress</div>
+                    <div class="board-column-content" data-status="2_${board.id}"></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Testing</div>
+                    <div class="board-column-content" data-status="3_${board.id}"></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Done</div>
+                    <div class="board-column-content" data-status="4_${board.id}"></div>
+                </div>
+                </div>
+                </section>
             </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+    return `<div class="card" data-card-id="${card.id}" draggable="true">${card.title}</div>`;
 }
+
+
+let dragged;
+export const makeDroppable = {
+    droppableBoards: function(){
+        domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
+        domManager.addEventListenerToMore(".board-column-content", 'dragenter', makeDroppable.dragEnter)
+        domManager.addEventListenerToMore(".board-column-content", 'dragleave', makeDroppable.dragLeave)
+        domManager.addEventListenerToMore(".board-column-content", 'drop', makeDroppable.dragDrop)
+
+    },
+    draggableCard: function() {
+        domManager.addEventListenerToMore(".card", 'dragstart', makeDroppable.dragStart)
+        domManager.addEventListenerToMore(".card", 'dragend', makeDroppable.dragEnd)
+    },
+    dragStart: function(e){
+        dragged = e.target;
+
+    },
+    dragEnd: function(){
+
+    },
+    dragOver: function(e){
+        e.preventDefault();
+
+    },
+    dragEnter: function(){
+
+    },
+    dragLeave: function(){
+
+    },
+    dragDrop: function(e){
+        e.preventDefault();
+        //e.currentTarget az, ahova visszük azt, amit megfogunk
+        //.board-column-content -hez kell a targetet hozzátennünk
+        // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
+        e.currentTarget.appendChild(dragged);
+
+    }
+}
+
 
 export function buttonBuilder() {
     return `<button type="button" class='btn btn-outline-dark' data-toggle='modal' data-target='#newBoard'
