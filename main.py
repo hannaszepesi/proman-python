@@ -130,9 +130,11 @@ def login():
                 return redirect(url_for('index'))
 
 
-@app.route("/api/logout", methods=['POST'])
+@app.route("/logout")
 def logout():
-    pass
+    session.clear()
+    flash("You have been logged out")
+    return render_template('login.html')
 
 
 def main():
