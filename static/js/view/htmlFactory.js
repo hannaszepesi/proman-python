@@ -40,10 +40,11 @@ function boardBuilder(board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
-                    <button class="board-add">Add Card</button>
-                    <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                    <button class="add-card">Add Card</button>
+                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
+<!--                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>-->
                 </div>
+            <div class="board-content" data-board-id="${board.id}">
                 <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
@@ -61,7 +62,9 @@ function boardBuilder(board) {
                     <div class="board-column-title">Done</div>
                     <div class="board-column-content" data-status="4_${board.id}"></div>
                 </div>
+                
                 </div>
+            </div>
                 </section>
             </div>`;
 }
@@ -73,36 +76,35 @@ function cardBuilder(card) {
 
 let dragged;
 export const makeDroppable = {
-    droppableBoards: function () {
+    droppableBoards: function(){
         domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
         domManager.addEventListenerToMore(".board-column-content", 'dragenter', makeDroppable.dragEnter)
         domManager.addEventListenerToMore(".board-column-content", 'dragleave', makeDroppable.dragLeave)
         domManager.addEventListenerToMore(".board-column-content", 'drop', makeDroppable.dragDrop)
 
     },
-    draggableCard: function () {
+    draggableCard: function() {
         domManager.addEventListenerToMore(".card", 'dragstart', makeDroppable.dragStart)
         domManager.addEventListenerToMore(".card", 'dragend', makeDroppable.dragEnd)
     },
-    dragStart: function (e) {
+    dragStart: function(e){
         dragged = e.target; // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
 
     },
-    dragEnd: function () {
+    dragEnd: function(){
 
     },
-    dragOver: function (e) {
+    dragOver: function(e){
         e.preventDefault();
 
     },
-    dragEnter: function () {
+    dragEnter: function(){
 
     },
-    dragLeave: function () {
+    dragLeave: function(){
 
     },
-    dragDrop: function (e) {
-        let cards = document.getElementsByClassName("card")
+    dragDrop: function(e){
         e.preventDefault();
         //e.currentTarget az, ahova visszük azt, amit megfogunk
         //.board-column-content -hez kell a targetet hozzátennünk
@@ -148,13 +150,15 @@ export function buttonBuilder() {
             id="create_new_board" name="new_board">Create new board</button>`
 }
 
+export function modalBuilder(type) {
+    return `<div class="modal" id="${type}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
 export function modalBuilder() {
     return `<div class="modal" id="newBoard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">For create a new board choose a title </h5>
+                    <h5 class="modal-title" id="exampleModalLabel">For create a ${type} choose a name </h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="float: right" aria-label="Close">X</button>-->
                       <span aria-hidden="true">&times;</span>
@@ -163,8 +167,8 @@ export function modalBuilder() {
                   <div class="modal-body">
                     <form>
                       <div class="form-group">
-                        <label for="new-board-title" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="new-board-title">
+                        <label for="new-element-title" class="col-form-label">Title:</label>
+                        <input type="text" class="form-control" id="new-element-title">
                       </div>
                     </form>
                   </div>
