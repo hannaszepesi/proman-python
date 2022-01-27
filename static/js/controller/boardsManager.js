@@ -43,18 +43,20 @@ export let boardsManager = {
     }
 };
 
-function addNewCard() {
+function addNewCard(clickEvent) {
+    const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
     const newCardModalTitle = modalBuilder('new_card')
     domManager.addChild('#root', newCardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const cardTitle = $('#new-board-title').val()
         console.log(cardTitle)
-        const newBoard = await dataHandler.createNewCard(cardTitle);
-        console.log(newBoard)
-        document.getElementById('root').innerHTML = ''
-
-        await boardsManager.loadBoards()
+        console.log(1)
+        const newBoard = await dataHandler.createNewCard(cardTitle, boardId, 1);
+        console.log(2)
+        $("board-toggle").click() // akkor fog működni ha össze mergeltük a close branch eredményével
+        $("board-toggle").click()
+        console.log(3)
     })
     domManager.addEventListener('.close', 'click', async function () {
         document.getElementById('root').innerHTML = ''
