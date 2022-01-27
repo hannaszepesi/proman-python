@@ -44,6 +44,7 @@ def get_cards_for_board(board_id):
         """
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
+        ORDER BY card_order ASC
         ;
         """
         , {"board_id": board_id}, fetchall=True)
