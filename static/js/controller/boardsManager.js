@@ -1,7 +1,14 @@
-import { dataHandler } from "../data/dataHandler.js";
-import { htmlFactory, htmlTemplates, buttonBuilder, modalBuilder, makeDroppable } from "../view/htmlFactory.js";
-import { domManager } from "../view/domManager.js";
-import { cardsManager } from "./cardsManager.js";
+import {dataHandler} from "../data/dataHandler.js";
+import {
+    htmlFactory,
+    htmlTemplates,
+    buttonBuilder,
+    modalBuilder,
+    inputBuilder,
+    makeDroppable,
+} from "../view/htmlFactory.js";
+import {domManager} from "../view/domManager.js";
+import {cardsManager} from "./cardsManager.js";
 
 
 export let boardsManager = {
@@ -38,15 +45,38 @@ async function addBoardTitle() {
     console.log(newBoard)
     document.getElementById('root').innerHTML = ''
 
-    await boardsManager.loadBoards()
-  })
-  domManager.addEventListener('.close', 'click', async function () {
-    document.getElementById('root').innerHTML = ''
-    await boardsManager.loadBoards()
-  })
+        await boardsManager.loadBoards()
+    })
+    domManager.addEventListener('.close', 'click', async function () {
+        document.getElementById('root').innerHTML = ''
+        await boardsManager.loadBoards()
+    })
 }
 
 function showHideButtonHandler(clickEvent) {
   const boardId = clickEvent.target.dataset.boardId;
   cardsManager.loadCards(boardId);
+}
+
+function renameBoardTitle(clickEvent) {
+    console.log('parent', clickEvent.target.parentElement)
+    const boardId = clickEvent.target.dataset.boardId;
+    let actualBoard = clickEvent.target
+    actualBoard.style.visibility = 'hidden'
+    console.log(1, actualBoard.textContent)
+    const inputbar = inputBuilder(actualBoard.textContent)
+    let parent = clickEvent.target.parentElement
+    parent.insertBefore(inputbar[1], parent.childNodes[0])
+    parent.insertBefore(inputbar[0], parent.childNodes[0])
+
+
+    domManager.addEventListener('.rename-board', 'click', async function () {
+            let newTitle = inputbar[0].value
+            const writedTitle = await dataHandler.renameBoard(boardId, newTitle)
+            inputbar[0].remove()
+            inputbar[1].remove()
+            actualBoard.style.visibility = 'visible'
+            actualBoard.textContent = newTitle
+        }
+    )
 }

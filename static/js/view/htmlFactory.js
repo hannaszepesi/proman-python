@@ -18,10 +18,26 @@ export function htmlFactory(template) {
     }
 }
 
+export function inputBuilder(prevTitle){
+        let inp = document.createElement("input")
+        inp.setAttribute('class', 'rename')
+        inp.setAttribute('type', 'text')
+
+        let butt = document.createElement('button')
+        butt.setAttribute('class', 'rename-board')
+        butt.setAttribute('type', 'submit')
+        butt.textContent = 'Save'
+        let string =
+            `<input class="rename" type="text" placeholder="${prevTitle}">
+            <button class="rename-board" type="submit"> Save</button>`
+    return [inp, butt]
+}
+
+
 function boardBuilder(board) {
     return `<div class="board-container">
-                <section class="board" data-board-id=${board.id}>${board.title}
-                <div class="board-header"><span class="board-title">Board ${board.id}</span>
+                <section class="board" data-board-id=${board.id}>
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
                     <button class="board-add">Add Card</button>
                     <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>

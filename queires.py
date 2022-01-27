@@ -56,3 +56,18 @@ def write_new_board(title):
         """INSERT INTO boards (title) VALUES (%(title)s)
         returning boards"""
         , {'title': title}, fetchall=True)
+
+
+def rename_board(data):
+    data_manager.execute_select(sql.SQL(
+        """UPDATE {table_name}
+        SET {updated_column} = {title_name}
+        WHERE {wheree} = {id}
+        returning boards"""
+    ).format(updated_column=sql.Identifier('title'),
+             table_name=sql.Identifier('boards'),
+             title_name=sql.Literal(data['title']),
+             wheree=sql.Identifier('id'),
+             id=sql.Literal(data['id'])
+         ))
+    return data
