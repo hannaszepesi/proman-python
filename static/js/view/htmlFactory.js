@@ -89,7 +89,7 @@ export const makeDroppable = {
 
     },
     dragEnd: function(){
-        changeCardStatus(dragged.dataset.cardId)
+
     },
     dragOver: function(e){
         e.preventDefault();
