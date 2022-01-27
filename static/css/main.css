@@ -47,6 +47,8 @@ button{
 .board-container{
     max-width: 960px;
     margin: 0 auto;
+    flex-wrap: wrap;
+    border-radius: var(--border-radius);
 }
 
 section.board{

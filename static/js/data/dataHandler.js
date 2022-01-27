@@ -21,11 +21,12 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
-        postData('/api/new_board', {title: boardTitle})
+        return postData('/api/new_board', {title: boardTitle})
             .then(data => {
-                console.log(data); // JSON data parsed by `data.json()` call
+                console.log(data);
+                return data// JSON data parsed by `data.json()` call
             });
-        return boardTitle
+
     },
 
     renameBoard: function (id, boardTitle) {

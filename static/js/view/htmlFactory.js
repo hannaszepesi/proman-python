@@ -1,4 +1,5 @@
-import {domManager} from "./domManager.js";
+import { domManager } from "../view/domManager.js";
+
 
 export const htmlTemplates = {
     board: 1,
@@ -67,18 +68,29 @@ function cardBuilder(card) {
     return `<div class="card" data-card-id="${card.id}" draggable="true">${card.title}</div>`;
 }
 
+
+let dragged;
 export const makeDroppable = {
-    droppableMain: function(){
-        // ide kell egy for, a board-okat egyesével kell nézni
-        domManager.addEventListener(board-column-content, 'dragstart', dragStart())
+    droppableBoards: function(){
+        domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
+        domManager.addEventListenerToMore(".board-column-content", 'dragenter', makeDroppable.dragEnter)
+        domManager.addEventListenerToMore(".board-column-content", 'dragleave', makeDroppable.dragLeave)
+        domManager.addEventListenerToMore(".board-column-content", 'drop', makeDroppable.dragDrop)
+
     },
-    dragStart: function(){
+    draggableCard: function() {
+        domManager.addEventListenerToMore(".card", 'dragstart', makeDroppable.dragStart)
+        domManager.addEventListenerToMore(".card", 'dragend', makeDroppable.dragEnd)
+    },
+    dragStart: function(e){
+        dragged = e.target;
 
     },
     dragEnd: function(){
 
     },
-    dragOver: function(){
+    dragOver: function(e){
+        e.preventDefault();
 
     },
     dragEnter: function(){
@@ -87,10 +99,17 @@ export const makeDroppable = {
     dragLeave: function(){
 
     },
-    dragDrop: function(){
+    dragDrop: function(e){
+        e.preventDefault();
+        //e.currentTarget az, ahova visszük azt, amit megfogunk
+        //.board-column-content -hez kell a targetet hozzátennünk
+        // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
+        e.currentTarget.appendChild(dragged);
 
     }
 }
+
+
 export function buttonBuilder() {
     return `<button type="button" class='btn btn-outline-dark' data-toggle='modal' data-target='#newBoard'
             id="create_new_board" name="new_board">Create new board</button>`

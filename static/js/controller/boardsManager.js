@@ -12,45 +12,38 @@ import {cardsManager} from "./cardsManager.js";
 
 
 export let boardsManager = {
-    loadBoards: async function () {
-        this.newBoard()
-        const boards = await dataHandler.getBoards();
-        for (let board of boards) {
-            const boardBuilder = htmlFactory(htmlTemplates.board);
-            const content = boardBuilder(board);
-            // makeDroppable.droppableMain
-            domManager.addChild("#root", content);
-            domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
-                "click",
-                showHideButtonHandler
-            );
-
-        }
-        domManager.addallEventListener(
-            `.board-title`,
-            "dblclick",
-
-            renameBoardTitle
-        );
-    },
-    newBoard: async function () {
-        const button = buttonBuilder()
-        domManager.addChild("#root", button);
-        domManager.addEventListener(`#create_new_board`, 'click', addBoardTitle)
+  loadBoards: async function () {
+    this.newBoard()
+    const boards = await dataHandler.getBoards();
+    for (let board of boards) {
+      const boardBuilder = htmlFactory(htmlTemplates.board);
+      const content = boardBuilder(board); //ezek a script-ek
+      domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
+      makeDroppable.droppableBoards();
+      domManager.addEventListener(
+        `.toggle-board-button[data-board-id="${board.id}"]`,
+        "click",
+        showHideButtonHandler
+      );
     }
+  },
+  newBoard: async function () {
+    const button = buttonBuilder()
+    domManager.addChild("#root", button);
+    domManager.addEventListener(`#create_new_board`,'click', addBoardTitle)
+  }
 };
 
-function addBoardTitle() {
-    const newBoardModalTitle = modalBuilder()
-    domManager.addChild('#root', newBoardModalTitle);
-    $('.modal').modal('toggle');
-    domManager.addEventListener('#create', 'click', async function () {
-        const boardTitle = $('#new-board-title').val()
-        console.log(boardTitle)
-        const newBoard = await dataHandler.createNewBoard(boardTitle);
-        console.log(newBoard)
-        document.getElementById('root').innerHTML = ''
+async function addBoardTitle() {
+  const newBoardModalTitle = modalBuilder()
+  domManager.addChild('#root', newBoardModalTitle);
+  $('.modal').modal('toggle');
+  domManager.addEventListener('#create', 'click', async function () {
+    const boardTitle = $('#new-board-title').val()
+    console.log(boardTitle)
+    const newBoard = await dataHandler.createNewBoard(boardTitle);
+    console.log(newBoard)
+    document.getElementById('root').innerHTML = ''
 
         await boardsManager.loadBoards()
     })
@@ -61,10 +54,8 @@ function addBoardTitle() {
 }
 
 function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    console.log(boardId);
-    console.log(clickEvent.target)
-    cardsManager.loadCards(boardId);
+  const boardId = clickEvent.target.dataset.boardId;
+  cardsManager.loadCards(boardId);
 }
 
 function renameBoardTitle(clickEvent) {
