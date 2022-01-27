@@ -16,7 +16,6 @@ export let boardsManager = {
             this.newBoard()
             const boards = await dataHandler.getBoards();
             let columns = document.getElementsByClassName('board-content');
-            console.log(columns)
             for (let board of boards) {
                 const boardBuilder = htmlFactory(htmlTemplates.board);
                 const content = boardBuilder(board); //ezek a script-ek
@@ -62,16 +61,12 @@ function addNewCard(clickEvent) {
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const cardTitle = $('#new-element-title').val()
-        console.log(cardTitle)
-        console.log(1)
         const newBoard = await dataHandler.createNewCard(cardTitle, boardId, 1);
-        console.log(2)
-        document.getElementById('root').innerHTML = ''
-        console.log($('.show'))
-        await boardsManager.loadBoards()
+        document.getElementsByClassName('modal')[0].remove()
+
         $(`.board-toggle[data-board-id="${boardId}"]`).click() // akkor fog működni ha össze mergeltük a close branch eredményével
-        //$(`.board-toggle[data-board-id="${boardId}"]`).click()
-        console.log(3)
+        $(`.board-toggle[data-board-id="${boardId}"]`).click()
+
     })
     domManager.addEventListener('.close', 'click', async function () {
         document.getElementById('root').innerHTML = ''
