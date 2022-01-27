@@ -30,7 +30,7 @@ export function renameBoard(board){
 function boardBuilder(board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span id='title' class="board-title">${board.title}</span>
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
                     <button class="board-add">Add Card</button>
                     <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
