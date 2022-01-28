@@ -23,7 +23,6 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
         return postData('/api/new_board', {title: boardTitle})
             .then(data => {
-                console.log(data);
                 return data// JSON data parsed by `data.json()` call
             });
 
@@ -32,7 +31,6 @@ export let dataHandler = {
     renameBoard: function (id, boardTitle) {
         return postData('/api/rename_board', {id:id, title: boardTitle})
             .then(data => {
-                console.log(data);
                 return data// JSON data parsed by `data.json()` call
             });
     },
@@ -41,7 +39,6 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
     return postData('/api/new_card', {title: cardTitle, board_id: boardId, status: statusId})
             .then(data => {
-                console.log(data);
                 return data// JSON data parsed by `data.json()` call
             });
     },
@@ -49,8 +46,7 @@ export let dataHandler = {
 
 
 export async function postData(url = '', data = {}) {
-            // Default options are marked with *
-            console.log(data)
+            // Default options are marked with
             const response = await fetch(url, {
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 headers: {

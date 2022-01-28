@@ -13,7 +13,7 @@ import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
         loadBoards: async function () {
-            this.newBoard()
+            await this.newBoard()
             const boards = await dataHandler.getBoards();
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
@@ -21,17 +21,12 @@ export let boardsManager = {
                 const content = boardBuilder(board); //ezek a script-ek
                 domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
                 makeDroppable.droppableBoards();
-                // domManager.addEventListener(
-                //     `.toggle-board-button[data-board-id="${board.id}"]`,
-                //     "click",
-                //     showHideButtonHandler
-                // );
-                domManager.addallEventListener(
+                domManager.addEventListenerToMore(
                     `.board-title`,
                     "dblclick",
                     renameBoardTitle
                 );
-                domManager.addallEventListener(
+                domManager.addEventListenerToMore(
                     '.add-card',
                     'click',
                     addNewCard);
@@ -64,7 +59,7 @@ function addNewCard(clickEvent) {
         const newBoard = await dataHandler.createNewCard(cardTitle, boardId, 1);
         document.getElementsByClassName('modal')[0].remove()
 
-        $(`.board-toggle[data-board-id="${boardId}"]`).click() // akkor fog működni ha össze mergeltük a close branch eredményével
+        $(`.board-toggle[data-board-id="${boardId}"]`).click()// akkor fog működni ha össze mergeltük a close branch eredményével
         $(`.board-toggle[data-board-id="${boardId}"]`).click()
 
     })
@@ -75,13 +70,9 @@ function addNewCard(clickEvent) {
 }
 
 function renameBoardTitle(clickEvent) {
-    console.log('parent', clickEvent.target.parentElement)
     const boardId = clickEvent.target.dataset.boardId;
-    console.log('boardid', boardId)
-    console.log(clickEvent.target)
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
-    console.log(1, actualBoard.textContent)
     const inputbar = inputBuilder(actualBoard.textContent)
     let parent = clickEvent.target.parentElement
     parent.insertBefore(inputbar[1], parent.childNodes[0])
@@ -90,7 +81,7 @@ function renameBoardTitle(clickEvent) {
 
     domManager.addEventListener('.rename-board', 'click', async function () {
             let newTitle = inputbar[0].value
-            const writedTitle = await dataHandler.renameBoard(boardId, newTitle)
+            await dataHandler.renameBoard(boardId, newTitle)
             inputbar[0].remove()
             inputbar[1].remove()
             actualBoard.style.visibility = 'visible'
@@ -105,7 +96,7 @@ function addBoardTitle() {
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const boardTitle = $('#new-element-title').val()
-        const newBoard = await dataHandler.createNewBoard(boardTitle);
+        await dataHandler.createNewBoard(boardTitle);
         document.getElementById('root').innerHTML = ''
 
         await boardsManager.loadBoards()

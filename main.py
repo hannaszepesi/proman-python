@@ -1,8 +1,6 @@
 from flask import Flask, render_template, url_for, request, flash, session, redirect
 from dotenv import load_dotenv
-import json
 
-import data_manager
 from util import json_response
 import mimetypes
 import queires
