@@ -60,17 +60,9 @@ def execute_select(statement, variables=None, fetchall=True):
 
 
 def execute_update(statement, variables=None):
-    """
-    Execute SELECT statement optionally parameterized.
-    Use fetchall=False to get back one value (fetchone)
-
-    Example:
-    > execute_select('SELECT %(title)s; FROM shows', variables={'title': 'Codecool'})
-    statement: SELECT statement
-    variables:  optional parameter dict, optional parameter fetchall"""
-
     with establish_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(statement, variables)
+
 
 

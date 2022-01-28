@@ -44,6 +44,7 @@ def get_cards_for_board(board_id):
         """
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
+        ORDER BY card_order ASC
         ;
         """
         , {"board_id": board_id}, fetchall=True)
@@ -94,3 +95,36 @@ def change_card_order(card_id, board_status, order_status):
                 WHERE  card_order >= %(order_status)s AND status_id = %(board_status)s
                 """
                 , {'order_status': order_status, 'card_id': card_id, 'board_status': board_status})
+
+
+def get_user_by_email(email_input):
+    # data = data_manager.execute_select(sql.SQL(
+    #      """SELECT *
+    #      FROM {table_name}
+    #      WHERE {where} = {email_input}
+    #      """
+    # ).format(table_name=sql.Identifier('users'),
+    #          where=sql.Identifier('username'),
+    #          email_input=sql.Literal('email_input')
+    #          ))
+    # return data
+
+    data = data_manager.execute_select(
+        """SELECT *
+        FROM users
+        WHERE username = %(username)s
+        """
+        , {'username':email_input}
+    )
+    return data
+
+
+def add_new_user(user, password):
+    data_manager.execute_update(
+        """INSERT INTO users
+         (username, password) 
+         VALUES 
+         (%(user)s, %(password)s)"""
+        , {'user':user, 'password':password})
+
+
