@@ -38,7 +38,7 @@ export function inputBuilder(col){
         // let string =
         //     `<input class="rename" type="text" placeholder="${prevTitle}">
         //     <button class="rename-board" type="submit"> Save</button>`
-    if (col === ifColumn){
+    if (col){
         return [inp, renameColumnButton]
     } else {
         return [inp, butt]

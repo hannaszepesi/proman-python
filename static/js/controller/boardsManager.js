@@ -150,7 +150,7 @@ function renameColumnTitle(clickEvent) {
     // const boardId = clickEvent.target.dataset.status[2];
     let actualColumn = clickEvent.target
     actualColumn.style.visibility = 'hidden'
-    const inputbar = inputBuilder(ifColumn)
+    const inputbar = inputBuilder(1)
     let parent = clickEvent.target.parentElement //board-header
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
