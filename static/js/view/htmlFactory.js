@@ -20,7 +20,7 @@ export function htmlFactory(template) {
     }
 }
 
-export function inputBuilder(prevTitle){
+export function inputBuilder(col){
         let inp = document.createElement("input")
         inp.setAttribute('class', 'rename')
         inp.setAttribute('type', 'text')
@@ -35,10 +35,14 @@ export function inputBuilder(prevTitle){
         renameColumnButton.setAttribute('type', 'submit')
         renameColumnButton.textContent = 'Save'
 
-        let string =
-            `<input class="rename" type="text" placeholder="${prevTitle}">
-            <button class="rename-board" type="submit"> Save</button>`
-    return [inp, butt, renameColumnButton]
+        // let string =
+        //     `<input class="rename" type="text" placeholder="${prevTitle}">
+        //     <button class="rename-board" type="submit"> Save</button>`
+    if (col === ifColumn){
+        return [inp, renameColumnButton]
+    } else {
+        return [inp, butt]
+    }
 }
 
 

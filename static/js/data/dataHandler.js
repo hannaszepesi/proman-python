@@ -35,6 +35,13 @@ export let dataHandler = {
             });
     },
 
+    renameColumn: function (boardId, columnId, newStatus) {
+        return postData('/api/rename_column', {boardId:boardId, columnId:columnId, newStatus:newStatus})
+            .then(data => {
+                return data
+            });
+    },
+
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
     return postData('/api/new_card', {title: cardTitle, board_id: boardId, status: statusId})

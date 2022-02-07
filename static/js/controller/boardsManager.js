@@ -36,6 +36,12 @@ export let boardsManager = {
                     "click",
                     showHideButtonHandler
                 );
+
+                domManager.addEventListenerToMore(
+                    '.board-column-title',
+                    'dblclick',
+                    renameColumnTitle
+                );
             }
             for (let column of columns) {
                 column.style.visibility = "hidden";
@@ -139,21 +145,24 @@ async function showHideButtonHandler(clickEvent) {
 
 function renameColumnTitle(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    let actualBoard = clickEvent.target
-    actualBoard.style.visibility = 'hidden'
-    const inputbar = inputBuilder(actualBoard.textContent)
-    let parent = clickEvent.target.parentElement
+    const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
+    console.log(boardId);
+    // const boardId = clickEvent.target.dataset.status[2];
+    let actualColumn = clickEvent.target
+    actualColumn.style.visibility = 'hidden'
+    const inputbar = inputBuilder(ifColumn)
+    let parent = clickEvent.target.parentElement //board-header
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
 
 
     domManager.addEventListener('.rename-column', 'click', async function () {
-            let newTitle = inputbar[0].value
-            await dataHandler.renameBoard(boardId, newTitle)
-            inputbar[0].remove()
-            inputbar[1].remove()
-            actualBoard.style.visibility = 'visible'
-            actualBoard.textContent = newTitle
+            let newStatus = inputbar[0].value //input mező
+            await dataHandler.renameColumn(boardId, columnId, newStatus)
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
+            actualColumn.style.visibility = 'visible'
+            actualColumn.textContent = newStatus
         }
     )
 }
