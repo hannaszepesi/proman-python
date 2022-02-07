@@ -17,8 +17,9 @@ export let boardsManager = {
             const boards = await dataHandler.getBoards();
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
+                const statuses =  await dataHandler.getStatuses(board.id)
                 const boardBuilder = htmlFactory(htmlTemplates.board);
-                const content = boardBuilder(board); //ezek a script-ek
+                const content = boardBuilder(board, statuses); //ezek a script-ek
                 domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
                 makeDroppable.droppableBoards();
                 domManager.addEventListenerToMore(
@@ -144,9 +145,9 @@ async function showHideButtonHandler(clickEvent) {
 }
 
 function renameColumnTitle(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
+    // const boardId = clickEvent.target.dataset.boardId;
     const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
-    console.log(boardId);
+    console.log(columnId);
     // const boardId = clickEvent.target.dataset.status[2];
     let actualColumn = clickEvent.target
     actualColumn.style.visibility = 'hidden'
@@ -158,7 +159,7 @@ function renameColumnTitle(clickEvent) {
 
     domManager.addEventListener('.rename-column', 'click', async function () {
             let newStatus = inputbar[0].value //input mező
-            await dataHandler.renameColumn(boardId, columnId, newStatus)
+            await dataHandler.renameColumn(columnId, newStatus)
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'

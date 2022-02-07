@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, flash, session, redirect
+from flask import Flask, render_template, url_for, request, flash, session, redirect, jsonify
 from dotenv import load_dotenv
 
 from util import json_response
@@ -82,13 +82,20 @@ def rename_board():
     return writed_data
 
 
-@app.route("/api/rename_col", methods=['POST'])
+@app.route("/api/rename_column", methods=['POST'])
 def rename_column():
     data = request.get_json()
     print(data)
     updated_data = queires.rename_column(data)
     return updated_data
 
+
+@app.route("/api/getStatuses", methods=["POST"])
+def get_statuses():
+    data = request.get_json()
+    print(data)
+    statuses = queires.get_statuses(data.id)
+    return jsonify(statuses)
 
 
 @app.route("/api/change_card_status", methods=['POST'])

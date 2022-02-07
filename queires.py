@@ -92,14 +92,16 @@ def rename_board(data):
 def rename_column(data):
     data_manager.execute_select(sql.SQL(
         """UPDATE {table_name}
+        LEFT JOIN tables
         SET {updated_column} = {title_name}
-        WHERE {wheree} = {id}
+        WHERE {wheree} = {column_id} && tables.id = board_id
         returning boards"""
     ).format(updated_column=sql.Identifier('title'),
              table_name=sql.Identifier('statuses'),
              title_name=sql.Literal(data['title']),
              wheree=sql.Identifier('id'),
-             id=sql.Literal(data['id'])
+             column_id=sql.Literal(data['column_id']),
+             board_id=sql.Literal(data['board_id']),
          ))
 
 
@@ -142,3 +144,11 @@ def add_new_user(user, password):
         , {'user':user, 'password':password})
 
 
+def get_statuses(board_id):
+    return data_manager.execute_select(
+        """SELECT *
+        FROM statuses
+        WHERE board_id=%(board_id)s
+        """,
+        {'board_id':board_id}
+    )

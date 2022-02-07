@@ -3,10 +3,12 @@ export let dataHandler = {
         const response = await apiGet("/api/boards");
         return response;
     },
-    getBoard: async function (boardId) {
+    getBoard: async function () {
         // the board is retrieved and then the callback function is called with the board
     },
-    getStatuses: async function () {
+    getStatuses: async function (boardId) {
+        let data = await postData('/api/getStatuses', {boardId:boardId});
+        return data
         // the statuses are retrieved and then the callback function is called with the statuses
     },
     getStatus: async function (statusId) {
@@ -35,8 +37,11 @@ export let dataHandler = {
             });
     },
 
-    renameColumn: function (boardId, columnId, newStatus) {
-        return postData('/api/rename_column', {boardId:boardId, columnId:columnId, newStatus:newStatus})
+    renameColumn: function (columnId, newStatus) {
+        let ColumnId = columnId[0];
+        let boardId = columnId[2];
+        console.log(ColumnId, boardId);
+        return postData('/api/rename_column', {ColumnId:ColumnId, boardId:boardId, newStatus:newStatus})
             .then(data => {
                 return data
             });

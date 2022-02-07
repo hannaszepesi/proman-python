@@ -46,37 +46,30 @@ export function inputBuilder(col){
 }
 
 
-function boardBuilder(board) {
+function boardBuilder(statuses) {
     return `<div class="board-container">
-                <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
+                <section class="board" data-board-id=${statuses.board_id}>
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${statuses.board_id}>${s.title}</span>
                     <button class="add-card">Add Card</button>
-                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
-<!--                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>-->
+                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${s.id}" data-show="false"/>
+<!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
                 </div>
-            <div class="board-content" data-board-id="${board.id}">
+            <div class="board-content" data-board-id="${statuses.board_id}">
                 <div class="board-columns">
+        
+        {% for column in statuses %}
                 <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content" data-status="1_${board.id}"></div>
+                    <div class="board-column-title" data-status="${statuses.id}_{statuses.board_id}">New</div>
+                    <div class="board-column-content" data-status="1_${statuses.board_id}"></div>
                 </div>
-                <div class="board-column">
-                    <div class="board-column-title">In progress</div>
-                    <div class="board-column-content" data-status="2_${board.id}"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content" data-status="3_${board.id}"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content" data-status="4_${board.id}"></div>
-                </div>
+        {% endfor %}
+
                 
                 </div>
             </div>
                 </section>
             </div>`;
+                `
 }
 
 function cardBuilder(card) {
