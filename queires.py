@@ -129,3 +129,9 @@ def add_new_user(user, password):
         , {'user':user, 'password':password})
 
 
+def add_new_column(data):
+    return data_manager.execute_select(
+        """INSERT INTO statuses (title)
+           VALUES (%(title)s) returning id"""
+    , {'title': data['title']})
+
