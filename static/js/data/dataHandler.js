@@ -43,8 +43,8 @@ export let dataHandler = {
             });
     },
 
-    writeNewStatus: async function (columnTitle) {
-        return postData('/api/column', {title: columnTitle})
+    writeNewStatus: async function (columnTitle, boardId) {
+        return postData('/api/column', {title: columnTitle, boardId:boardId})
     }
 };
 

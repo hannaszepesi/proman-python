@@ -131,7 +131,7 @@ def add_new_user(user, password):
 
 def add_new_column(data):
     return data_manager.execute_select(
-        """INSERT INTO statuses (title)
-           VALUES (%(title)s) returning id"""
-    , {'title': data['title']})
+        """INSERT INTO statuses (title, board_id)
+           VALUES (%(title)s, %(board_id)s) returning id"""
+    , {'title': data['title'], 'board_id': data['boardId']})
 

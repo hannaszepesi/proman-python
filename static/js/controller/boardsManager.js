@@ -158,7 +158,7 @@ async function addNewColumn(clickEvent) {
     domManager.addEventListener('#create', 'click', async function () {
         const columnTitle = $('#new-element-title').val()
         let columns = clickEvent.target.parentElement.nextElementSibling.children
-        let status = await dataHandler.writeNewStatus(columnTitle)
+        let status = await dataHandler.writeNewStatus(columnTitle, boardId)
         let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
         document.getElementsByClassName('modal')[0].remove()
         columns[0].insertAdjacentHTML('beforeend',newColumn)
