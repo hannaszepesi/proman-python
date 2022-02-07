@@ -149,6 +149,7 @@ def get_statuses(board_id):
         """SELECT *
         FROM statuses
         WHERE board_id=%(board_id)s
+        ORDER BY id
         """,
         {'board_id':board_id}
     )

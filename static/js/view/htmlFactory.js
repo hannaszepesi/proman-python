@@ -46,30 +46,29 @@ export function inputBuilder(col){
 }
 
 
-function boardBuilder(statuses) {
+function boardBuilder(statuses, board) {
+    let columns = []
+    for (let col of statuses) {
+        console.log(col)
+        columns.push(`<div class="board-column">
+                    <div class="board-column-title" data-status="${col.id}_${col.board_id}">${col.title}</div>
+                    <div class="board-column-content" data-status="${col.id}_${col.board_id}"></div>
+                </div>`)
+    }
     return `<div class="board-container">
-                <section class="board" data-board-id=${statuses.board_id}>
-                <div class="board-header"><span id='title' class="board-title" data-board-id=${statuses.board_id}>${s.title}</span>
+                <section class="board" data-board-id=${board.id}>
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
                     <button class="add-card">Add Card</button>
-                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${s.id}" data-show="false"/>
+                    <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
                 </div>
-            <div class="board-content" data-board-id="${statuses.board_id}">
-                <div class="board-columns">
-        
-        {% for column in statuses %}
-                <div class="board-column">
-                    <div class="board-column-title" data-status="${statuses.id}_{statuses.board_id}">New</div>
-                    <div class="board-column-content" data-status="1_${statuses.board_id}"></div>
-                </div>
-        {% endfor %}
+            <div class="board-content" data-board-id="${board.id}">
+                <div class="board-columns">` + columns.join('') +
 
-                
-                </div>
+                `</div>
             </div>
                 </section>
             </div>`;
-                `
 }
 
 function cardBuilder(card) {

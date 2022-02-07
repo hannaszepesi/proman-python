@@ -94,7 +94,7 @@ def rename_column():
 def get_statuses():
     data = request.get_json()
     print(data)
-    statuses = queires.get_statuses(data.id)
+    statuses = queires.get_statuses(data['boardId'])
     return jsonify(statuses)
 
 

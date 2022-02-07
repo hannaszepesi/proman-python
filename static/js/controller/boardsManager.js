@@ -19,7 +19,7 @@ export let boardsManager = {
             for (let board of boards) {
                 const statuses =  await dataHandler.getStatuses(board.id)
                 const boardBuilder = htmlFactory(htmlTemplates.board);
-                const content = boardBuilder(board, statuses); //ezek a script-ek
+                const content = boardBuilder(statuses, board); //ezek a script-ek
                 domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
                 makeDroppable.droppableBoards();
                 domManager.addEventListenerToMore(
