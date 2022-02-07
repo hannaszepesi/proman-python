@@ -6,7 +6,8 @@ import {
     modalBuilder,
     makeDroppable,
     inputBuilder,
-    addButtonBuilder
+    addButtonBuilder,
+    newColumnBuilder
 } from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
@@ -53,7 +54,7 @@ function addNewCard(clickEvent) {
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const cardTitle = $('#new-element-title').val()
-        const newBoard = await dataHandler.createNewCard(cardTitle, boardId, 1);
+        await dataHandler.createNewCard(cardTitle, boardId, 1);
         document.getElementsByClassName('modal')[0].remove()
 
         $(`.board-toggle[data-board-id="${boardId}"]`).click()// akkor fog működni ha össze mergeltük a close branch eredményével
@@ -123,6 +124,10 @@ async function showHideButtonHandler(clickEvent) {
                     '.add-card',
                     'click',
                     addNewCard);
+                domManager.addEventListenerToMore(
+                    '.add-column',
+                    'click',
+                    addNewColumn);
             }
         }
     } else {
@@ -143,4 +148,25 @@ async function showHideButtonHandler(clickEvent) {
 
     }
 
+}
+
+async function addNewColumn(clickEvent) {
+    const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
+    const newColumnModalTitle = modalBuilder('new_column')
+    domManager.addChild('#root', newColumnModalTitle);
+    $('.modal').modal('toggle');
+    domManager.addEventListener('#create', 'click', async function () {
+        const columnTitle = $('#new-element-title').val()
+        let columns = clickEvent.target.parentElement.nextElementSibling.children
+        let status = await dataHandler.writeNewStatus(columnTitle)
+        let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
+        document.getElementsByClassName('modal')[0].remove()
+        columns[0].insertAdjacentHTML('beforeend',newColumn)
+        makeDroppable.droppableBoards()
+
+    })
+    domManager.addEventListener('.close', 'click', async function () {
+        document.getElementById('root').innerHTML = ''
+        await boardsManager.loadBoards()
+    })
 }

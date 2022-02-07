@@ -42,6 +42,10 @@ export let dataHandler = {
                 return data// JSON data parsed by `data.json()` call
             });
     },
+
+    writeNewStatus: async function (columnTitle) {
+        return postData('/api/column', {title: columnTitle})
+    }
 };
 
 

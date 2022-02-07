@@ -180,3 +180,10 @@ export function modalBuilder(type) {
               </div>
             </div>`
 }
+
+export function newColumnBuilder(title, boardId, status) {
+    return `<div class="board-column">
+                    <div class="board-column-title">${title}</div>
+                    <div class="board-column-content" data-status="${status}_${boardId}"></div>
+                </div>`
+}
