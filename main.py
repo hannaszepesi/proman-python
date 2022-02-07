@@ -78,9 +78,16 @@ def add_new_card():
 @app.route("/api/rename_board", methods=['POST'])
 def rename_board():
     data = request.get_json()
-    print(data)
     writed_data = queires.rename_board(data)
     return writed_data
+
+
+@app.route("/api/rename_col", methods=['POST'])
+def rename_column():
+    data = request.get_json()
+    print(data)
+    updated_data = queires.rename_column(data)
+    return updated_data
 
 
 
