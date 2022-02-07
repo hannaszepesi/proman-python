@@ -89,6 +89,20 @@ def rename_board(data):
     return data
 
 
+def rename_column(data):
+    data_manager.execute_select(sql.SQL(
+        """UPDATE {table_name}
+        SET {updated_column} = {title_name}
+        WHERE {wheree} = {id}
+        returning boards"""
+    ).format(updated_column=sql.Identifier('title'),
+             table_name=sql.Identifier('statuses'),
+             title_name=sql.Literal(data['title']),
+             wheree=sql.Identifier('id'),
+             id=sql.Literal(data['id'])
+         ))
+
+
 def change_card_order(card_id, board_status, order_status):
     data_manager.execute_update("""UPDATE cards
                 SET card_order = card_order + 1
