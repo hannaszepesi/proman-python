@@ -136,3 +136,24 @@ async function showHideButtonHandler(clickEvent) {
     }
 
 }
+
+function renameColumnTitle(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    let actualBoard = clickEvent.target
+    actualBoard.style.visibility = 'hidden'
+    const inputbar = inputBuilder(actualBoard.textContent)
+    let parent = clickEvent.target.parentElement
+    parent.insertBefore(inputbar[1], parent.childNodes[0])
+    parent.insertBefore(inputbar[0], parent.childNodes[0])
+
+
+    domManager.addEventListener('.rename-column', 'click', async function () {
+            let newTitle = inputbar[0].value
+            await dataHandler.renameBoard(boardId, newTitle)
+            inputbar[0].remove()
+            inputbar[1].remove()
+            actualBoard.style.visibility = 'visible'
+            actualBoard.textContent = newTitle
+        }
+    )
+}

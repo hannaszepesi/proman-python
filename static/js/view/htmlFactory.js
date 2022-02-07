@@ -29,10 +29,16 @@ export function inputBuilder(prevTitle){
         butt.setAttribute('class', 'rename-board')
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
+
+        let renameColumnButton = document.createElement('button')
+        renameColumnButton.setAttribute('class', 'rename-column')
+        renameColumnButton.setAttribute('type', 'submit')
+        renameColumnButton.textContent = 'Save'
+
         let string =
             `<input class="rename" type="text" placeholder="${prevTitle}">
             <button class="rename-board" type="submit"> Save</button>`
-    return [inp, butt]
+    return [inp, butt, renameColumnButton]
 }
 
 
