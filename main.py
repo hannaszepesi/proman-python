@@ -7,7 +7,7 @@ import queires
 from os import urandom
 from functools import wraps
 import password_util
-
+from flask import jsonify
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -81,6 +81,11 @@ def rename_board():
     writed_data = queires.rename_board(data)
     return writed_data
 
+
+@app.route("/api/column", methods=['POST'])
+def add_column():
+    data = request.get_json()
+    return jsonify(queires.add_new_column(data))
 
 
 @app.route("/api/change_card_status", methods=['POST'])
