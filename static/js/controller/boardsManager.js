@@ -103,7 +103,9 @@ function addBoardTitle() {
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const boardTitle = $('#new-element-title').val()
-        await dataHandler.createNewBoard(boardTitle);
+        const boardId = await dataHandler.createNewBoard(boardTitle);
+        await dataHandler.writeDefaultColumns(boardId[0].id)
+
         document.getElementById('root').innerHTML = ''
 
         await boardsManager.loadBoards()

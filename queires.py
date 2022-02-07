@@ -53,10 +53,21 @@ def get_cards_for_board(board_id):
 
 
 def write_new_board(title):
-    data_manager.execute_select(
+    return data_manager.execute_select(
         """INSERT INTO boards (title) VALUES (%(title)s)
-        returning boards"""
+        returning id"""
         , {'title': title}, fetchall=True)
+
+
+def write_def_cols(id):
+    return data_manager.execute_select(
+        """INSERT INTO statuses (title, board_id)
+           VALUES ('new', %(board_id)s), 
+                  ('in progress', %(board_id)s), 
+                  ('testing', %(board_id)s), 
+                  ('done', %(board_id)s)
+                  returning statuses"""
+    , {'board_id': id})
 
 
 def write_new_card(data):

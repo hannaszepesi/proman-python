@@ -54,6 +54,10 @@ export let dataHandler = {
                 return data// JSON data parsed by `data.json()` call
             });
     },
+
+    writeDefaultColumns: async function (boardId) {
+        return postData('/api/default_columns', {boardId:boardId})
+    }
 };
 
 
