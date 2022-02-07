@@ -40,7 +40,6 @@ function boardBuilder(board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
-                    <button class="add-card">Add Card</button>
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>-->
                 </div>
@@ -149,6 +148,10 @@ export const makeDroppable = {
 export function buttonBuilder() {
     return `<button type="button" class='btn btn-outline-dark' data-toggle='modal' data-target='#newBoard'
             id="create_new_board" name="new_board">Create new board</button>`
+}
+
+export function addButtonBuilder(type) {
+    return `<button type="button" class="add-${type}">Add ${type} </button>`
 }
 
 export function modalBuilder(type) {

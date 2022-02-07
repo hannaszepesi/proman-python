@@ -5,7 +5,8 @@ import {
     buttonBuilder,
     modalBuilder,
     makeDroppable,
-    inputBuilder
+    inputBuilder,
+    addButtonBuilder
 } from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
@@ -26,10 +27,6 @@ export let boardsManager = {
                     "dblclick",
                     renameBoardTitle
                 );
-                domManager.addEventListenerToMore(
-                    '.add-card',
-                    'click',
-                    addNewCard);
 
                 domManager.addEventListener(
                     `.board-toggle[data-board-id="${board.id}"]`,
@@ -108,18 +105,29 @@ function addBoardTitle() {
 }
 
 async function showHideButtonHandler(clickEvent) {
+    let header = clickEvent.target.parentElement
     let columns = document.getElementsByClassName('board-content')
     let boardId = clickEvent.target.dataset.boardId
     if (clickEvent.target.dataset.show === "false") {
         const boardId = clickEvent.target.dataset.boardId;
+        const addColumnButton = addButtonBuilder('column')
+        const addCardButton = addButtonBuilder('card')
         await cardsManager.loadCards(boardId);
         clickEvent.target.dataset.show = "true";
         for (let column of columns) {
             if (boardId === column.dataset.boardId) {
+                column.previousElementSibling.children[1].insertAdjacentHTML('beforebegin', addColumnButton)
+                column.previousElementSibling.children[1].insertAdjacentHTML('beforebegin', addCardButton)
                 column.style.visibility = "visible";
+                domManager.addEventListenerToMore(
+                    '.add-card',
+                    'click',
+                    addNewCard);
             }
         }
     } else {
+        header.removeChild(header.children[1])
+        header.removeChild(header.children[1])
         for (let column of columns) {
             if (boardId === column.dataset.boardId) {
 

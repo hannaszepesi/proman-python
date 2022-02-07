@@ -1,6 +1,7 @@
 import data_manager
 from psycopg2 import sql
 
+
 def get_card_status(status_id):
     """
     Find the first status matching the given id
