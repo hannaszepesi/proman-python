@@ -163,7 +163,7 @@ async function showHideButtonHandler(clickEvent) {
 function renameColumnTitle(clickEvent) {
     // const boardId = clickEvent.target.dataset.boardId;
     const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
-    console.log(columnId);
+    // console.log(columnId);
     // const boardId = clickEvent.target.dataset.status[2];
     let actualColumn = clickEvent.target
     actualColumn.style.visibility = 'hidden'
@@ -179,9 +179,16 @@ function renameColumnTitle(clickEvent) {
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'
+            console.log(actualColumn);
             actualColumn.textContent = newStatus
         }
     )
+    domManager.addEventListener('.rename', 'blur', async function() {
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
+            actualColumn.style.visibility = 'visible'
+            console.log("kikatt");
+    })
 }
 
 async function addNewColumn(clickEvent) {
