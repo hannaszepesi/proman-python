@@ -49,7 +49,6 @@ export function inputBuilder(col){
 function boardBuilder(statuses, board) {
     let columns = []
     for (let col of statuses) {
-        console.log(col)
         columns.push(`<div class="board-column">
                     <div class="board-column-title" data-status="${col.id}_${col.board_id}">${col.title}</div>
                     <div class="board-column-content" data-status="${col.id}_${col.board_id}"></div>

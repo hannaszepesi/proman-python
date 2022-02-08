@@ -54,14 +54,15 @@ export let boardsManager = {
     }
 ;
 
-function addNewCard(clickEvent) {
+async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
     const newCardModalTitle = modalBuilder('new_card')
     domManager.addChild('#root', newCardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const cardTitle = $('#new-element-title').val()
-        await dataHandler.createNewCard(cardTitle, boardId, 1);
+        let statuses = await dataHandler.getStatuses(boardId)
+        await dataHandler.createNewCard(cardTitle, boardId, statuses[0].id);
         document.getElementsByClassName('modal')[0].remove()
 
         $(`.board-toggle[data-board-id="${boardId}"]`).click()// akkor fog működni ha össze mergeltük a close branch eredményével
