@@ -168,10 +168,16 @@ def logout():
 
 @app.route("/api/change_card_order", methods=['POST'])
 def change_card_order():
-    print(request.get_json())
+    # print(request.get_json())
     queires.change_card_order(request.get_json()['card_id'], request.get_json()['card_status'], request.get_json()['order_status'])
 
     return request.get_json()
+
+
+@app.route("/api/delete_column/<column_id>", method=["DELETE"])
+@json_response
+def delete_column(column_id):
+    return queires.delete_columns(column_id)
 
 
 def main():
