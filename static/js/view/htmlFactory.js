@@ -20,18 +20,15 @@ export function htmlFactory(template) {
     }
 }
 
-export function inputBuilder(prevTitle){
+export function inputBuilder(type){
         let inp = document.createElement("input")
         inp.setAttribute('class', 'rename')
         inp.setAttribute('type', 'text')
 
         let butt = document.createElement('button')
-        butt.setAttribute('class', 'rename-board')
+        butt.setAttribute('class', `rename-${type}`)
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
-        let string =
-            `<input class="rename" type="text" placeholder="${prevTitle}">
-            <button class="rename-board" type="submit"> Save</button>`
     return [inp, butt]
 }
 
