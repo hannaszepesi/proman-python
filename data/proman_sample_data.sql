@@ -29,7 +29,8 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE statuses (
     id       SERIAL PRIMARY KEY     NOT NULL,
-    title    VARCHAR(200)           NOT NULL
+    title    VARCHAR(200)           NOT NULL,
+    board_id INTEGER                NOT NULL
 );
 
 CREATE TABLE boards (
@@ -55,10 +56,16 @@ CREATE TABLE users (
 --- insert data
 ---
 
-INSERT INTO statuses(title) VALUES ('new');
-INSERT INTO statuses(title) VALUES ('in progress');
-INSERT INTO statuses(title) VALUES ('testing');
-INSERT INTO statuses(title) VALUES ('done');
+INSERT INTO statuses(title, board_id) VALUES ('new', 1);
+INSERT INTO statuses(title, board_id) VALUES ('in progress', 1);
+INSERT INTO statuses(title,  board_id) VALUES ('testing', 1);
+INSERT INTO statuses(title,  board_id) VALUES ('done', 1);
+
+
+INSERT INTO statuses(title, board_id) VALUES ('new', 2);
+INSERT INTO statuses(title, board_id) VALUES ('in progress', 2);
+INSERT INTO statuses(title,  board_id) VALUES ('testing', 2);
+INSERT INTO statuses(title,  board_id) VALUES ('done', 2);
 
 INSERT INTO boards(title) VALUES ('Board 1');
 INSERT INTO boards(title) VALUES ('Board 2');
@@ -83,5 +90,11 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 2);
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id);
 
+
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+
+
+ALTER TABLE ONLY statuses
+    ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id);
+
