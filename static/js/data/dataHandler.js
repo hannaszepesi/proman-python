@@ -41,7 +41,7 @@ export let dataHandler = {
         let ColumnId = columnId[0];
         let boardId = columnId[2];
         console.log(ColumnId, boardId);
-        return postData('/api/rename_column', {ColumnId:ColumnId, boardId:boardId, newStatus:newStatus})
+        return postData('/api/rename_column', {id:ColumnId, title:newStatus})
             .then(data => {
                 return data
             });

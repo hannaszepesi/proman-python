@@ -85,14 +85,14 @@ def change_card_status(card_id, board_status):
                 , {'board_status': board_status, 'card_id': card_id})
 
 
-def rename_board(data):
+def rename_board(data, table_name="boards"):
     data_manager.execute_select(sql.SQL(
         """UPDATE {table_name}
         SET {updated_column} = {title_name}
         WHERE {wheree} = {id}
-        returning boards"""
+        returning id"""
     ).format(updated_column=sql.Identifier('title'),
-             table_name=sql.Identifier('boards'),
+             table_name=sql.Identifier(table_name),
              title_name=sql.Literal(data['title']),
              wheree=sql.Identifier('id'),
              id=sql.Literal(data['id'])
@@ -100,20 +100,6 @@ def rename_board(data):
     return data
 
 
-def rename_column(data):
-    data_manager.execute_select(sql.SQL(
-        """UPDATE {table_name}
-        LEFT JOIN tables
-        SET {updated_column} = {title_name}
-        WHERE {wheree} = {column_id} && tables.id = board_id
-        returning boards"""
-    ).format(updated_column=sql.Identifier('title'),
-             table_name=sql.Identifier('statuses'),
-             title_name=sql.Literal(data['title']),
-             wheree=sql.Identifier('id'),
-             column_id=sql.Literal(data['column_id']),
-             board_id=sql.Literal(data['board_id']),
-         ))
 
 
 def change_card_order(card_id, board_status, order_status):
