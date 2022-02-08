@@ -86,7 +86,6 @@ def rename_board():
 @app.route("/api/change_card_status", methods=['POST'])
 def change_card_status():
     queires.change_card_status(request.get_json()['card_id'], request.get_json()['card_status'])
-    print(request.get_json())
     return request.get_json()
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -143,8 +142,11 @@ def logout():
 
 @app.route("/api/change_card_order", methods=['POST'])
 def change_card_order():
-    print(request.get_json())
-    queires.change_card_order(request.get_json()['card_id'], request.get_json()['card_status'], request.get_json()['order_status'])
+    data = request.get_json()
+    if len(data) == 2:
+        queires.change_card_order(data['card_id'], data['order_status'])
+    else:
+        queires.change_cards_order(data['card_status'], data['order_status'], data['board_status'], data['status'])
 
     return request.get_json()
 
