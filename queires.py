@@ -100,9 +100,6 @@ def rename_board(data, table_name="boards"):
     return data
 
 
-
-
-
 def change_card_order(card_id, board_status, order_status):
     data_manager.execute_update("""UPDATE cards
                 SET card_order = card_order + 1
@@ -140,6 +137,13 @@ def add_new_user(user, password):
          VALUES 
          (%(user)s, %(password)s)"""
         , {'user':user, 'password':password})
+
+
+def add_new_column(data):
+    return data_manager.execute_select(
+        """INSERT INTO statuses (title, board_id)
+           VALUES (%(title)s, %(board_id)s) returning id"""
+    , {'title': data['title'], 'board_id': data['boardId']})
 
 
 def get_statuses(board_id):

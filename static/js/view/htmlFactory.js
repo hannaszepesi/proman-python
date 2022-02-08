@@ -58,7 +58,6 @@ function boardBuilder(statuses, board) {
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
-                    <button class="add-card">Add Card</button>
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
                 </div>
@@ -153,6 +152,10 @@ export function buttonBuilder() {
             id="create_new_board" name="new_board">Create new board</button>`
 }
 
+export function addButtonBuilder(type) {
+    return `<button type="button" class="add-${type}">Add ${type} </button>`
+}
+
 export function modalBuilder(type) {
     return `<div class="modal" id="${type}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -178,4 +181,11 @@ export function modalBuilder(type) {
                 </div>
               </div>
             </div>`
+}
+
+export function newColumnBuilder(title, boardId, status) {
+    return `<div class="board-column">
+                    <div class="board-column-title">${title}</div>
+                    <div class="board-column-content" data-status="${status}_${boardId}"></div>
+                </div>`
 }

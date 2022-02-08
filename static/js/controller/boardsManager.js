@@ -5,7 +5,9 @@ import {
     buttonBuilder,
     modalBuilder,
     makeDroppable,
-    inputBuilder
+    inputBuilder,
+    addButtonBuilder,
+    newColumnBuilder
 } from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
@@ -27,10 +29,6 @@ export let boardsManager = {
                     "dblclick",
                     renameBoardTitle
                 );
-                domManager.addEventListenerToMore(
-                    '.add-card',
-                    'click',
-                    addNewCard);
 
                 domManager.addEventListener(
                     `.board-toggle[data-board-id="${board.id}"]`,
@@ -63,7 +61,7 @@ function addNewCard(clickEvent) {
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const cardTitle = $('#new-element-title').val()
-        const newBoard = await dataHandler.createNewCard(cardTitle, boardId, 1);
+        await dataHandler.createNewCard(cardTitle, boardId, 1);
         document.getElementsByClassName('modal')[0].remove()
 
         $(`.board-toggle[data-board-id="${boardId}"]`).click()// akkor fog működni ha össze mergeltük a close branch eredményével
@@ -117,18 +115,33 @@ function addBoardTitle() {
 }
 
 async function showHideButtonHandler(clickEvent) {
+    let header = clickEvent.target.parentElement
     let columns = document.getElementsByClassName('board-content')
     let boardId = clickEvent.target.dataset.boardId
     if (clickEvent.target.dataset.show === "false") {
         const boardId = clickEvent.target.dataset.boardId;
+        const addColumnButton = addButtonBuilder('column')
+        const addCardButton = addButtonBuilder('card')
         await cardsManager.loadCards(boardId);
         clickEvent.target.dataset.show = "true";
         for (let column of columns) {
             if (boardId === column.dataset.boardId) {
+                column.previousElementSibling.children[1].insertAdjacentHTML('beforebegin', addColumnButton)
+                column.previousElementSibling.children[1].insertAdjacentHTML('beforebegin', addCardButton)
                 column.style.visibility = "visible";
+                domManager.addEventListenerToMore(
+                    '.add-card',
+                    'click',
+                    addNewCard);
+                domManager.addEventListenerToMore(
+                    '.add-column',
+                    'click',
+                    addNewColumn);
             }
         }
     } else {
+        header.removeChild(header.children[1])
+        header.removeChild(header.children[1])
         for (let column of columns) {
             if (boardId === column.dataset.boardId) {
 
@@ -168,4 +181,25 @@ function renameColumnTitle(clickEvent) {
             actualColumn.textContent = newStatus
         }
     )
+}
+
+async function addNewColumn(clickEvent) {
+    const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
+    const newColumnModalTitle = modalBuilder('new_column')
+    domManager.addChild('#root', newColumnModalTitle);
+    $('.modal').modal('toggle');
+    domManager.addEventListener('#create', 'click', async function () {
+        const columnTitle = $('#new-element-title').val()
+        let columns = clickEvent.target.parentElement.nextElementSibling.children
+        let status = await dataHandler.writeNewStatus(columnTitle, boardId)
+        let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
+        document.getElementsByClassName('modal')[0].remove()
+        columns[0].insertAdjacentHTML('beforeend',newColumn)
+        makeDroppable.droppableBoards()
+
+    })
+    domManager.addEventListener('.close', 'click', async function () {
+        document.getElementById('root').innerHTML = ''
+        await boardsManager.loadBoards()
+    })
 }

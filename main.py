@@ -7,7 +7,7 @@ import queires
 from os import urandom
 from functools import wraps
 import password_util
-
+from flask import jsonify
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -101,6 +101,11 @@ def write_default_columns():
     id = request.get_json()
     print(id)
     return jsonify(queires.write_def_cols(id['boardId']))
+
+@app.route("/api/column", methods=['POST'])
+def add_column():
+    data = request.get_json()
+    return jsonify(queires.add_new_column(data))
 
 
 @app.route("/api/change_card_status", methods=['POST'])

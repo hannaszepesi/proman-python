@@ -3,7 +3,7 @@ export let dataHandler = {
         const response = await apiGet("/api/boards");
         return response;
     },
-    getBoard: async function () {
+    getBoard: async function (boardId) {
         // the board is retrieved and then the callback function is called with the board
     },
     getStatuses: async function (boardId) {
@@ -57,6 +57,10 @@ export let dataHandler = {
 
     writeDefaultColumns: async function (boardId) {
         return postData('/api/default_columns', {boardId:boardId})
+    }
+
+    writeNewStatus: async function (columnTitle, boardId) {
+        return postData('/api/column', {title: columnTitle, boardId:boardId})
     }
 };
 
