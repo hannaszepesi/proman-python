@@ -100,19 +100,19 @@ def rename_board(data):
     return data
 
 
-def rename_column(data):
+def rename_column(data, table_id):
     data_manager.execute_select(sql.SQL(
         """UPDATE {table_name}
-        LEFT JOIN tables
         SET {updated_column} = {title_name}
-        WHERE {wheree} = {column_id} && tables.id = board_id
+        WHERE {wheree} = {column_id} && {table_id} = board_id
         returning boards"""
     ).format(updated_column=sql.Identifier('title'),
              table_name=sql.Identifier('statuses'),
              title_name=sql.Literal(data['title']),
              wheree=sql.Identifier('id'),
-             column_id=sql.Literal(data['column_id']),
+             column_id=sql.Literal(data['id']),
              board_id=sql.Literal(data['board_id']),
+             table_id=sql.Identifier(table_id),
          ))
 
 

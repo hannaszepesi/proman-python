@@ -85,6 +85,7 @@ def rename_board():
 @app.route("/api/rename_column", methods=['POST'])
 def rename_column():
     data = request.get_json()
+    print(data)
     updated_data = queires.rename_column(data)
     return updated_data
 
