@@ -102,6 +102,7 @@ def rename_board(data, table_name="boards"):
 
 
 
+
 def change_card_order(card_id, board_status, order_status):
     data_manager.execute_update("""UPDATE cards
                 SET card_order = card_order + 1
