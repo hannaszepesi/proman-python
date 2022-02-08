@@ -1,6 +1,5 @@
-import { domManager } from "../view/domManager.js";
+import {domManager} from "../view/domManager.js";
 import {cardsManager} from "../controller/cardsManager.js";
-
 
 
 export const htmlTemplates = {
@@ -16,29 +15,31 @@ export function htmlFactory(template) {
             return cardBuilder
         default:
             console.error("Undefined template: " + template)
-            return () => { return "" }
+            return () => {
+                return ""
+            }
     }
 }
 
-export function inputBuilder(col){
-        let inp = document.createElement("input")
-        inp.setAttribute('class', 'rename')
-        inp.setAttribute('type', 'text')
+export function inputBuilder(col) {
+    let inp = document.createElement("input")
+    inp.setAttribute('class', 'rename')
+    inp.setAttribute('type', 'text')
 
-        let butt = document.createElement('button')
-        butt.setAttribute('class', 'rename-board')
-        butt.setAttribute('type', 'submit')
-        butt.textContent = 'Save'
+    let butt = document.createElement('button')
+    butt.setAttribute('class', 'rename-board')
+    butt.setAttribute('type', 'submit')
+    butt.textContent = 'Save'
 
-        let renameColumnButton = document.createElement('button')
-        renameColumnButton.setAttribute('class', 'rename-column')
-        renameColumnButton.setAttribute('type', 'submit')
-        renameColumnButton.textContent = 'Save'
+    let renameColumnButton = document.createElement('button')
+    renameColumnButton.setAttribute('class', 'rename-column')
+    renameColumnButton.setAttribute('type', 'submit')
+    renameColumnButton.textContent = 'Save'
 
-        // let string =
-        //     `<input class="rename" type="text" placeholder="${prevTitle}">
-        //     <button class="rename-board" type="submit"> Save</button>`
-    if (col){
+    // let string =
+    //     `<input class="rename" type="text" placeholder="${prevTitle}">
+    //     <button class="rename-board" type="submit"> Save</button>`
+    if (col) {
         return [inp, renameColumnButton]
     } else {
         return [inp, butt]
@@ -64,48 +65,49 @@ function boardBuilder(statuses, board) {
             <div class="board-content" data-board-id="${board.id}">
                 <div class="board-columns">` + columns.join('') +
 
-                `</div>
+        `</div>
             </div>
                 </section>
             </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}</div>`;
+    return `<div class="card" style="overflow:hidden" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}
+<button type="button" class="icon-button right"><i class="fas fa-trash-alt" style="float: right;"></i></button></div>`;
 }
 
 
 let dragged;
 export const makeDroppable = {
-    droppableBoards: function(){
+    droppableBoards: function () {
         domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
         domManager.addEventListenerToMore(".board-column-content", 'dragenter', makeDroppable.dragEnter)
         domManager.addEventListenerToMore(".board-column-content", 'dragleave', makeDroppable.dragLeave)
         domManager.addEventListenerToMore(".board-column-content", 'drop', makeDroppable.dragDrop)
 
     },
-    draggableCard: function() {
+    draggableCard: function () {
         domManager.addEventListenerToMore(".card", 'dragstart', makeDroppable.dragStart)
         domManager.addEventListenerToMore(".card", 'dragend', makeDroppable.dragEnd)
     },
-    dragStart: function(e){
+    dragStart: function (e) {
         dragged = e.target; // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
 
     },
-    dragEnd: function(){
+    dragEnd: function () {
 
     },
-    dragOver: function(e){
+    dragOver: function (e) {
         e.preventDefault();
 
     },
-    dragEnter: function(){
+    dragEnter: function () {
 
     },
-    dragLeave: function(){
+    dragLeave: function () {
 
     },
-    dragDrop: function(e){
+    dragDrop: function (e) {
         let cards = document.getElementsByClassName("card")
         e.preventDefault();
         //e.currentTarget az, ahova visszük azt, amit megfogunk
@@ -117,12 +119,10 @@ export const makeDroppable = {
         if (!e.target.draggable) {
             e.currentTarget.appendChild(dragged);
             //cardsManager.changeCardOrder(cardId, "1", newCardStatus)
-        }
-        else if (!e.target.nextSibling) {
+        } else if (!e.target.nextSibling) {
             e.currentTarget.appendChild(dragged);
             cardsManager.changeCardOrder(cardId, "1", newCardStatus)
-        }
-        else {
+        } else {
             if (e.target !== dragged) {
                 let currentpos = 0, droppedpos = 0;
                 for (let it = 0; it < cards.length; it++) {
@@ -138,7 +138,7 @@ export const makeDroppable = {
                 } else {
                     e.target.parentNode.insertBefore(dragged, e.target);
                 }
-                cardsManager.changeCardOrder(cardId, (droppedpos+1).toString(), newCardStatus)
+                cardsManager.changeCardOrder(cardId, (droppedpos + 1).toString(), newCardStatus)
                 //cardsManager.changeCardOrder(cardId, (droppedpos+1).toString())
                 //cardsManager.changeCardOrder(e.target.dataset.cardId, (droppedpos+2).toString())
             }

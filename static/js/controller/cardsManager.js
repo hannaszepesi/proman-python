@@ -28,7 +28,13 @@ export let cardsManager = {
     let data = {'card_id': cardId, 'order_status': cardOrder, 'card_status': cardStatus}
       postData('/api/change_card_order', data)
     },
+
 };
 
 function deleteButtonHandler(clickEvent) {
 }
+
+
+// function deleteCard(clickEvent){
+//
+// }

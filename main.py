@@ -102,6 +102,7 @@ def write_default_columns():
     print(id)
     return jsonify(queires.write_def_cols(id['boardId']))
 
+
 @app.route("/api/column", methods=['POST'])
 def add_column():
     data = request.get_json()
@@ -113,6 +114,13 @@ def change_card_status():
     queires.change_card_status(request.get_json()['card_id'], request.get_json()['card_status'])
     print(request.get_json())
     return request.get_json()
+
+
+@app.route("/api/delete_card", methods=["DELETE"])
+def delete_card():
+    data = request.get_json()
+    card = queires.delete_card(data['cardId'])
+    return jsonify(card)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

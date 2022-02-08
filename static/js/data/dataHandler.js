@@ -61,6 +61,10 @@ export let dataHandler = {
 
     writeNewStatus: async function (columnTitle, boardId) {
         return postData('/api/column', {title: columnTitle, boardId:boardId})
+    },
+
+    deleteCard: async function (cardId) {
+        return apiDelete('/api/delete_card', {id: cardId })
     }
 };
 
@@ -92,6 +96,13 @@ async function apiPost(url, payload) {
 }
 
 async function apiDelete(url) {
+     let response = await fetch(url, {
+        method: "DELETE",
+    });
+    if (response.status === 200) {
+        let data = response.json();
+        return data;
+    }
 }
 
 async function apiPut(url) {

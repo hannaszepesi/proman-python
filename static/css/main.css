@@ -150,3 +150,7 @@ section.board{
 .hide {
     visibility: hidden;
 }
+
+.fa{
+    float:right;
+}
