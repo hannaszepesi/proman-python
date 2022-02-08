@@ -155,3 +155,13 @@ def get_statuses(board_id):
         """,
         {'board_id':board_id}
     )
+
+
+def delete_card(card_id):
+    return data_manager.execute_select(
+        """DELETE
+        FROM cards
+        WHERE id = {card_id}
+        """,
+        {'id': card_id}
+    )
