@@ -181,6 +181,16 @@ function renameColumnTitle(clickEvent) {
             actualColumn.textContent = newStatus
         }
     )
+    // let ALL = document.querySelectorAll("body > div:not(.rename-column)")
+    domManager.addEventListener("body > div:not(.rename-column)", 'click', async function () {
+        let newStatus = inputbar[0].value //input mező
+        await dataHandler.renameColumn(columnId, newStatus)
+        inputbar[0].remove() //input field
+        inputbar[1].remove() //button
+        actualColumn.style.visibility = 'visible'
+        actualColumn.textContent = newStatus
+    }
+    )
 }
 
 async function addNewColumn(clickEvent) {
