@@ -75,14 +75,14 @@ def change_card_status(card_id, board_status):
                 , {'board_status': board_status, 'card_id': card_id})
 
 
-def rename_board(data):
+def rename_element(data, table_name='boards'):
     data_manager.execute_select(sql.SQL(
         """UPDATE {table_name}
         SET {updated_column} = {title_name}
         WHERE {wheree} = {id}
-        returning boards"""
+        returning id"""
     ).format(updated_column=sql.Identifier('title'),
-             table_name=sql.Identifier('boards'),
+             table_name=sql.Identifier(table_name),
              title_name=sql.Literal(data['title']),
              wheree=sql.Identifier('id'),
              id=sql.Literal(data['id'])
