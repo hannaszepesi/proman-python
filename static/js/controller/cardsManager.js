@@ -24,8 +24,13 @@ export let cardsManager = {
         postData('/api/change_card_status', dict)
     },
 
-  changeCardOrder: function (cardId, cardOrder, cardStatus ) {
-    let data = {'card_id': cardId, 'order_status': cardOrder, 'card_status': cardStatus}
+    changeCardOrder: function (cardId, cardOrder) {
+    let data = {'card_id': cardId, 'order_status': cardOrder}
+      postData('/api/change_card_order', data)
+    },
+
+    changeCardsOrder: function (cardStatus, cardOrder, boardId, status) {
+    let data = {'card_status': cardStatus, 'order_status': cardOrder, 'board_status': boardId, 'status': status}
       postData('/api/change_card_order', data)
     },
 };
