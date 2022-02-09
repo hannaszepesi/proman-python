@@ -91,7 +91,7 @@ def rename_card():
 @app.route("/api/rename_column", methods=['POST'])
 def rename_column():
     data = request.get_json()
-    updated_data = queires.rename_board(data, 'statuses')
+    updated_data = queires.rename_element(data, 'statuses')
     return updated_data
 
 
@@ -107,6 +107,7 @@ def write_default_columns():
     id = request.get_json()
     print(id)
     return jsonify(queires.write_def_cols(id['boardId']))
+
 
 @app.route("/api/column", methods=['POST'])
 def add_column():
