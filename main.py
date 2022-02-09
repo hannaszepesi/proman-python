@@ -177,7 +177,6 @@ def change_card_order():
 @app.route("/api/delete_column/<int:column_id>", methods=["DELETE"])
 def delete_column(column_id: int):
     id = queires.delete_columns(column_id)
-    print(id)
     return jsonify(id)
 
 
