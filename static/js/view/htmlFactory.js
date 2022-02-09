@@ -51,11 +51,11 @@ function boardBuilder(statuses, board) {
     for (let col of statuses) {
         // console.log(col)
         columns.push(`<div class="board-column">
-                    <div class="board-column-title" data-status="${col.id}_${col.board_id}">${col.title}
+                    <div class="board-column-title" data-status="${col.id}_${col.board_id}" data-column="${col.id}" data-board="${col.board_id}">${col.title}
                         <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${col.id}" style="float: right";></button>
                     </div>
 
-                    <div class="board-column-content" data-status="${col.id}_${col.board_id}"></div>
+                    <div class="board-column-content" data-status="${col.id}_${col.board_id}" ></div>
                 </div>`)
     }
     return `<div class="board-container">

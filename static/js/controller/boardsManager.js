@@ -215,10 +215,8 @@ async function addNewColumn(clickEvent) {
 }
 async function deleteColumn(clickEvent) {
     let columns = document.getElementsByClassName('board-column');
-    let boardId = clickEvent.target.parentElement.dataset.status[2]
-    const columnId = clickEvent.target.parentElement.dataset.status[0]; //1_1, vagy 1_2
-    console.log(boardId);
-    console.log(clickEvent.target.parentElement.dataset.status);
+    let boardId = clickEvent.target.parentElement.dataset.board
+    const columnId = clickEvent.target.parentElement.dataset.column; //1_1, vagy 1_2
     let columnsParent = document.querySelector(`.board-container[data-board-id="${boardId}"]`) //
     await dataHandler.deleteColumns(columnId);
     // for (let column of columns){ //nézd végig az oszlopokat
