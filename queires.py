@@ -1,6 +1,7 @@
 import data_manager
 from psycopg2 import sql
 
+
 def get_card_status(status_id):
     """
     Find the first status matching the given id
@@ -85,7 +86,7 @@ def change_card_status(card_id, board_status):
                 , {'board_status': board_status, 'card_id': card_id})
 
 
-def rename_board(data, table_name="boards"):
+def rename_element(data, table_name='boards'):
     data_manager.execute_select(sql.SQL(
         """UPDATE {table_name}
         SET {updated_column} = {title_name}
@@ -100,12 +101,22 @@ def rename_board(data, table_name="boards"):
     return data
 
 
-def change_card_order(card_id, board_status, order_status):
+def change_card_order(card_id, order_status):
     data_manager.execute_update("""UPDATE cards
-                SET card_order = card_order + 1
-                WHERE  card_order >= %(order_status)s AND status_id = %(board_status)s
+                SET card_order = %(order_status)s
+                WHERE  id = %(card_id)s
                 """
-                , {'order_status': order_status, 'card_id': card_id, 'board_status': board_status})
+                , {'order_status': order_status, 'card_id': card_id})
+
+
+def change_cards_order(card_status, order_status, board_status, status):
+    data_manager.execute_update("""UPDATE cards
+                SET card_order = card_order + %(status)s
+                WHERE  card_order > %(order_status)s AND status_id = %(card_status)s AND board_id = %(board_status)s
+                """
+                , {'order_status': order_status, 'card_status': card_status, 'board_status': board_status, 'status': status})
+
+
 
 
 def get_user_by_email(email_input):

@@ -78,14 +78,20 @@ def add_new_card():
 @app.route("/api/rename_board", methods=['POST'])
 def rename_board():
     data = request.get_json()
-    writed_data = queires.rename_board(data, 'boards')
+    writed_data = queires.rename_element(data, 'boards')
     return writed_data
+
+
+@app.route('/api/rename_card', methods=['POST'])
+def rename_card():
+    data = request.get_json()
+    return jsonify(queires.rename_element(data, 'cards'))
 
 
 @app.route("/api/rename_column", methods=['POST'])
 def rename_column():
     data = request.get_json()
-    updated_data = queires.rename_board(data, 'statuses')
+    updated_data = queires.rename_element(data, 'statuses')
     return updated_data
 
 
@@ -112,7 +118,6 @@ def add_column():
 @app.route("/api/change_card_status", methods=['POST'])
 def change_card_status():
     queires.change_card_status(request.get_json()['card_id'], request.get_json()['card_status'])
-    print(request.get_json())
     return request.get_json()
 
 
@@ -123,6 +128,7 @@ def delete_card():
     card = queires.delete_card(data['id'])
     print(card)
     return jsonify(card)
+
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -141,7 +147,6 @@ def register():
             queires.add_new_user(username, hashed_password)
             flash("Successful registration. Log in to continue.")
             return redirect(url_for('login'))
-
 
 
 @app.route("/login", methods = ['GET', 'POST'])
@@ -179,8 +184,11 @@ def logout():
 
 @app.route("/api/change_card_order", methods=['POST'])
 def change_card_order():
-    print(request.get_json())
-    queires.change_card_order(request.get_json()['card_id'], request.get_json()['card_status'], request.get_json()['order_status'])
+    data = request.get_json()
+    if len(data) == 2:
+        queires.change_card_order(data['card_id'], data['order_status'])
+    else:
+        queires.change_cards_order(data['card_status'], data['order_status'], data['board_status'], data['status'])
 
     return request.get_json()
 

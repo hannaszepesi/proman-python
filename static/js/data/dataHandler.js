@@ -7,7 +7,7 @@ export let dataHandler = {
         // the board is retrieved and then the callback function is called with the board
     },
     getStatuses: async function (boardId) {
-        let data = await postData('/api/getStatuses', {boardId: boardId});
+        let data = await postData('/api/getStatuses', {boardId:boardId});
         return data
         // the statuses are retrieved and then the callback function is called with the statuses
     },
@@ -31,7 +31,7 @@ export let dataHandler = {
     },
 
     renameBoard: function (id, boardTitle) {
-        return postData('/api/rename_board', {id: id, title: boardTitle})
+        return postData('/api/rename_board', {id:id, title: boardTitle})
             .then(data => {
                 return data// JSON data parsed by `data.json()` call
             });
@@ -41,7 +41,7 @@ export let dataHandler = {
         let ColumnId = columnId[0];
         let boardId = columnId[2];
         console.log(ColumnId, boardId);
-        return postData('/api/rename_column', {id: ColumnId, title: newStatus})
+        return postData('/api/rename_column', {id:ColumnId, title:newStatus})
             .then(data => {
                 return data
             });
@@ -49,14 +49,14 @@ export let dataHandler = {
 
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
-        return postData('/api/new_card', {title: cardTitle, board_id: boardId, status: statusId})
+    return postData('/api/new_card', {title: cardTitle, board_id: boardId, status: statusId})
             .then(data => {
                 return data// JSON data parsed by `data.json()` call
             });
     },
 
     writeDefaultColumns: async function (boardId) {
-        return postData('/api/default_columns', {boardId: boardId})
+        return postData('/api/default_columns', {boardId:boardId})
     },
 
     writeNewStatus: async function (columnTitle, boardId) {
@@ -65,21 +65,24 @@ export let dataHandler = {
 
     deleteCard: async function (cardId) {
         return apiDelete('/api/delete_card', {id: cardId})
+    },
+    renameCard: async function (cardId, newTitle) {
+        return postData('/api/rename_card', {id: cardId, title: newTitle})
     }
 };
 
 
 export async function postData(url = '', data = {}) {
-    // Default options are marked with
-    const response = await fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
-}
+            // Default options are marked with
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
 
 
 async function apiGet(url) {
