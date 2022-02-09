@@ -44,13 +44,23 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/api/boards")
+@app.route("/api/boards/public")
 @json_response
-def get_boards():
+def get_public_boards():
     """
     All the boards
     """
-    return queires.get_boards()
+    return queires.get_public_boards()
+
+
+@app.route("/api/boards/private")
+@json_response
+def get_private_boards():
+    """
+    All the boards
+    """
+    user_id = request.args['user']
+    return queires.get_private_boards(user_id)
 
 
 @app.route("/api/boards/<int:board_id>/cards/")
