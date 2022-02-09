@@ -16,20 +16,32 @@ export function htmlFactory(template) {
             return cardBuilder
         default:
             console.error("Undefined template: " + template)
-            return () => { return "" }
+            return () => {
+                return ""
+            }
     }
 }
 
-export function inputBuilder(type){
-        let inp = document.createElement("input")
-        inp.setAttribute('class', 'rename')
-        inp.setAttribute('type', 'text')
+export function inputBuilder(col) {
+    let inp = document.createElement("input")
+    inp.setAttribute('class', 'rename')
+    inp.setAttribute('type', 'text')
 
-        let butt = document.createElement('button')
+    let butt = document.createElement('button')
         butt.setAttribute('class', `rename-${type}`)
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
-    return [inp, butt]
+
+    let renameColumnButton = document.createElement('button')
+    renameColumnButton.setAttribute('class', 'rename-column')
+    renameColumnButton.setAttribute('type', 'submit')
+    renameColumnButton.textContent = 'Save'
+
+    if (col) {
+        return [inp, renameColumnButton]
+    } else {
+        return [inp, butt]
+    }
 }
 
 
@@ -50,14 +62,15 @@ function boardBuilder(statuses, board) {
             <div class="board-content" data-board-id="${board.id}">
                 <div class="board-columns">` + columns.join('') +
 
-                `</div>
+        `</div>
             </div>
                 </section>
             </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}</div>`;
+    return `<div class="card" style="position: relative;" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}
+<button type="button" class="icon-button right" style="float: right;"><i class="fas fa-trash-alt" style="float: right;"></i></button></div>`;
 }
 
 

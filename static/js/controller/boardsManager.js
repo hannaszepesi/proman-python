@@ -226,3 +226,4 @@ async function addNewColumn(clickEvent) {
         await boardsManager.loadBoards()
     })
 }
+

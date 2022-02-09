@@ -15,7 +15,13 @@ export let cardsManager = {
                 `.card[data-card-id="${card.id}"]`,
                 "dblclick",
                 renameCard
+
             );
+             domManager.addEventListenerToMore(
+                `.fas`,
+                "click",
+                deleteButtonHandler
+             );
         }
     },
 
@@ -33,42 +39,51 @@ export let cardsManager = {
     let data = {'card_status': cardStatus, 'order_status': cardOrder, 'board_status': boardId, 'status': status}
       postData('/api/change_card_order', data)
     },
+
 };
 
-function renameCard(clickEvent) {
-    console.log(clickEvent.target)
-    const cardId = clickEvent.target.dataset.cardId;
-    let actualCard = clickEvent.target
-    actualCard.style.visibility = 'hidden'
-    const inputbar = inputBuilder('card')
-    let parent = clickEvent.target.parentElement
-    parent.insertBefore(inputbar[0], actualCard)
-    parent.insertBefore(inputbar[1], actualCard)
+function deleteButtonHandler(clickEvent) {
+    let cardId = clickEvent.target.parentElement.parentElement.dataset.cardId
+    console.log(cardId)
+    let actualCard = clickEvent.target.parentElement.parentElement
+    actualCard.remove();
+    dataHandler.deleteCard(cardId);
 
-    let ignoreClickOnMeElement = inputbar[0]
-    document.addEventListener('click', isOutside)
+    function renameCard(clickEvent) {
+        console.log(clickEvent.target)
+        const cardId = clickEvent.target.dataset.cardId;
+        let actualCard = clickEvent.target
+        actualCard.style.visibility = 'hidden'
+        const inputbar = inputBuilder('card')
+        let parent = clickEvent.target.parentElement
+        parent.insertBefore(inputbar[0], actualCard)
+        parent.insertBefore(inputbar[1], actualCard)
 
-    domManager.addEventListener('.rename-card', 'click', async function () {
-            console.log('hello')
-            let newStatus = inputbar[0].value //input mező
-            await dataHandler.renameCard(cardId, newStatus)
-            actualCard.textContent = newStatus
-            inputbar[0].remove() //input field
-            inputbar[1].remove() //button
-            actualCard.style.visibility = 'visible'
-            document.removeEventListener('click', isOutside)
-        }
-    )
+        let ignoreClickOnMeElement = inputbar[0]
+        document.addEventListener('click', isOutside)
 
-    function isOutside(event) {
-        if ((event.target) !== ignoreClickOnMeElement) {
-            document.removeEventListener('click', isOutside)
+        domManager.addEventListener('.rename-card', 'click', async function () {
+                console.log('hello')
+                let newStatus = inputbar[0].value //input mező
+                await dataHandler.renameCard(cardId, newStatus)
+                actualCard.textContent = newStatus
+                inputbar[0].remove() //input field
+                inputbar[1].remove() //button
+                actualCard.style.visibility = 'visible'
+                document.removeEventListener('click', isOutside)
+            }
+        )
+
+        function isOutside(event) {
+            if ((event.target) !== ignoreClickOnMeElement) {
+                document.removeEventListener('click', isOutside)
                 inputbar[0].remove() //input field
                 inputbar[1].remove() //button
                 actualCard.style.visibility = 'visible'
 
+            }
         }
+
+
     }
-
-
 }

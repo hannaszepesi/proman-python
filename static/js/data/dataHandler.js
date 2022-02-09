@@ -60,7 +60,11 @@ export let dataHandler = {
     },
 
     writeNewStatus: async function (columnTitle, boardId) {
-        return postData('/api/column', {title: columnTitle, boardId:boardId})
+        return postData('/api/column', {title: columnTitle, boardId: boardId})
+    },
+
+    deleteCard: async function (cardId) {
+        return apiDelete('/api/delete_card', {id: cardId})
     },
     renameCard: async function (cardId, newTitle) {
         return postData('/api/rename_card', {id: cardId, title: newTitle})
@@ -94,7 +98,15 @@ async function apiGet(url) {
 async function apiPost(url, payload) {
 }
 
-async function apiDelete(url) {
+async function apiDelete(url = '', data = {}) {
+    let response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
 }
 
 async function apiPut(url) {

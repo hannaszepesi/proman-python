@@ -28,19 +28,19 @@ DROP TABLE IF EXISTS users;
 ---
 
 CREATE TABLE statuses (
-    id       SERIAL PRIMARY KEY     NOT NULL,
+    id       SERIAL PRIMARY KEY UNIQUE NOT NULL,
     title    VARCHAR(200)           NOT NULL,
     board_id INTEGER                NOT NULL
 );
 
 CREATE TABLE boards (
-    id          SERIAL PRIMARY KEY  NOT NULL,
-    title       VARCHAR(200)        NOT NULL,
-    user_id     INTEGER
+    id          SERIAL PRIMARY KEY UNIQUE NOT NULL,
+    title       VARCHAR(200)        NOT NULL
+    user_id     INTEGER             NOT NULL
 );
 
 CREATE TABLE cards (
-    id          SERIAL PRIMARY KEY  NOT NULL,
+    id          SERIAL PRIMARY KEY UNIQUE NOT NULL,
     board_id    INTEGER             NOT NULL,
     status_id   INTEGER             NOT NULL,
     title       VARCHAR (200)       NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE cards (
 );
 
 CREATE TABLE users (
-    id          SERIAL PRIMARY KEY  NOT NULL,
+    id          SERIAL PRIMARY KEY  UNIQUE NOT NULL,
     username    VARCHAR (200)    NOT NULL,
     password    VARCHAR (200)    NOT NULL
 );
