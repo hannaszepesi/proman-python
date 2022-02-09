@@ -13,7 +13,7 @@ export let cardsManager = {
             makeDroppable.draggableCard();
             domManager.addEventListener(
                 `.card[data-card-id="${card.id}"]`,
-                "click",
+                "dblclick",
                 renameCard
             );
         }
@@ -39,17 +39,31 @@ function renameCard(clickEvent) {
     let parent = clickEvent.target.parentElement
     parent.insertBefore(inputbar[0], actualCard)
     parent.insertBefore(inputbar[1], actualCard)
-   // parent.insertBefore(inputbar[1], parent.childNodes[0])
-    //parent.insertBefore(inputbar[0], parent.childNodes[0])
+
+    let ignoreClickOnMeElement = inputbar[0]
+    document.addEventListener('click', isOutside)
 
     domManager.addEventListener('.rename-card', 'click', async function () {
-            let newTitle = inputbar[0].value
-            await dataHandler.renameCard(cardId, newTitle)
-            inputbar[0].remove()
-            inputbar[1].remove()
+            console.log('hello')
+            let newStatus = inputbar[0].value //input mező
+            await dataHandler.renameCard(cardId, newStatus)
+            actualCard.textContent = newStatus
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
             actualCard.style.visibility = 'visible'
-            actualCard.textContent = newTitle
+            document.removeEventListener('click', isOutside)
         }
     )
+
+    function isOutside(event) {
+        if ((event.target) !== ignoreClickOnMeElement) {
+            document.removeEventListener('click', isOutside)
+                inputbar[0].remove() //input field
+                inputbar[1].remove() //button
+                actualCard.style.visibility = 'visible'
+
+        }
+    }
+
 
 }
