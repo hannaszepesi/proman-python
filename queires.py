@@ -30,7 +30,7 @@ def get_public_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
-        WHERE user_id = 0
+        WHERE user_id IS NULL 
         ;
         """
         , fetchall=True
