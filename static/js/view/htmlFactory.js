@@ -72,8 +72,8 @@ function boardBuilder(statuses, board) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" style="overflow:hidden" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}
-<button type="button" class="icon-button right"><i class="fas fa-trash-alt" style="float: right;"></i></button></div>`;
+    return `<div class="card" style="position: relative;" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}
+<button type="button" class="icon-button right" style="float: right;"><i class="fas fa-trash-alt" style="float: right;"></i></button></div>`;
 }
 
 

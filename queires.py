@@ -161,7 +161,8 @@ def delete_card(card_id):
     return data_manager.execute_select(
         """DELETE
         FROM cards
-        WHERE id = {card_id}
+        WHERE id = %(card_id)s
+        returning id
         """,
-        {'id': card_id}
+        {'card_id': card_id}
     )

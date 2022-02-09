@@ -119,8 +119,11 @@ def change_card_status():
 @app.route("/api/delete_card", methods=["DELETE"])
 def delete_card():
     data = request.get_json()
-    card = queires.delete_card(data['cardId'])
+    print(data['id'])
+    card = queires.delete_card(data['id'])
+    print(card)
     return jsonify(card)
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

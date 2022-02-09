@@ -1,5 +1,6 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {postData} from "../data/dataHandler.js";
+// import {deleteCard} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates, makeDroppable} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 
@@ -11,8 +12,8 @@ export let cardsManager = {
             const content = cardBuilder(card);
             domManager.addChild(`.board-column-content[data-status="${card['status_id']}_${boardId}"]`, content);
             makeDroppable.draggableCard();
-            domManager.addEventListener(
-                `.card[data-card-id="${card.id}"]`,
+            domManager.addEventListenerToMore(
+                `.fas`,
                 "click",
                 deleteButtonHandler
             );
@@ -32,6 +33,11 @@ export let cardsManager = {
 };
 
 function deleteButtonHandler(clickEvent) {
+    let cardId = clickEvent.target.parentElement.parentElement.dataset.cardId
+    console.log(cardId)
+    let actualCard = clickEvent.target.parentElement.parentElement
+    actualCard.remove();
+    dataHandler.deleteCard(cardId);
 }
 
 

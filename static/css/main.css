@@ -151,6 +151,8 @@ section.board{
     visibility: hidden;
 }
 
-.fa{
+.fas{
+    display: flex;
     float:right;
+    left: 90%;
 }
