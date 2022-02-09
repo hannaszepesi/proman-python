@@ -210,3 +210,17 @@ async function addNewColumn(clickEvent) {
         await boardsManager.loadBoards()
     })
 }
+
+async function deleteColumn(clickEvent) {
+    let columns = document.getElementsByClassName('board-column');
+    const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
+    const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
+    let columnsParent = document.querySelector(`.board-container[data-board-id="${boardId}"]`) //
+    await dataHandler.deleteColumns(columnId);
+    for (let column of columns){ //nézd végig az oszlopokat
+        if (columnId === column.attributes['data-status'][0]) { //ha az iterációban oda ér, ahol az általunk megnevezett id-val rendelkező column van, akkor
+            columnsParent.removeChild(column) //vegye ki az oszlopok közül
+            break; //és itt álljon is meg
+        }
+    }
+}

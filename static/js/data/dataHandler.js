@@ -61,6 +61,10 @@ export let dataHandler = {
 
     writeNewStatus: async function (columnTitle, boardId) {
         return postData('/api/column', {title: columnTitle, boardId:boardId})
+    },
+
+    deleteColumns: async function (columnId) {
+        return await apiDelete(`/api/delete_column/${columnId}`, {columnId:columnId});
     }
 };
 
@@ -91,7 +95,14 @@ async function apiGet(url) {
 async function apiPost(url, payload) {
 }
 
-async function apiDelete(url) {
+async function apiDelete(url="", data={}) {
+        await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        })
 }
 
 async function apiPut(url) {
