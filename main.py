@@ -59,7 +59,8 @@ def get_private_boards():
     """
     All the boards
     """
-    return queires.get_private_boards()
+    user_id = request.args['user']
+    return queires.get_private_boards(user_id)
 
 
 @app.route("/api/boards/<int:board_id>/cards/")

@@ -18,7 +18,7 @@ export let boardsManager = {
             let userId = document.getElementById("create-private-boards").dataset.userId
             await this.newBoard()
             const publicBoards = await dataHandler.getPublicBoards();
-            const privateBoards = await dataHandler.getPrivateBoards();
+            const privateBoards = await dataHandler.getPrivateBoards(userId);
             let boards = privateBoards.concat(publicBoards)
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
