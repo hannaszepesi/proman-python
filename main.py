@@ -65,7 +65,8 @@ def get_cards_for_board(board_id: int):
 
 @app.route("/api/new_board", methods=['POST'])
 def add_new_board():
-    id = queires.write_new_board(request.get_json()['title'])
+    data = request.get_json()
+    id = queires.write_new_board(data['title'], data['user_id'])
     return jsonify(id)
 
 

@@ -53,11 +53,11 @@ def get_cards_for_board(board_id):
     return matching_cards
 
 
-def write_new_board(title):
+def write_new_board(title, user_id):
     return data_manager.execute_select(
-        """INSERT INTO boards (title) VALUES (%(title)s)
+        """INSERT INTO boards (title, user_id) VALUES (%(title)s, %(id)s) 
         returning id"""
-        , {'title': title}, fetchall=True)
+        , {'title': title, 'id': user_id}, fetchall=True)
 
 
 def write_def_cols(id):
