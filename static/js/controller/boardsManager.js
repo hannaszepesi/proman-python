@@ -54,8 +54,6 @@ export let boardsManager = {
     }
 ;
 
-
-
 async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
     const newCardModalTitle = modalBuilder('new_card')
@@ -101,7 +99,6 @@ function renameBoardTitle(clickEvent) {
 domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)
 function addBoardTitle(clickEvent) {
     let userId = clickEvent.target.dataset.userId
-    console.log(userId)
     const newBoardModalTitle = modalBuilder('new_board')
     domManager.addChild('#root', newBoardModalTitle);
     $('.modal').modal('toggle');
@@ -204,6 +201,7 @@ async function renameColumnTitle(clickEvent) {
 
         }
     }
+
 
 
 }
