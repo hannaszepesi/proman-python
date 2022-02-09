@@ -19,7 +19,7 @@ def get_card_status(status_id):
     return status
 
 
-def get_boards():
+def get_public_boards():
     """
     Gather all boards
     :return:
@@ -32,9 +32,26 @@ def get_boards():
         SELECT * FROM boards
         WHERE user_id = 0
         ;
-    
         """
         , fetchall=True
+    )
+
+
+def get_private_boards(user_id):
+    """
+    Gather all boards
+    :return:
+    """
+    # remove this code once you implement the database
+    # return [{"title": "board1", "id": 1}, {"title": "board2", "id": 2}]
+
+    return data_manager.execute_select(
+        """
+        SELECT * FROM boards
+        WHERE user_id = %(user_id)s
+        ;
+        """
+        , {"user_id": user_id}, fetchall=True
     )
 
 

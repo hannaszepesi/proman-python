@@ -53,6 +53,15 @@ def get_public_boards():
     return queires.get_public_boards()
 
 
+@app.route("/api/boards/private")
+@json_response
+def get_private_boards():
+    """
+    All the boards
+    """
+    return queires.get_private_boards()
+
+
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):

@@ -15,8 +15,11 @@ import {cardsManager} from "./cardsManager.js";
 
 export let boardsManager = {
         loadBoards: async function () {
+            let userId = document.getElementById("create-private-boards").dataset.userId
             await this.newBoard()
-            const boards = await dataHandler.getPublicBoards();
+            const publicBoards = await dataHandler.getPublicBoards();
+            const privateBoards = await dataHandler.getPrivateBoards();
+            let boards = privateBoards.concat(publicBoards)
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
                 const statuses = await dataHandler.getStatuses(board.id)
