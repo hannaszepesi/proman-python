@@ -49,7 +49,9 @@ function deleteButtonHandler(clickEvent) {
     actualCard.remove();
     dataHandler.deleteCard(cardId);
 
-    function renameCard(clickEvent) {
+}
+
+function renameCard(clickEvent) {
         console.log(clickEvent.target)
         const cardId = clickEvent.target.dataset.cardId;
         let actualCard = clickEvent.target
@@ -84,6 +86,4 @@ function deleteButtonHandler(clickEvent) {
             }
         }
 
-
-    }
 }
