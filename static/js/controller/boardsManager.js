@@ -19,7 +19,7 @@ export let boardsManager = {
             const boards = await dataHandler.getBoards();
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
-                const statuses =  await dataHandler.getStatuses(board.id)
+                const statuses = await dataHandler.getStatuses(board.id)
                 const boardBuilder = htmlFactory(htmlTemplates.board);
                 const content = boardBuilder(statuses, board); //ezek a script-ek
                 domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
@@ -79,7 +79,7 @@ function renameBoardTitle(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
-    const inputbar = inputBuilder(actualBoard.textContent)
+    const inputbar = inputBuilder('board')
     let parent = clickEvent.target.parentElement
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
@@ -160,7 +160,7 @@ async function showHideButtonHandler(clickEvent) {
 
 }
 
-function renameColumnTitle(clickEvent) {
+async function renameColumnTitle(clickEvent) {
     // const boardId = clickEvent.target.dataset.boardId;
     const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
     // console.log(columnId);
@@ -173,22 +173,35 @@ function renameColumnTitle(clickEvent) {
     parent.insertBefore(inputbar[0], parent.childNodes[0])
 
 
+    let ignoreClickOnMeElement = inputbar[0]
+    document.addEventListener('click', isOutside)
+
+
     domManager.addEventListener('.rename-column', 'click', async function () {
+
             let newStatus = inputbar[0].value //input mező
             await dataHandler.renameColumn(columnId, newStatus)
+            actualColumn.textContent = newStatus
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'
-            console.log(actualColumn);
-            actualColumn.textContent = newStatus
+            document.removeEventListener('click', isOutside)
         }
     )
-    domManager.addEventListener('.rename', 'blur', async function() {
-            inputbar[0].remove() //input field
-            inputbar[1].remove() //button
-            actualColumn.style.visibility = 'visible'
-            console.log("kikatt");
-    })
+
+    function isOutside(event) {
+        if ((event.target) !== ignoreClickOnMeElement) {
+            document.removeEventListener('click', isOutside)
+            console.log('na')
+                inputbar[0].remove() //input field
+                inputbar[1].remove() //button
+                actualColumn.style.visibility = 'visible'
+
+        }
+    }
+
+
+
 }
 
 async function addNewColumn(clickEvent) {
@@ -202,7 +215,7 @@ async function addNewColumn(clickEvent) {
         let status = await dataHandler.writeNewStatus(columnTitle, boardId)
         let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
         document.getElementsByClassName('modal')[0].remove()
-        columns[0].insertAdjacentHTML('beforeend',newColumn)
+        columns[0].insertAdjacentHTML('beforeend', newColumn)
         makeDroppable.droppableBoards()
 
     })
