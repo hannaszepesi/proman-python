@@ -49,10 +49,10 @@ export function inputBuilder(col){
 function boardBuilder(statuses, board) {
     let columns = []
     for (let col of statuses) {
-        console.log(col)
+        // console.log(col)
         columns.push(`<div class="board-column">
                     <div class="board-column-title" data-status="${col.id}_${col.board_id}">${col.title}
-                        <button type="button" class="icon-button right"><i class="fas fa-trash-alt" style="float: right;"></i></button>
+                        <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${col.id}" style="float: right";></button>
                     </div>
 
                     <div class="board-column-content" data-status="${col.id}_${col.board_id}"></div>
@@ -188,7 +188,9 @@ export function modalBuilder(type) {
 
 export function newColumnBuilder(title, boardId, status) {
     return `<div class="board-column">
-                    <div class="board-column-title">${title}</div>             
+                    <div class="board-column-title">${title}
+                        <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${status}" style="float: right";></button>     
+                        </div>    
                     <div class="board-column-content" data-status="${status}_${boardId}"></div>
                 </div>`
 }

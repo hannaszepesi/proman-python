@@ -41,6 +41,10 @@ export let boardsManager = {
                     'dblclick',
                     renameColumnTitle
                 );
+                domManager.addEventListenerToMore(
+                    '.icon-button', 'click', deleteColumn
+                );
+
             }
             for (let column of columns) {
                 column.style.visibility = "hidden";
@@ -178,7 +182,7 @@ function renameColumnTitle(clickEvent) {
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'
-            console.log(actualColumn);
+            // console.log(actualColumn);
             actualColumn.textContent = newStatus
         }
     )
@@ -186,7 +190,6 @@ function renameColumnTitle(clickEvent) {
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'
-            console.log("kikatt");
     })
 }
 
@@ -210,17 +213,20 @@ async function addNewColumn(clickEvent) {
         await boardsManager.loadBoards()
     })
 }
-
 async function deleteColumn(clickEvent) {
     let columns = document.getElementsByClassName('board-column');
-    const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
-    const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
+    let boardId = clickEvent.target.parentElement.dataset.status[2]
+    const columnId = clickEvent.target.parentElement.dataset.status[0]; //1_1, vagy 1_2
+    console.log(boardId);
+    console.log(clickEvent.target.parentElement.dataset.status);
     let columnsParent = document.querySelector(`.board-container[data-board-id="${boardId}"]`) //
     await dataHandler.deleteColumns(columnId);
-    for (let column of columns){ //nézd végig az oszlopokat
-        if (columnId === column.attributes['data-status'][0]) { //ha az iterációban oda ér, ahol az általunk megnevezett id-val rendelkező column van, akkor
-            columnsParent.removeChild(column) //vegye ki az oszlopok közül
-            break; //és itt álljon is meg
-        }
-    }
+    // for (let column of columns){ //nézd végig az oszlopokat
+    //     if (columnId === column.attributes['data-status'][0]) { //ha az iterációban oda ér, ahol az általunk megnevezett id-val rendelkező column van, akkor
+    //         columnsParent.removeChild(column) //vegye ki az oszlopok közül
+    //         break; //és itt álljon is meg
+    //     }
+    // }
+    const column = clickEvent.target.parentElement
+    column.parentElement.remove();
 }

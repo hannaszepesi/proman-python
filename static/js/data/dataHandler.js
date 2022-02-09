@@ -40,7 +40,7 @@ export let dataHandler = {
     renameColumn: function (columnId, newStatus) {
         let ColumnId = columnId[0];
         let boardId = columnId[2];
-        console.log(ColumnId, boardId);
+        // console.log(ColumnId, boardId);
         return postData('/api/rename_column', {id:ColumnId, title:newStatus})
             .then(data => {
                 return data
@@ -96,13 +96,15 @@ async function apiPost(url, payload) {
 }
 
 async function apiDelete(url="", data={}) {
-        await fetch(url, {
+        let response = await fetch(url, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
             body: JSON.stringify(data) // body data type must match "Content-Type" header
-        })
+        });
+            return response.json();
 }
 
 async function apiPut(url) {

@@ -157,11 +157,12 @@ def get_statuses(board_id):
     )
 
 
-def delete_columns(table_name, status_id):
-    return data_manager.execute_update(
+def delete_columns(status_id):
+    data_manager.execute_select(
         """
-        DELETE FROM %{table_name}s
-        WHERE id=%{status_id}s
+        SELECT * FROM statuses
+        WHERE id=%(status_id)s
         """,
-        {'table_name':table_name, 'status_id':status_id}
+        {'status_id':status_id}
     )
+    return status_id

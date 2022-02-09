@@ -19,8 +19,8 @@ SET default_with_oids = false;
 
 DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
-DROP TABLE IF EXISTS cards;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS cards CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
 
 ---
@@ -88,13 +88,13 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 4, 'done card 1', 2);
 ---
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id);
+    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id) on delete cascade;
 
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+    ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id) on delete cascade;
 
 
 ALTER TABLE ONLY statuses
-    ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id);
+    ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id) on delete cascade;
 

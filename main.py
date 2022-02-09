@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, flash, session, redirect, jsonify
+from flask import Flask, render_template, url_for, request, flash, session, redirect
 from dotenv import load_dotenv
 
 from util import json_response
@@ -174,10 +174,10 @@ def change_card_order():
     return request.get_json()
 
 
-@app.route("/api/delete_column/<column_id>", methods=["DELETE"])
+@app.route("/api/delete_column/<int:column_id>", methods=["DELETE"])
 @json_response
-def delete_column(column_id):
-    return queires.delete_columns(column_id)
+def delete_column(column_id: int):
+    print(queires.delete_columns(column_id))
 
 
 def main():
