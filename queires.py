@@ -30,6 +30,7 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        WHERE user_id = 0
         ;
     
         """

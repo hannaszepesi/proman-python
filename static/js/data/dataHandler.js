@@ -1,6 +1,10 @@
 export let dataHandler = {
-    getBoards: async function () {
-        const response = await apiGet("/api/boards");
+    getPublicBoards: async function () {
+        const response = await apiGet("/api/boards/public");
+        return response;
+    },
+    getPrivateBoards: async function (userId) {
+        const response = await apiGet(`/api/boards/public?user=${userId}`);
         return response;
     },
     getBoard: async function (boardId) {

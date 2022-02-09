@@ -16,7 +16,7 @@ import {cardsManager} from "./cardsManager.js";
 export let boardsManager = {
         loadBoards: async function () {
             await this.newBoard()
-            const boards = await dataHandler.getBoards();
+            const boards = await dataHandler.getPublicBoards();
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
                 const statuses = await dataHandler.getStatuses(board.id)
