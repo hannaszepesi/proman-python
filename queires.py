@@ -1,6 +1,7 @@
 import data_manager
 from psycopg2 import sql
 
+
 def get_card_status(status_id):
     """
     Find the first status matching the given id
@@ -85,7 +86,7 @@ def change_card_status(card_id, board_status):
                 , {'board_status': board_status, 'card_id': card_id})
 
 
-def rename_board(data, table_name="boards"):
+def rename_element(data, table_name='boards'):
     data_manager.execute_select(sql.SQL(
         """UPDATE {table_name}
         SET {updated_column} = {title_name}

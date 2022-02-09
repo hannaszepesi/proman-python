@@ -61,6 +61,9 @@ export let dataHandler = {
 
     writeNewStatus: async function (columnTitle, boardId) {
         return postData('/api/column', {title: columnTitle, boardId:boardId})
+    },
+    renameCard: async function (cardId, newTitle) {
+        return postData('/api/rename_card', {id: cardId, title: newTitle})
     }
 };
 

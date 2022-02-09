@@ -1,6 +1,6 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {postData} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates, makeDroppable} from "../view/htmlFactory.js";
+import {htmlFactory, htmlTemplates, inputBuilder, makeDroppable} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 
 export let cardsManager = {
@@ -13,8 +13,8 @@ export let cardsManager = {
             makeDroppable.draggableCard();
             domManager.addEventListener(
                 `.card[data-card-id="${card.id}"]`,
-                "click",
-                deleteButtonHandler
+                "dblclick",
+                renameCard
             );
         }
     },
@@ -30,5 +30,40 @@ export let cardsManager = {
     },
 };
 
-function deleteButtonHandler(clickEvent) {
+function renameCard(clickEvent) {
+    console.log(clickEvent.target)
+    const cardId = clickEvent.target.dataset.cardId;
+    let actualCard = clickEvent.target
+    actualCard.style.visibility = 'hidden'
+    const inputbar = inputBuilder('card')
+    let parent = clickEvent.target.parentElement
+    parent.insertBefore(inputbar[0], actualCard)
+    parent.insertBefore(inputbar[1], actualCard)
+
+    let ignoreClickOnMeElement = inputbar[0]
+    document.addEventListener('click', isOutside)
+
+    domManager.addEventListener('.rename-card', 'click', async function () {
+            console.log('hello')
+            let newStatus = inputbar[0].value //input mező
+            await dataHandler.renameCard(cardId, newStatus)
+            actualCard.textContent = newStatus
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
+            actualCard.style.visibility = 'visible'
+            document.removeEventListener('click', isOutside)
+        }
+    )
+
+    function isOutside(event) {
+        if ((event.target) !== ignoreClickOnMeElement) {
+            document.removeEventListener('click', isOutside)
+                inputbar[0].remove() //input field
+                inputbar[1].remove() //button
+                actualCard.style.visibility = 'visible'
+
+        }
+    }
+
+
 }

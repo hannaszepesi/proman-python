@@ -20,26 +20,16 @@ export function htmlFactory(template) {
     }
 }
 
-export function inputBuilder(col){
+export function inputBuilder(type){
         let inp = document.createElement("input")
         inp.setAttribute('class', 'rename')
         inp.setAttribute('type', 'text')
 
         let butt = document.createElement('button')
-        butt.setAttribute('class', 'rename-board')
+        butt.setAttribute('class', `rename-${type}`)
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
-
-        let renameColumnButton = document.createElement('button')
-        renameColumnButton.setAttribute('id', 'renameColumnButton')
-        renameColumnButton.setAttribute('class', 'rename-column')
-        renameColumnButton.setAttribute('type', 'submit')
-        renameColumnButton.textContent = 'Save'
-    if (col){
-        return [inp, renameColumnButton]
-    } else {
-        return [inp, butt]
-    }
+    return [inp, butt]
 }
 
 

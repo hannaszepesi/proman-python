@@ -79,7 +79,7 @@ function renameBoardTitle(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
-    const inputbar = inputBuilder(actualBoard.textContent)
+    const inputbar = inputBuilder('board')
     let parent = clickEvent.target.parentElement
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
