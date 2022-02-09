@@ -21,9 +21,9 @@ export let dataHandler = {
     getCard: async function (cardId) {
         // the card is retrieved and then the callback function is called with the card
     },
-    createNewBoard: function (boardTitle) {
+    createNewBoard: function (boardTitle, userId=null) {
         // creates new board, saves it and calls the callback function with its data
-        return postData('/api/new_board', {title: boardTitle})
+        return postData('/api/new_board', {title: boardTitle, user_id: userId})
             .then(data => {
                 return data// JSON data parsed by `data.json()` call
             });
@@ -60,12 +60,20 @@ export let dataHandler = {
     },
 
     writeNewStatus: async function (columnTitle, boardId) {
-        return postData('/api/column', {title: columnTitle, boardId:boardId})
+        return postData('/api/column', {title: columnTitle, boardId: boardId})
+    },
+
+    deleteCard: async function (cardId) {
+        return apiDelete('/api/delete_card', {id: cardId})
+    },
+    renameCard: async function (cardId, newTitle) {
+        return postData('/api/rename_card', {id: cardId, title: newTitle})
     },
 
     deleteColumns: async function (columnId) {
         return await apiDelete(`/api/delete_column/${columnId}`, {columnId:columnId});
     }
+    
 };
 
 

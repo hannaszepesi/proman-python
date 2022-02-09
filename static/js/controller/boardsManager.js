@@ -19,7 +19,7 @@ export let boardsManager = {
             const boards = await dataHandler.getBoards();
             let columns = document.getElementsByClassName('board-content');
             for (let board of boards) {
-                const statuses =  await dataHandler.getStatuses(board.id)
+                const statuses = await dataHandler.getStatuses(board.id)
                 const boardBuilder = htmlFactory(htmlTemplates.board);
                 const content = boardBuilder(statuses, board); //ezek a script-ek
                 domManager.addChild("#root", content); //itt kerül be a script, és lesz valós elem
@@ -54,18 +54,19 @@ export let boardsManager = {
             const button = buttonBuilder()
             domManager.addChild("#root", button);
             domManager.addEventListener(`#create_new_board`, 'click', addBoardTitle)
-        }
+        },
     }
 ;
 
-function addNewCard(clickEvent) {
+async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
     const newCardModalTitle = modalBuilder('new_card')
     domManager.addChild('#root', newCardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const cardTitle = $('#new-element-title').val()
-        await dataHandler.createNewCard(cardTitle, boardId, 1);
+        let statuses = await dataHandler.getStatuses(boardId)
+        await dataHandler.createNewCard(cardTitle, boardId, statuses[0].id);
         document.getElementsByClassName('modal')[0].remove()
 
         $(`.board-toggle[data-board-id="${boardId}"]`).click()// akkor fog működni ha össze mergeltük a close branch eredményével
@@ -82,7 +83,7 @@ function renameBoardTitle(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     let actualBoard = clickEvent.target
     actualBoard.style.visibility = 'hidden'
-    const inputbar = inputBuilder(actualBoard.textContent)
+    const inputbar = inputBuilder('board')
     let parent = clickEvent.target.parentElement
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
@@ -99,13 +100,15 @@ function renameBoardTitle(clickEvent) {
     )
 }
 
-function addBoardTitle() {
+domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)
+function addBoardTitle(clickEvent) {
+    let userId = clickEvent.target.dataset.userId
     const newBoardModalTitle = modalBuilder('new_board')
     domManager.addChild('#root', newBoardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const boardTitle = $('#new-element-title').val()
-        const boardId = await dataHandler.createNewBoard(boardTitle);
+        const boardId = await dataHandler.createNewBoard(boardTitle, userId);
         await dataHandler.writeDefaultColumns(boardId[0].id)
 
         document.getElementById('root').innerHTML = ''
@@ -163,34 +166,48 @@ async function showHideButtonHandler(clickEvent) {
 
 }
 
-function renameColumnTitle(clickEvent) {
+async function renameColumnTitle(clickEvent) {
     // const boardId = clickEvent.target.dataset.boardId;
     const columnId = clickEvent.target.dataset.status; //1_1, vagy 1_2
     // console.log(columnId);
     // const boardId = clickEvent.target.dataset.status[2];
     let actualColumn = clickEvent.target
     actualColumn.style.visibility = 'hidden'
-    const inputbar = inputBuilder(1)
+    const inputbar = inputBuilder('column')
     let parent = clickEvent.target.parentElement //board-header
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
 
 
+    let ignoreClickOnMeElement = inputbar[0]
+    document.addEventListener('click', isOutside)
+
+
     domManager.addEventListener('.rename-column', 'click', async function () {
+
             let newStatus = inputbar[0].value //input mező
             await dataHandler.renameColumn(columnId, newStatus)
+            actualColumn.textContent = newStatus
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'
-            // console.log(actualColumn);
-            actualColumn.textContent = newStatus
+            document.removeEventListener('click', isOutside)
         }
     )
-    domManager.addEventListener('.rename', 'blur', async function() {
+
+    function isOutside(event) {
+        if ((event.target) !== ignoreClickOnMeElement) {
+            document.removeEventListener('click', isOutside)
+            console.log('na')
             inputbar[0].remove() //input field
             inputbar[1].remove() //button
             actualColumn.style.visibility = 'visible'
-    })
+
+        }
+    }
+
+
+
 }
 
 async function addNewColumn(clickEvent) {
@@ -204,7 +221,7 @@ async function addNewColumn(clickEvent) {
         let status = await dataHandler.writeNewStatus(columnTitle, boardId)
         let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
         document.getElementsByClassName('modal')[0].remove()
-        columns[0].insertAdjacentHTML('beforeend',newColumn)
+        columns[0].insertAdjacentHTML('beforeend', newColumn)
         makeDroppable.droppableBoards()
 
     })
