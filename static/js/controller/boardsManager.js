@@ -256,3 +256,8 @@ async function deleteColumn(clickEvent) {
     const column = clickEvent.target.parentElement
     column.parentElement.remove();
 }
+
+domManager.addEventListener(`#reload`, 'click', reloadPage)
+function reloadPage() {
+    window.location.reload()
+}
