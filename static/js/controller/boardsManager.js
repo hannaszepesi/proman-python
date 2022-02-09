@@ -50,9 +50,11 @@ export let boardsManager = {
             const button = buttonBuilder()
             domManager.addChild("#root", button);
             domManager.addEventListener(`#create_new_board`, 'click', addBoardTitle)
-        }
+        },
     }
 ;
+
+
 
 async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
@@ -96,13 +98,16 @@ function renameBoardTitle(clickEvent) {
     )
 }
 
-function addBoardTitle() {
+domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)
+function addBoardTitle(clickEvent) {
+    let userId = clickEvent.target.dataset.userId
+    console.log(userId)
     const newBoardModalTitle = modalBuilder('new_board')
     domManager.addChild('#root', newBoardModalTitle);
     $('.modal').modal('toggle');
     domManager.addEventListener('#create', 'click', async function () {
         const boardTitle = $('#new-element-title').val()
-        const boardId = await dataHandler.createNewBoard(boardTitle);
+        const boardId = await dataHandler.createNewBoard(boardTitle, userId);
         await dataHandler.writeDefaultColumns(boardId[0].id)
 
         document.getElementById('root').innerHTML = ''
@@ -193,13 +198,12 @@ async function renameColumnTitle(clickEvent) {
         if ((event.target) !== ignoreClickOnMeElement) {
             document.removeEventListener('click', isOutside)
             console.log('na')
-                inputbar[0].remove() //input field
-                inputbar[1].remove() //button
-                actualColumn.style.visibility = 'visible'
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
+            actualColumn.style.visibility = 'visible'
 
         }
     }
-
 
 
 }
