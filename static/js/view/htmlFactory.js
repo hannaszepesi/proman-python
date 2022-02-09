@@ -20,36 +20,22 @@ export function htmlFactory(template) {
     }
 }
 
-export function inputBuilder(col){
+export function inputBuilder(type){
         let inp = document.createElement("input")
         inp.setAttribute('class', 'rename')
         inp.setAttribute('type', 'text')
 
         let butt = document.createElement('button')
-        butt.setAttribute('class', 'rename-board')
+        butt.setAttribute('class', `rename-${type}`)
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
-
-        let renameColumnButton = document.createElement('button')
-        renameColumnButton.setAttribute('class', 'rename-column')
-        renameColumnButton.setAttribute('type', 'submit')
-        renameColumnButton.textContent = 'Save'
-
-        // let string =
-        //     `<input class="rename" type="text" placeholder="${prevTitle}">
-        //     <button class="rename-board" type="submit"> Save</button>`
-    if (col){
-        return [inp, renameColumnButton]
-    } else {
-        return [inp, butt]
-    }
+    return [inp, butt]
 }
 
 
 function boardBuilder(statuses, board) {
     let columns = []
     for (let col of statuses) {
-        console.log(col)
         columns.push(`<div class="board-column">
                     <div class="board-column-title" data-status="${col.id}_${col.board_id}">${col.title}</div>
                     <div class="board-column-content" data-status="${col.id}_${col.board_id}"></div>
@@ -76,6 +62,9 @@ function cardBuilder(card) {
 
 
 let dragged;
+let oldDraggedStatus;
+let oldCardOrder;
+let boardId;
 export const makeDroppable = {
     droppableBoards: function(){
         domManager.addEventListenerToMore(".board-column-content", 'dragover', makeDroppable.dragOver)
@@ -90,7 +79,9 @@ export const makeDroppable = {
     },
     dragStart: function(e){
         dragged = e.target; // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
-
+        oldDraggedStatus = dragged.parentElement.dataset.status[0]
+        oldCardOrder = dragged.dataset.cardOrder
+        boardId = dragged.parentElement.dataset.status[2]
     },
     dragEnd: function(){
 
@@ -114,13 +105,15 @@ export const makeDroppable = {
         let newCardStatus = e.currentTarget.dataset.status[0] // ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
         let cardId = dragged.dataset.cardId
         cardsManager.changeCardStatus(cardId, newCardStatus)
-        if (!e.target.draggable) {
+        if (!e.target.draggable) { //ha üres oszlop
             e.currentTarget.appendChild(dragged);
-            //cardsManager.changeCardOrder(cardId, "1", newCardStatus)
+            cardsManager.changeCardOrder(cardId, "1")
+            cardsManager.changeCardsOrder(oldDraggedStatus, oldCardOrder, boardId, -1)
         }
-        else if (!e.target.nextSibling) {
+        else if (!e.target.nextSibling) { //ha utolsó
             e.currentTarget.appendChild(dragged);
-            cardsManager.changeCardOrder(cardId, "1", newCardStatus)
+            cardsManager.changeCardOrder(cardId, parseInt(e.target.dataset.cardOrder)+1)
+            cardsManager.changeCardsOrder(oldDraggedStatus, oldCardOrder, boardId, -1)
         }
         else {
             if (e.target !== dragged) {
@@ -135,12 +128,15 @@ export const makeDroppable = {
                 }
                 if (currentpos < droppedpos) {
                     e.target.parentNode.insertBefore(dragged, e.target.nextSibling);
+                    cardsManager.changeCardOrder(cardId, parseInt(e.target.dataset.cardOrder)+1)
+                    cardsManager.changeCardsOrder(newCardStatus, e.target.dataset.cardOrder, boardId, 1)
                 } else {
                     e.target.parentNode.insertBefore(dragged, e.target);
+                    cardsManager.changeCardOrder(cardId, e.target.dataset.cardOrder)
+                    cardsManager.changeCardsOrder(newCardStatus, e.target.dataset.cardOrder, boardId, 1)
                 }
-                cardsManager.changeCardOrder(cardId, (droppedpos+1).toString(), newCardStatus)
-                //cardsManager.changeCardOrder(cardId, (droppedpos+1).toString())
-                //cardsManager.changeCardOrder(e.target.dataset.cardId, (droppedpos+2).toString())
+                cardsManager.changeCardsOrder(oldDraggedStatus, oldCardOrder, boardId, -1)
+
             }
         }
     },
