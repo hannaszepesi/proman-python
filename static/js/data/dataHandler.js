@@ -11,7 +11,7 @@ export let dataHandler = {
         return await postData('/api/get_board', {id: boardId})
     },
     getStatuses: async function (boardId) {
-        let data = await postData('/api/getStatuses', {boardId:boardId});
+        let data = await postData('/api/getStatuses', {boardId: boardId});
         return data
         // the statuses are retrieved and then the callback function is called with the statuses
     },
@@ -83,8 +83,8 @@ export let dataHandler = {
     getArchivedCards: async function (boardId) {
         return postData('/api/archive_card', {id: boardId})
     },
-    unarchiveCard: async function (cardId) {
-        return postData('/api/unarchive_card', {id: cardId})
+    unarchiveCard: async function (cardId, status) {
+        return postData('/api/unarchive_card', {id: cardId, status: status})
     }
 };
 

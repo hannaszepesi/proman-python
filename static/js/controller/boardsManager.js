@@ -91,7 +91,6 @@ async function archivedCardsButtonHandler (clickEvent) {
     } else {
         clickEvent.target.dataset.show = "false"
         let archiveContainers = document.getElementsByClassName('archive-board-container')
-        console.log(archiveContainers)
         let actualContainer = getBoard(archiveContainers, boardId)
         actualContainer.remove()
     }
@@ -109,8 +108,9 @@ function getBoard(boards, boardId) {
 
 async function unarchiveCard (clickEvent){
     let cardId = clickEvent.target.dataset.cardId
-    let card = await dataHandler.unarchiveCard(cardId)
-    let boardId = card[0].board_id
+    let boardId = clickEvent.target.parentElement.parentElement.dataset.boardId
+    let status = await dataHandler.getStatuses(boardId)
+    let card = await dataHandler.unarchiveCard(cardId, status[0].id)
     let boards = document.getElementsByClassName('board-column-content')
     let actualBoard = getBoard(boards, boardId)
 

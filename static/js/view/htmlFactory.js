@@ -221,7 +221,7 @@ export function archiveContainerBuilder(board, archived_cards) {
                 <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title" ></div>
-                    <div class="board-column-content" >` + cards.join('') +
+                    <div class="board-column-content" data-board-id="${board.id}">` + cards.join('') +
         `</div>            
         </div>
             </div>
