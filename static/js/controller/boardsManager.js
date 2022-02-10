@@ -132,8 +132,8 @@ async function addNewCard(clickEvent) {
         await dataHandler.createNewCard(cardTitle, boardId, statuses[0].id);
         document.getElementsByClassName('modal')[0].remove()
 
-        $(`.board-toggle[data-board-id="${boardId}"]`).click()// akkor fog működni ha össze mergeltük a close branch eredményével
-        $(`.board-toggle[data-board-id="${boardId}"]`).click()
+        $(`#toggle`).click()
+        $(`#toggle`).click()
 
     })
     domManager.addEventListener('.close', 'click', async function () {

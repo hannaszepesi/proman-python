@@ -22,7 +22,7 @@ export function htmlFactory(template) {
     }
 }
 
-export function inputBuilder(col) {
+export function inputBuilder(type) {
     let inp = document.createElement("input")
     inp.setAttribute('class', 'rename')
     inp.setAttribute('type', 'text')
@@ -32,16 +32,8 @@ export function inputBuilder(col) {
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
 
-    let renameColumnButton = document.createElement('button')
-    renameColumnButton.setAttribute('class', 'rename-column')
-    renameColumnButton.setAttribute('type', 'submit')
-    renameColumnButton.textContent = 'Save'
 
-    if (col) {
-        return [inp, renameColumnButton]
-    } else {
-        return [inp, butt]
-    }
+    return [inp, butt]
 }
 
 
@@ -217,7 +209,7 @@ export function archiveContainerBuilder(board, archived_cards) {
                 <section class="board" data-board-id=${board.id} >
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>Archived cards from ${board.title}</span> 
                    </div>
-            <div class="board-content" data-board-id="${board.id}">
+            <div class="archive-board-content" data-board-id="${board.id}">
                 <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title" ></div>
