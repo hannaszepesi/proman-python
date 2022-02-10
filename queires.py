@@ -208,13 +208,14 @@ def delete_columns(status_id):
     )
 
 
-def get_card(id):
-    return data_manager.execute_select("""
+def get_card(id, table, condition):
+    return data_manager.execute_select(sql.SQL("""
         SELECT * 
-        FROM cards
-        WHERE id = %(id)s
-        """,
-    {'id': id}
+        FROM {table_name}
+        WHERE {condition} = {id}
+        """).format(table_name=sql.Identifier(table),
+                    id=sql.Literal(id),
+                    condition=sql.Identifier(condition))
     )
 
 
@@ -225,4 +226,22 @@ def archiving_card(card):
     VALUES (%(id)s, %(title)s, %(board_id)s)
     """,
         {'id': card['id'], 'title': card['title'], 'board_id': card['board_id']}
+    )
+
+
+def unarchive_card(card):
+    data_manager.execute_update(
+        """
+        DELETE from archived_cards
+        WHERE id = %(id)s""",
+        {'id': card['id']}
+    )
+
+
+def get_board(id):
+    return data_manager.execute_select(
+        """SELECT *
+        FROM boards
+        WHERE id = %(id)s""",
+        {'id': id}
     )
