@@ -208,13 +208,34 @@ def delete_column(column_id: int):
     return jsonify(id)
 
 
-@app.route('/api/archive_card', methods=['DELETE'])
+@app.route('/api/archive_card', methods=['DELETE', 'POST'])
 def archive_card():
+    if request.method == 'DELETE':
+        data = request.get_json()
+        card = queires.get_card(data['id'], 'cards', 'id')
+        queires.delete_card(card[0]['id'])
+        queires.archiving_card(card[0])
+        return jsonify(archive='True')
+    elif request.method == 'POST':
+        data = request.get_json()
+        archived_cards = queires.get_card(data['id'], 'archived_cards', 'board_id')
+        return jsonify(archived_cards)
+
+
+@app.route('/api/unarchive_card', methods=['POST'])
+def unarchive_card():
     data = request.get_json()
-    card = queires.get_card(data['id'])
-    queires.delete_card(card[0]['id'])
-    queires.archiving_card(card[0])
-    return jsonify(archive='True')
+    card = queires.get_card(data['id'], 'archived_cards', 'id')
+    queires.unarchive_card(card[0])
+    card[0]['status'] = 1
+    queires.write_new_card(card[0])
+    return jsonify(card)
+
+
+@app.route('/api/get_board', methods=['POST'])
+def get_board():
+    data = request.get_json()
+    return jsonify(queires.get_board(data['id']))
 
 
 def main():
