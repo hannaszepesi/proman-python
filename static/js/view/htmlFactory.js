@@ -52,8 +52,7 @@ function boardBuilder(statuses, board) {
                 <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}<button type="button" class="icon-button right fas fa-trash-alt delete" data-board-id="${board.id}";></button></span></span> 
                     <button type="button" class="board-toggle fas fa-folder" id="archived_cards_${board.id}" data-board-id="${board.id}" data-show="false" style="float: right"></button>       
-                    <input type="image" src="../static/down.png" width="20" class="board-toggle" id="toggle" data-board-id="${board.id}" data-show="false"/>
-<!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
+                    <input type="image" src="../static/down.png" width="20" class="arrow-board-toggle" data-board-id="${board.id}" data-show="false"/>
                 </div>
             <div class="board-content" data-board-id="${board.id}">
                 <div class="board-columns">` + columns.join('') +
@@ -205,7 +204,7 @@ export function archiveContainerBuilder(board, archived_cards) {
                         <button type="button" class="icon-button right fas fa-undo" id="unarchive_card" data-card-id="${card.id}" style="float: right"></button>
                     </div>`)
     }
-    return `<div class="archive-board-container" data-board-id=${board.id}>
+    return `<div class="archive board-container" data-board-id=${board.id}>
                 <section class="board" data-board-id=${board.id} >
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>Archived cards from ${board.title}</span> 
                    </div>

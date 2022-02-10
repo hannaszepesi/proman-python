@@ -43,7 +43,7 @@ export let boardsManager = {
                 );
 
                 domManager.addEventListenerToMore(
-                    `#toggle`,
+                    `.arrow-board-toggle[data-board-id="${board.id}"]`,
                     "click",
                     showHideButtonHandler
                 );
@@ -91,7 +91,7 @@ async function archivedCardsButtonHandler (clickEvent) {
         domManager.addEventListenerToMore('.fa-undo', 'click', unarchiveCard)
     } else {
         clickEvent.target.dataset.show = "false"
-        let archiveContainers = document.getElementsByClassName('archive-board-container')
+        let archiveContainers = document.getElementsByClassName('archive')
         let actualContainer = getBoard(archiveContainers, boardId)
         actualContainer.remove()
     }
@@ -133,8 +133,8 @@ async function addNewCard(clickEvent) {
         await dataHandler.createNewCard(cardTitle, boardId, statuses[0].id);
         document.getElementsByClassName('modal')[0].remove()
 
-        $(`#toggle`).click()
-        $(`#toggle`).click()
+        $(`.arrow-board-toggle[data-board-id="${boardId}"]`).click()
+        $(`.arrow-board-toggle[data-board-id="${boardId}"]`).click()
 
     })
     domManager.addEventListener('.close', 'click', async function () {
