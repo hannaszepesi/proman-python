@@ -85,6 +85,10 @@ export let dataHandler = {
     },
     unarchiveCard: async function (cardId, status) {
         return postData('/api/unarchive_card', {id: cardId, status: status})
+    },
+
+    deleteBoard: async function (boardId) {
+        return await apiDelete(`/api/delete_board/${boardId}`, {boardId:boardId});
     }
 };
 

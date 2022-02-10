@@ -109,7 +109,6 @@ def rename_column():
 @app.route("/api/getStatuses", methods=["POST"])
 def get_statuses():
     data = request.get_json()
-    print(data)
     statuses = queires.get_statuses(data['boardId'])
     return jsonify(statuses)
 
@@ -206,6 +205,13 @@ def change_card_order():
 def delete_column(column_id: int):
     id = queires.delete_columns(column_id)
     return jsonify(id)
+
+
+@app.route("/api/delete_board/<int:board_id>", methods=["DELETE"])
+def delete_board(board_id: int):
+    queires.delete_board(board_id)
+    queires.delete_cards(board_id)
+    return request.get_json()
 
 
 @app.route('/api/archive_card', methods=['DELETE', 'POST'])

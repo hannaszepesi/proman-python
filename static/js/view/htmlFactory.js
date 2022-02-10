@@ -50,7 +50,7 @@ function boardBuilder(statuses, board) {
     }
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span> 
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}<button type="button" class="icon-button right fas fa-trash-alt delete" data-board-id="${board.id}";></button></span></span> 
                     <button type="button" class="board-toggle fas fa-folder" id="archived_cards_${board.id}" data-board-id="${board.id}" data-show="false" style="float: right"></button>       
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" id="toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
@@ -89,9 +89,9 @@ export const makeDroppable = {
     },
     dragStart: function(e){
         dragged = e.target; // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
-        oldDraggedStatus = dragged.parentElement.dataset.status[0]
+        oldDraggedStatus = dragged.parentElement.parentElement.children[0].dataset.column
         oldCardOrder = dragged.dataset.cardOrder
-        boardId = dragged.parentElement.dataset.status[2]
+        boardId = dragged.parentElement.parentElement.children[0].dataset.board
     },
     dragEnd: function(){
 
@@ -112,7 +112,7 @@ export const makeDroppable = {
         //e.currentTarget az, ahova visszük azt, amit megfogunk
         //.board-column-content -hez kell a targetet hozzátennünk
         // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
-        let newCardStatus = e.currentTarget.dataset.status[0] // ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
+        let newCardStatus = e.currentTarget.parentElement.children[0].dataset.column// ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
         let cardId = dragged.dataset.cardId
         cardsManager.changeCardStatus(cardId, newCardStatus)
         if (!e.target.draggable) { //ha üres oszlop
@@ -159,7 +159,7 @@ export function buttonBuilder() {
 }
 
 export function addButtonBuilder(type) {
-    return `<button type="button" class="add-${type}">Add ${type} </button>`
+    return `<button type="button" style="margin-right:20px" class="add-${type}">Add ${type} </button>`
 }
 
 export function modalBuilder(type) {
