@@ -99,6 +99,9 @@ function renameBoardTitle(clickEvent) {
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
 
+     let ignoreClickOnMeElement = inputbar[0]
+    document.addEventListener('click', isOutside)
+
 
     domManager.addEventListener('.rename-board', 'click', async function () {
             let newTitle = inputbar[0].value
@@ -107,8 +110,19 @@ function renameBoardTitle(clickEvent) {
             inputbar[1].remove()
             actualBoard.style.visibility = 'visible'
             actualBoard.textContent = newTitle
+            document.removeEventListener('click', isOutside)
         }
     )
+    function isOutside(event) {
+        if ((event.target) !== ignoreClickOnMeElement) {
+            document.removeEventListener('click', isOutside)
+            console.log('na')
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
+            actualBoard.style.visibility = 'visible'
+
+        }
+    }
 }
 
 domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)
