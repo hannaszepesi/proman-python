@@ -210,6 +210,13 @@ def delete_column(column_id: int):
     return jsonify(id)
 
 
+@app.route("/api/delete_board/<int:board_id>", methods=["DELETE"])
+def delete_board(board_id: int):
+    queires.delete_board(board_id)
+    queires.delete_cards(board_id)
+    return request.get_json()
+
+
 def main():
     app.run(debug=True)
 

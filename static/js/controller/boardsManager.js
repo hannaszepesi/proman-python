@@ -60,6 +60,7 @@ export let boardsManager = {
             for (let column of columns) {
                 column.style.visibility = "hidden";
             }
+            domManager.addEventListenerToMore('.delete', 'click', deleteBoard)
         },
         newBoard: async function () {
             const button = buttonBuilder()
@@ -255,6 +256,13 @@ async function deleteColumn(clickEvent) {
     // }
     const column = clickEvent.target.parentElement
     column.parentElement.remove();
+}
+
+async function deleteBoard(clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId
+    await dataHandler.deleteBoard(boardId);
+    reloadPage();
+
 }
 
 domManager.addEventListener(`#reload`, 'click', reloadPage)

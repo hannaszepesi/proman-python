@@ -59,7 +59,7 @@ function boardBuilder(statuses, board) {
     }
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}<button type="button" class="icon-button right fas fa-trash-alt delete" data-board-id="${board.id}";></button></span>
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
                 </div>
