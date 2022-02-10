@@ -135,9 +135,7 @@ def change_card_status():
 @app.route("/api/delete_card", methods=["DELETE"])
 def delete_card():
     data = request.get_json()
-    print(data['id'])
     card = queires.delete_card(data['id'])
-    print(card)
     return jsonify(card)
 
 
@@ -208,6 +206,15 @@ def change_card_order():
 def delete_column(column_id: int):
     id = queires.delete_columns(column_id)
     return jsonify(id)
+
+
+@app.route('/api/archive_card', methods=['DELETE'])
+def archive_card():
+    data = request.get_json()
+    card = queires.get_card(data['id'])
+    queires.delete_card(card[0]['id'])
+    queires.archiving_card(card[0])
+    return jsonify(archive='True')
 
 
 def main():
