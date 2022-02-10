@@ -151,6 +151,8 @@ async function showHideButtonHandler(clickEvent) {
     let header = clickEvent.target.parentElement
     let columns = document.getElementsByClassName('board-content')
     let boardId = clickEvent.target.dataset.boardId
+    let changeButton = document.querySelector(`.board-toggle[data-board-id="${boardId}"]`)
+    changeButton.src = "../static/left.png";
     if (clickEvent.target.dataset.show === "false") {
         const boardId = clickEvent.target.dataset.boardId;
         const addColumnButton = addButtonBuilder('column')
