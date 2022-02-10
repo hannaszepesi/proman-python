@@ -151,8 +151,8 @@ async function showHideButtonHandler(clickEvent) {
     let header = clickEvent.target.parentElement
     let columns = document.getElementsByClassName('board-content')
     let boardId = clickEvent.target.dataset.boardId
-    let changeButton = document.querySelector(`.board-toggle[data-board-id="${boardId}"]`)
-    changeButton.src = "../static/left.png";
+    let changeButton = document.querySelector(`.board-toggle[data-board-id="${boardId}"]`) // a váltógombunk
+    changeButton.src = "../static/left.png"; //ha rákatt, akkor váltson át balra
     if (clickEvent.target.dataset.show === "false") {
         const boardId = clickEvent.target.dataset.boardId;
         const addColumnButton = addButtonBuilder('column')
@@ -175,6 +175,7 @@ async function showHideButtonHandler(clickEvent) {
             }
         }
     } else {
+        changeButton.src = "../static/down.png";
         header.removeChild(header.children[1])
         header.removeChild(header.children[1])
         for (let column of columns) {
