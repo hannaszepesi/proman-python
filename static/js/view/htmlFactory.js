@@ -89,9 +89,9 @@ export const makeDroppable = {
     },
     dragStart: function(e){
         dragged = e.target; // ez azért kell, mert ez adja a felkapott card azonosítóját és ezt fogjuk SQL felé továbbadni (py-on keresztül), hogy átírjuk adatbázis részen is azt, hogy melyik oszlopban van
-        oldDraggedStatus = dragged.parentElement.dataset.status[0]
+        oldDraggedStatus = dragged.parentElement.parentElement.children[0].dataset.column
         oldCardOrder = dragged.dataset.cardOrder
-        boardId = dragged.parentElement.dataset.status[2]
+        boardId = dragged.parentElement.parentElement.children[0].dataset.board
     },
     dragEnd: function(){
 
@@ -112,7 +112,7 @@ export const makeDroppable = {
         //e.currentTarget az, ahova visszük azt, amit megfogunk
         //.board-column-content -hez kell a targetet hozzátennünk
         // az oszlopokat megfoghatjuk ez alapján: data-status="1_${board.id}"
-        let newCardStatus = e.currentTarget.dataset.status[0] // ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
+        let newCardStatus = e.currentTarget.parentElement.children[0].dataset.column// ahová a kártyát letesszük, az az oszlop a táblázatban, aminek a számát átadjuk az SQLnek
         let cardId = dragged.dataset.cardId
         cardsManager.changeCardStatus(cardId, newCardStatus)
         if (!e.target.draggable) { //ha üres oszlop
