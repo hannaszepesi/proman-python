@@ -22,7 +22,7 @@ export function htmlFactory(template) {
     }
 }
 
-export function inputBuilder(col) {
+export function inputBuilder(type) {
     let inp = document.createElement("input")
     inp.setAttribute('class', 'rename')
     inp.setAttribute('type', 'text')
@@ -32,16 +32,9 @@ export function inputBuilder(col) {
         butt.setAttribute('type', 'submit')
         butt.textContent = 'Save'
 
-    let renameColumnButton = document.createElement('button')
-    renameColumnButton.setAttribute('class', 'rename-column')
-    renameColumnButton.setAttribute('type', 'submit')
-    renameColumnButton.textContent = 'Save'
 
-    if (col) {
-        return [inp, renameColumnButton]
-    } else {
-        return [inp, butt]
-    }
+    return [inp, butt]
+
 }
 
 
@@ -59,7 +52,7 @@ function boardBuilder(statuses, board) {
     }
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
-                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span>
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}<button type="button" class="icon-button right fas fa-trash-alt delete" data-board-id="${board.id}";></button></span>
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
                 </div>
@@ -166,7 +159,7 @@ export function buttonBuilder() {
 }
 
 export function addButtonBuilder(type) {
-    return `<button type="button" class="add-${type}">Add ${type} </button>`
+    return `<button type="button" style="margin-right:20px" class="add-${type}">Add ${type} </button>`
 }
 
 export function modalBuilder(type) {

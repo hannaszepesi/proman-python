@@ -206,3 +206,25 @@ def delete_columns(status_id):
         returning id""",
         {'status_id': status_id}
     )
+
+
+def delete_board(board_id):
+    data_manager.execute_update(
+        """
+        DELETE 
+        FROM boards
+        WHERE id = %(board_id)s
+        """,
+        {'board_id': board_id}
+    )
+
+
+def delete_cards(board_id):
+    data_manager.execute_update(
+        """
+        DELETE 
+        FROM cards
+        WHERE board_id = %(board_id)s
+        """,
+        {'board_id': board_id}
+    )

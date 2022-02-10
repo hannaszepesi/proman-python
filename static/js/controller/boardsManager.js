@@ -60,6 +60,7 @@ export let boardsManager = {
             for (let column of columns) {
                 column.style.visibility = "hidden";
             }
+            domManager.addEventListenerToMore('.delete', 'click', deleteBoard)
         },
         newBoard: async function () {
             const button = buttonBuilder()
@@ -99,6 +100,9 @@ function renameBoardTitle(clickEvent) {
     parent.insertBefore(inputbar[1], parent.childNodes[0])
     parent.insertBefore(inputbar[0], parent.childNodes[0])
 
+     let ignoreClickOnMeElement = inputbar[0]
+    document.addEventListener('click', isOutside)
+
 
     domManager.addEventListener('.rename-board', 'click', async function () {
             let newTitle = inputbar[0].value
@@ -107,8 +111,19 @@ function renameBoardTitle(clickEvent) {
             inputbar[1].remove()
             actualBoard.style.visibility = 'visible'
             actualBoard.textContent = newTitle
+            document.removeEventListener('click', isOutside)
         }
     )
+    function isOutside(event) {
+        if ((event.target) !== ignoreClickOnMeElement) {
+            document.removeEventListener('click', isOutside)
+            console.log('na')
+            inputbar[0].remove() //input field
+            inputbar[1].remove() //button
+            actualBoard.style.visibility = 'visible'
+
+        }
+    }
 }
 
 domManager.addEventListener(`#create_private_board`, 'click', addBoardTitle)
@@ -233,7 +248,13 @@ async function addNewColumn(clickEvent) {
         let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
         document.getElementsByClassName('modal')[0].remove()
         columns[0].insertAdjacentHTML('beforeend', newColumn)
-        makeDroppable.droppableBoards()
+        makeDroppable.droppableBoards();
+
+        document.getElementById('root').innerHTML = ''
+
+        let createColumnButton = document.querySelector('.btn-primary');
+        console.log(createColumnButton);
+        await boardsManager.loadBoards();
 
     })
     domManager.addEventListener('.close', 'click', async function () {
@@ -255,6 +276,13 @@ async function deleteColumn(clickEvent) {
     // }
     const column = clickEvent.target.parentElement
     column.parentElement.remove();
+}
+
+async function deleteBoard(clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId
+    await dataHandler.deleteBoard(boardId);
+    reloadPage();
+
 }
 
 domManager.addEventListener(`#reload`, 'click', reloadPage)
