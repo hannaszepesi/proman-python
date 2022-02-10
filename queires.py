@@ -206,3 +206,23 @@ def delete_columns(status_id):
         returning id""",
         {'status_id': status_id}
     )
+
+
+def get_card(id):
+    return data_manager.execute_select("""
+        SELECT * 
+        FROM cards
+        WHERE id = %(id)s
+        """,
+    {'id': id}
+    )
+
+
+def archiving_card(card):
+    data_manager.execute_update(
+    """
+    INSERT INTO archived_cards (id, title, board_id) 
+    VALUES (%(id)s, %(title)s, %(board_id)s)
+    """,
+        {'id': card['id'], 'title': card['title'], 'board_id': card['board_id']}
+    )
