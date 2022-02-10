@@ -53,13 +53,13 @@ function boardBuilder(statuses, board) {
                         <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${col.id}" style="float: right";></button>
                     </div>
 
-                    <div class="board-column-content" data-status="${col.id}_${col.board_id}" ></div>
+                    <div class="board-column-content" data-status="${col.id}_${col.board_id}" data-board-id="${col.board_id}"></div>
                 </div>`)
     }
     return `<div class="board-container">
                 <section class="board" data-board-id=${board.id}>
                 <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>${board.title}</span> 
-                    <button type="button" class="board-toggle fas fa-folder" id="archived_cards_${board.id}" data-board-id="${board.id}"style="float: right"></button>       
+                    <button type="button" class="board-toggle fas fa-folder" id="archived_cards_${board.id}" data-board-id="${board.id}" data-show="false" style="float: right"></button>       
                     <input type="image" src="../static/down.png" width="20" class="board-toggle" id="toggle" data-board-id="${board.id}" data-show="false"/>
 <!--                    <button class="toggle-board-button" data-board-id="${statuses.board_id}">Show Cards</button>-->
                 </div>
@@ -200,8 +200,31 @@ export function modalBuilder(type) {
 export function newColumnBuilder(title, boardId, status) {
     return `<div class="board-column">
                     <div class="board-column-title">${title}
-                        <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${status}" style="float: right";></button>     
-                        </div>    
+                        <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${status}" style="float: right"></button>     
+                    </div>    
                     <div class="board-column-content" data-status="${status}_${boardId}"></div>
                 </div>`
+}
+
+export function archiveContainerBuilder(board, archived_cards) {
+    let cards = []
+    for (let card of archived_cards) {
+        cards.push(`<div class="card" style="position: relative;" data-card-id="${card.id}" draggable="true">${card.title}
+                        <button type="button" class="icon-button right fas fa-undo" id="unarchive_card" data-card-id="${card.id}" style="float: right"></button>
+                    </div>`)
+    }
+    return `<div class="archive-board-container" data-board-id=${board.id}>
+                <section class="board" data-board-id=${board.id} >
+                <div class="board-header"><span id='title' class="board-title" data-board-id=${board.id}>Archived cards from ${board.title}</span> 
+                   </div>
+            <div class="board-content" data-board-id="${board.id}">
+                <div class="board-columns">
+                <div class="board-column">
+                    <div class="board-column-title" ></div>
+                    <div class="board-column-content" >` + cards.join('') +
+        `</div>            
+        </div>
+            </div>
+                </section>
+            </div>`;
 }
