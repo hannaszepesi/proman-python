@@ -89,11 +89,11 @@ def write_def_cols(id):
     , {'board_id': id})
 
 
-def write_new_card(data):
+def write_new_card(data, status):
     data_manager.execute_select(
         """INSERT INTO cards (board_id, status_id, title, card_order) VALUES (%(board_id)s, %(status)s, %(title)s, 1)
         returning cards"""
-        , {'title': data['title'], 'board_id': data['board_id'], 'status': data['status']}, fetchall=True)
+        , {'title': data['title'], 'board_id': data['board_id'], 'status': status}, fetchall=True)
 
 
 def change_card_status(card_id, board_status):

@@ -82,7 +82,7 @@ def add_new_board():
 
 @app.route("/api/new_card", methods=['POST'])
 def add_new_card():
-    data = queires.write_new_card(request.get_json())
+    data = queires.write_new_card(request.get_json(), request.get_json()['status'])
     return request.get_json()
 
 
@@ -109,6 +109,7 @@ def rename_column():
 @app.route("/api/getStatuses", methods=["POST"])
 def get_statuses():
     data = request.get_json()
+    print(data)
     statuses = queires.get_statuses(data['boardId'])
     return jsonify(statuses)
 
@@ -116,7 +117,6 @@ def get_statuses():
 @app.route("/api/default_columns", methods=['POST'])
 def write_default_columns():
     id = request.get_json()
-    print(id)
     return jsonify(queires.write_def_cols(id['boardId']))
 
 
@@ -227,8 +227,7 @@ def unarchive_card():
     data = request.get_json()
     card = queires.get_card(data['id'], 'archived_cards', 'id')
     queires.unarchive_card(card[0])
-    card[0]['status'] = 1
-    queires.write_new_card(card[0])
+    queires.write_new_card(card[0], data['status'])
     return jsonify(card)
 
 
