@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
 DROP TABLE IF EXISTS cards CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS archived_cards CASCADE;
 
 
 ---
@@ -53,6 +54,11 @@ CREATE TABLE users (
     password    VARCHAR (200)    NOT NULL
 );
 
+CREATE TABLE archived_cards (
+  id            SERIAL PRIMARY KEY UNIQUE NOT NULL,
+  title         VARCHAR (200)   NOT NULL,
+  board_id      INTEGER         NOT NULL
+);
 ---
 --- insert data
 ---
@@ -89,13 +95,17 @@ INSERT INTO cards VALUES (nextval('cards_id_seq'), 2, 8, 'done card 1', 2);
 ---
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id) on delete cascade;
+    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
 
 ALTER TABLE ONLY cards
-    ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id) on delete cascade;
+    ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE CASCADE;
 
 
 ALTER TABLE ONLY statuses
-    ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id) on delete cascade;
+    ADD CONSTRAINT fk_statuses_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
+
+
+ALTER TABLE ONLY archived_cards
+    ADD CONSTRAINT fk_archived_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
