@@ -41,8 +41,8 @@ export let boardsManager = {
                     renameBoardTitle
                 );
 
-                domManager.addEventListener(
-                    `.board-toggle[data-board-id="${board.id}"]`,
+                domManager.addEventListenerToMore(
+                    `#toggle`,
                     "click",
                     showHideButtonHandler
                 );

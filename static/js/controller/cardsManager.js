@@ -18,9 +18,14 @@ export let cardsManager = {
 
             );
              domManager.addEventListenerToMore(
-                `.fas`,
+                `.fa-trash-alt`,
                 "click",
                 deleteButtonHandler
+             );
+             domManager.addEventListenerToMore(
+                `.fa-archive`,
+                "click",
+                archiveButtonHandler
              );
         }
     },
@@ -42,9 +47,18 @@ export let cardsManager = {
 
 };
 
+
+async function archiveButtonHandler(clickEvent) {
+    let cardId = clickEvent.target.dataset.cardId
+    await dataHandler.archiveCard(cardId)
+    let targetCard = clickEvent.target.parentElement
+    targetCard.remove()
+}
+
+
+
 function deleteButtonHandler(clickEvent) {
     let cardId = clickEvent.target.parentElement.parentElement.dataset.cardId
-    console.log(cardId)
     let actualCard = clickEvent.target.parentElement.parentElement
     actualCard.remove();
     dataHandler.deleteCard(cardId);
@@ -52,7 +66,6 @@ function deleteButtonHandler(clickEvent) {
 }
 
 function renameCard(clickEvent) {
-        console.log(clickEvent.target)
         const cardId = clickEvent.target.dataset.cardId;
         let actualCard = clickEvent.target
         actualCard.style.visibility = 'hidden'
@@ -65,7 +78,6 @@ function renameCard(clickEvent) {
         document.addEventListener('click', isOutside)
 
         domManager.addEventListener('.rename-card', 'click', async function () {
-                console.log('hello')
                 let newStatus = inputbar[0].value //input mező
                 await dataHandler.renameCard(cardId, newStatus)
                 actualCard.textContent = newStatus
