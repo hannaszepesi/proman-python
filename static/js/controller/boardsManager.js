@@ -233,7 +233,13 @@ async function addNewColumn(clickEvent) {
         let newColumn = newColumnBuilder(columnTitle, boardId, status[0].id);
         document.getElementsByClassName('modal')[0].remove()
         columns[0].insertAdjacentHTML('beforeend', newColumn)
-        makeDroppable.droppableBoards()
+        makeDroppable.droppableBoards();
+
+        document.getElementById('root').innerHTML = ''
+
+        let createColumnButton = document.querySelector('.btn-primary');
+        console.log(createColumnButton);
+        await boardsManager.loadBoards();
 
     })
     domManager.addEventListener('.close', 'click', async function () {
