@@ -7,7 +7,8 @@ import {
     makeDroppable,
     inputBuilder,
     addButtonBuilder,
-    newColumnBuilder
+    newColumnBuilder,
+    archiveContainerBuilder
 } from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
@@ -55,6 +56,11 @@ export let boardsManager = {
                 domManager.addEventListenerToMore(
                     '.icon-button', 'click', deleteColumn
                 );
+                domManager.addEventListenerToMore(
+                `.fa-folder`,
+                "click",
+                archivedCardsButtonHandler
+             );
 
             }
             for (let column of columns) {
@@ -68,6 +74,52 @@ export let boardsManager = {
         },
     }
 ;
+
+
+async function archivedCardsButtonHandler (clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId
+    if (clickEvent.target.dataset.show === "false") {
+        clickEvent.target.dataset.show = "true"
+
+        let archivedCards = await dataHandler.getArchivedCards(boardId)
+        let boarddata = await dataHandler.getBoard(boardId)
+        let archiveCardContainer = archiveContainerBuilder(boarddata[0], archivedCards)
+        let boardelem = clickEvent.target.parentElement.parentElement.parentElement
+        boardelem.insertAdjacentHTML('afterend', archiveCardContainer)
+
+        domManager.addEventListenerToMore('.fa-undo', 'click', unarchiveCard)
+    } else {
+        clickEvent.target.dataset.show = "false"
+        let archiveContainers = document.getElementsByClassName('archive-board-container')
+        console.log(archiveContainers)
+        let actualContainer = getBoard(archiveContainers, boardId)
+        actualContainer.remove()
+    }
+}
+
+function getBoard(boards, boardId) {
+    let actualBoard
+    for (let board of boards) {
+        if (board.dataset.boardId === String(boardId)) {
+            actualBoard = board
+            break
+        }
+    } return actualBoard
+}
+
+async function unarchiveCard (clickEvent){
+    let cardId = clickEvent.target.dataset.cardId
+    let card = await dataHandler.unarchiveCard(cardId)
+    let boardId = card[0].board_id
+    let boards = document.getElementsByClassName('board-column-content')
+    let actualBoard = getBoard(boards, boardId)
+
+    clickEvent.target.parentElement.remove()
+    let htmlCard = htmlFactory(htmlTemplates.card)
+    actualBoard.insertAdjacentHTML('afterbegin', htmlCard(card[0]))
+
+}
+
 
 async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.parentElement.parentElement.dataset.boardId

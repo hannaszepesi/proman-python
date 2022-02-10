@@ -8,7 +8,7 @@ export let dataHandler = {
         return response;
     },
     getBoard: async function (boardId) {
-        // the board is retrieved and then the callback function is called with the board
+        return await postData('/api/get_board', {id: boardId})
     },
     getStatuses: async function (boardId) {
         let data = await postData('/api/getStatuses', {boardId:boardId});
@@ -78,7 +78,13 @@ export let dataHandler = {
         return await apiDelete(`/api/delete_column/${columnId}`, {columnId:columnId});
     },
     archiveCard: async function (cardId) {
-        return apiDelete('api/archive_card', {id:cardId})
+        return apiDelete('/api/archive_card', {id:cardId})
+    },
+    getArchivedCards: async function (boardId) {
+        return postData('/api/archive_card', {id: boardId})
+    },
+    unarchiveCard: async function (cardId) {
+        return postData('/api/unarchive_card', {id: cardId})
     }
 };
 
