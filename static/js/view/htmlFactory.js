@@ -48,7 +48,6 @@ export function inputBuilder(col) {
 function boardBuilder(statuses, board) {
     let columns = []
     for (let col of statuses) {
-        // console.log(col)
         columns.push(`<div class="board-column">
                     <div class="board-column-title" data-status="${col.id}_${col.board_id}" data-column="${col.id}" data-board="${col.board_id}">${col.title}
                         <button type="button" class="icon-button right fas fa-trash-alt" id="delete_column_${col.id}" style="float: right";></button>
@@ -74,6 +73,7 @@ function boardBuilder(statuses, board) {
 
 function cardBuilder(card) {
     return `<div class="card" style="position: relative;" data-card-id="${card.id}" data-card-order="${card.card_order}" draggable="true">${card.title}
+<button type="button" class="icon-button right fas fa-archive" id="archive_card_${card.id}" style="float: right"></button>
 <button type="button" class="icon-button right" style="float: right;"><i class="fas fa-trash-alt" style="float: right;"></i></button></div>`;
 }
 
