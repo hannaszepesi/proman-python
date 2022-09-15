@@ -1,16 +1,19 @@
 
 # ProMan
 
- In this two sprints team project our task was to create a new 
- project management tool, implement something similar to Trello. 
- So we have ProMan here.
-This code is much more organized, contains more manipulations and 
-works with a database in the background.
 
 
+
+This is a project management tool that was created after 2 months of learning JavaScript. The goal of this project was to gain a deeper knowledge of asynchronus JS and DOM manipulation. I participated the most in developing the drag and drop funcionality. 
+The website is deployed and can be checked by visiting this link:
+https://progirls.herokuapp.com/
 ## Tech Stack
 
-JavaScript, Python, Flask, HTML, CSS
+**Client:** HTML, CSS, JavaScript
+
+**Server:** Python, Flask
+
+**Database:** PostgreSQL
 
 
 ## Screenshots
