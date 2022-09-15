@@ -15,6 +15,8 @@ https://progirls.herokuapp.com/
 
 **Database:** PostgreSQL
 
+**DevOps:** Heroku
+
 
 ## Screenshots
 
